@@ -1,0 +1,29 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace BigBank.Models
+{
+    public class OpenFDViewModel
+    {
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime StartDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime EndDate { get; set; }
+
+        [Required]
+        [Range(10000, double.MaxValue, ErrorMessage = "Minimum FD amount is 10000.")]
+        public decimal Amount { get; set; }
+
+        [Required]
+        public decimal InterestRate { get; set; }
+
+        [Required]
+        public int Tenure { get; set; }
+
+        // populated on GET to allow senior rate calculation in the view
+        public DateTime? CustomerDOB { get; set; }
+    }
+}

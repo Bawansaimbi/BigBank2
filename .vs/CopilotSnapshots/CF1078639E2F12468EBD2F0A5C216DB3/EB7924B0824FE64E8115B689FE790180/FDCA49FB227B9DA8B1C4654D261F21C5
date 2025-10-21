@@ -1,0 +1,21 @@
+﻿using System.Web.Mvc;
+
+namespace BigBank.Controllers
+{
+    public class AccountController : Controller
+    {
+        // GET: /Account/Login
+        public ActionResult Login()
+        {
+            // Render the Login view located at Views/Account/Login.cshtml
+            return View("Login");
+        }
+
+        // GET: /Account/Register
+        public ActionResult Register()
+        {
+            // Render the Register view located at Views/Account/Register.cshtml
+            return View("Register");
+        }
+    }
+}

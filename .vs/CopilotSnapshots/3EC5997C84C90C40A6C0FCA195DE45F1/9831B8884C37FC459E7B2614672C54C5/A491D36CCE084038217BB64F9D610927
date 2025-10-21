@@ -1,0 +1,128 @@
+﻿@model BigBank.Models.OpenFDViewModel
+
+@{
+    ViewBag.Title = "Open FD - BigBank";
+}
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <h2>Open Fixed Deposit</h2>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>Interest Rates</h5>
+                <div class="d-flex flex-wrap gap-2">
+                    <div class="card p-2">1 year: <strong>6%</strong></div>
+                    <div class="card p-2">2 years: <strong>7%</strong></div>
+                    <div class="card p-2">3 or more years: <strong>8%</strong></div>
+                    <div class="card p-2">Senior Citizens: <strong>+0.5%</strong></div>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("OpenFD", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="form-group mb-2">
+                                @Html.LabelFor(m => m.Amount)
+                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", id = "fdAmount", min = "10000", step = "0.01" })
+                            </div>
+
+                            <div class="form-group mb-2">
+                                @Html.LabelFor(m => m.Tenure)
+                                @Html.DropDownListFor(m => m.Tenure, new SelectList(new[] {1,2,3,4,5,6,7,8,9,10}), "Select tenure (years)", new { @class = "form-control", id = "fdTenure" })
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label>Interest Rate</label>
+                                @Html.TextBoxFor(m => m.InterestRate, new { @class = "form-control", id = "fdRate", @readonly = "readonly" })
+                            </div>
+
+                            <div class="form-group">
+                                <label>Maturity Amount</label>
+                                <input id="maturityAmount" class="form-control" readonly />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="form-group mb-2">
+                                @Html.LabelFor(m => m.StartDate)
+                                @Html.TextBoxFor(m => m.StartDate, "", new { @class = "form-control", type = "date", id = "fdStart" })
+                            </div>
+
+                            <div class="form-group mb-2">
+                                @Html.LabelFor(m => m.EndDate)
+                                @Html.TextBoxFor(m => m.EndDate, "", new { @class = "form-control", type = "date", id = "fdEnd", @readonly = "readonly" })
+                            </div>
+
+                            @* Customer DOB hidden: used to compute senior rate but not displayed *@
+                            @if (Model.CustomerDOB.HasValue)
+                            {
+                                @Html.Hidden("custDob", Model.CustomerDOB.Value.ToString("yyyy-MM-dd"), new { id = "custDob" })
+                            }
+
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-primary">Open FD</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    (function(){
+        var start = document.getElementById('fdStart');
+        var end = document.getElementById('fdEnd');
+        var tenure = document.getElementById('fdTenure');
+        var rate = document.getElementById('fdRate');
+        var amount = document.getElementById('fdAmount');
+        var maturity = document.getElementById('maturityAmount');
+        var custAgeBox = document.getElementById('custAge');
+
+        function computeRate(t){
+            var base = 6.0;
+            if (t <= 1) base = 6.0;
+            else if (t < 3) base = 7.0;
+            else base = 8.0;
+            var age = parseInt(custAgeBox.value || '0', 10);
+            if (!isNaN(age) && age >= 60) base += 0.5;
+            return base;
+        }
+
+        function updateAll(){
+            var t = parseInt(tenure.value || '0', 10);
+            if (!t || t <= 0) { rate.value = ''; end.value = ''; maturity.value = ''; return; }
+            var r = computeRate(t);
+            rate.value = r.toFixed(2);
+            var s = start.value ? new Date(start.value) : new Date();
+            var e = new Date(s.getFullYear() + t, s.getMonth(), s.getDate());
+            end.value = e.toISOString().slice(0,10);
+
+            var amt = parseFloat(amount.value || '0');
+            if (!isNaN(amt) && amt > 0){
+                // simple interest for display (principal * rate * years /100)
+                var interest = amt * (r/100) * t;
+                var mat = amt + interest;
+                maturity.value = mat.toFixed(2);
+            } else {
+                maturity.value = '';
+            }
+        }
+
+        if (start) start.addEventListener('change', updateAll);
+        if (tenure) tenure.addEventListener('change', updateAll);
+        if (amount) amount.addEventListener('input', updateAll);
+
+        // initialize
+        updateAll();
+    })();
+</script>

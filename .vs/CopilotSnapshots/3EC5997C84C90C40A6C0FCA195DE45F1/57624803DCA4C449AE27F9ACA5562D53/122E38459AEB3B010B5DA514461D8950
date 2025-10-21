@@ -1,0 +1,36 @@
+﻿@model BigBank.Models.OpenFDViewModel
+
+@{
+    ViewBag.Title = "Open FD - BigBank";
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2>Open Fixed Deposit</h2>
+        @using (Html.BeginForm("OpenFD", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(m => m.StartDate)
+                @Html.TextBoxFor(m => m.StartDate, "", new { @class = "form-control", type = "date" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.EndDate)
+                @Html.TextBoxFor(m => m.EndDate, "", new { @class = "form-control", type = "date" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Amount)
+                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.InterestRate)
+                @Html.TextBoxFor(m => m.InterestRate, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Tenure)
+                @Html.TextBoxFor(m => m.Tenure, new { @class = "form-control" })
+            </div>
+            <button type="submit" class="btn btn-primary">Open FD</button>
+        }
+    </div>
+</div>

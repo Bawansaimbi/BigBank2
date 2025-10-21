@@ -1,0 +1,216 @@
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
+using System.Collections.Generic;
+using BigBank.Models;
+
+namespace BigBank.Controllers
+{
+    public class CustomerController : Controller
+    {
+        public ActionResult Index()
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login", "Home");
+
+            string custId = Session["UserID"].ToString();
+            var vm = new CustomerDashboardViewModel();
+
+            using (var db = new BigBankEntities())
+            {
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.CustID == custId);
+                if (sb != null)
+                {
+                    vm.SavingsAccountID = sb.SBAccountID;
+                    vm.SavingsBalance = sb.Balance;
+                }
+
+                vm.FDAccountIDs = db.FDAccounts.Where(f => f.CustomerID == custId).Select(f => f.FDAccountID).ToList();
+                vm.LoanAccountIDs = db.LoanAccounts.Where(l => l.CustomerID == custId).Select(l => l.LoanAccountID).ToList();
+
+                vm.TotalBalance = (vm.SavingsBalance ?? 0) + db.FDAccounts.Where(f => f.CustomerID == custId).Sum(f => (decimal?)f.Amount) ?? 0 + db.LoanAccounts.Where(l => l.CustomerID == custId).Sum(l => (decimal?)0) ?? 0;
+            }
+
+            return View(vm);
+        }
+
+        public ActionResult ViewSavings(string id)
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login", "Home");
+
+            using (var db = new BigBankEntities())
+            {
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id);
+                if (sb == null) return HttpNotFound();
+
+                var txns = db.SavingsTransactions.Where(t => t.SBAccountID == id).OrderBy(t => t.TransactionDate).ToList();
+                // compute running balances
+                var balances = new List<decimal>();
+                // compute from oldest to newest: start from opening balance = current - sum(all txns)
+                var total = txns.Sum(t => t.TransactionType == "Deposit" ? t.Amount : -t.Amount);
+                decimal opening = sb.Balance - total;
+                decimal cur = opening;
+                foreach (var t in txns)
+                {
+                    cur += t.TransactionType == "Deposit" ? t.Amount : -t.Amount;
+                    balances.Add(cur);
+                }
+
+                // present transactions newest first with matching balances
+                txns.Reverse();
+                balances.Reverse();
+
+                var vm = new SavingsDetailViewModel { Account = sb, Transactions = txns, TransactionBalances = balances };
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == sb.CustID);
+                if (cust != null)
+                {
+                    vm.CustomerName = cust.CustName;
+                    vm.CustomerPAN = cust.PAN;
+                }
+                return View(vm);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Transfer(string id, string receiverAccountId, decimal? amount)
+        {
+            if (string.IsNullOrWhiteSpace(receiverAccountId) || amount == null || amount <= 0)
+                return RedirectToAction("ViewSavings", new { id });
+
+            string custId = Session["UserID"].ToString();
+            using (var db = new BigBankEntities())
+            {
+                var sender = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id && s.CustID == custId);
+                var receiver = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == receiverAccountId);
+                if (sender == null || receiver == null) { TempData["Error"] = "Invalid account."; return RedirectToAction("ViewSavings", new { id }); }
+                if (sender.Balance < amount.Value) { TempData["Error"] = "Insufficient balance."; return RedirectToAction("ViewSavings", new { id }); }
+
+                sender.Balance -= amount.Value;
+                receiver.Balance += amount.Value;
+
+                db.SavingsTransactions.Add(new SavingsTransaction { SBAccountID = sender.SBAccountID, TransactionDate = DateTime.Now, TransactionType = "Withdrawal", Amount = amount.Value, Remarks = "Transfer to " + receiverAccountId });
+                db.SavingsTransactions.Add(new SavingsTransaction { SBAccountID = receiver.SBAccountID, TransactionDate = DateTime.Now, TransactionType = "Deposit", Amount = amount.Value, Remarks = "Transfer from " + sender.SBAccountID });
+                db.SaveChanges();
+            }
+
+            TempData["Message"] = "Transfer successful.";
+            return RedirectToAction("ViewSavings", new { id });
+        }
+
+        public ActionResult DownloadTransactionsPdf(string id)
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer") return RedirectToAction("Login", "Home");
+
+            using (var db = new BigBankEntities())
+            {
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id);
+                if (sb == null) return HttpNotFound();
+                var txns = db.SavingsTransactions.Where(t => t.SBAccountID == id).OrderByDescending(t => t.TransactionDate).ToList();
+
+                // generate PDF using iTextSharp
+                using (var ms = new System.IO.MemoryStream())
+                {
+                    var doc = new iTextSharp.text.Document();
+                    var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, ms);
+                    doc.Open();
+                    doc.Add(new iTextSharp.text.Paragraph("Transactions for " + id));
+                    doc.Add(new iTextSharp.text.Paragraph(" "));
+                    var table = new iTextSharp.text.pdf.PdfPTable(4);
+                    table.AddCell("Date"); table.AddCell("Type"); table.AddCell("Amount"); table.AddCell("Remarks");
+                    foreach (var t in txns)
+                    {
+                        table.AddCell(t.TransactionDate.HasValue ? t.TransactionDate.Value.ToString("g") : "");
+                        table.AddCell(t.TransactionType);
+                        table.AddCell(t.Amount.ToString("N2"));
+                        table.AddCell(t.Remarks);
+                    }
+                    doc.Add(table);
+                    doc.Close();
+                    return File(ms.ToArray(), "application/pdf", "transactions_" + id + ".pdf");
+                }
+            }
+        }
+
+        public ActionResult LookupAccountName(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return Json(new { name = "" }, JsonRequestBehavior.AllowGet);
+            using (var db = new BigBankEntities())
+            {
+                var acc = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id);
+                if (acc == null) return Json(new { name = "" }, JsonRequestBehavior.AllowGet);
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == acc.CustID);
+                return Json(new { name = cust != null ? cust.CustName : "" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Deposit(string id, decimal? depositAmount)
+        {
+            if (depositAmount == null || depositAmount <= 0) return RedirectToAction("ViewSavings", new { id });
+            string custId = Session["UserID"].ToString();
+            using (var db = new BigBankEntities())
+            {
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id && s.CustID == custId);
+                if (sb == null) return HttpNotFound();
+
+                sb.Balance += depositAmount.Value;
+                db.SavingsTransactions.Add(new SavingsTransaction { SBAccountID = id, TransactionDate = DateTime.Now, TransactionType = "Deposit", Amount = depositAmount.Value, Remarks = "Deposit" });
+                db.SaveChanges();
+            }
+            return RedirectToAction("ViewSavings", new { id });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Withdraw(string id, decimal? withdrawAmount)
+        {
+            if (withdrawAmount == null || withdrawAmount <= 0) return RedirectToAction("ViewSavings", new { id });
+            string custId = Session["UserID"].ToString();
+            using (var db = new BigBankEntities())
+            {
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id && s.CustID == custId);
+                if (sb == null) return HttpNotFound();
+
+                if (sb.Balance < withdrawAmount.Value)
+                {
+                    TempData["Error"] = "Insufficient balance.";
+                    return RedirectToAction("ViewSavings", new { id });
+                }
+
+                sb.Balance -= withdrawAmount.Value;
+                db.SavingsTransactions.Add(new SavingsTransaction { SBAccountID = id, TransactionDate = DateTime.Now, TransactionType = "Withdrawal", Amount = withdrawAmount.Value, Remarks = "Withdrawal" });
+                db.SaveChanges();
+            }
+            return RedirectToAction("ViewSavings", new { id });
+        }
+
+        public ActionResult ViewFD(string id)
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login", "Home");
+
+            using (var db = new BigBankEntities())
+            {
+                var fd = db.FDAccounts.FirstOrDefault(f => f.FDAccountID == id);
+                if (fd == null) return HttpNotFound();
+                return View(fd);
+            }
+        }
+
+        public ActionResult ViewLoan(string id)
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login", "Home");
+
+            using (var db = new BigBankEntities())
+            {
+                var ln = db.LoanAccounts.FirstOrDefault(l => l.LoanAccountID == id);
+                if (ln == null) return HttpNotFound();
+                return View(ln);
+            }
+        }
+    }
+}

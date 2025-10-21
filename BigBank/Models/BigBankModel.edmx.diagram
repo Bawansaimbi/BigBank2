@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="58ad6a81491f4fe0a96ee2d96dbfdd29" Name="Diagram1">
+        <EntityTypeShape EntityType="BigBankModel.Customer" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BigBankModel.Department" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BigBankModel.Employee" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BigBankModel.FDAccount" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BigBankModel.FDTransaction" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BigBankModel.LoanAccount" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BigBankModel.LoanTransaction" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BigBankModel.SavingsAccount" Width="1.5" PointX="3" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BigBankModel.SavingsTransaction" Width="1.5" PointX="5.25" PointY="15.25" IsExpanded="true" />
+        <AssociationConnector Association="BigBankModel.FK__FDAccount__Custo__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="BigBankModel.FK__LoanAccou__Custo__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="BigBankModel.FK__SavingsAc__CustI__59063A47" ManuallyRouted="false" />
+        <AssociationConnector Association="BigBankModel.FK__Employee__DeptID__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="BigBankModel.FK__FDTransac__Proce__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="BigBankModel.FK__LoanTrans__Proce__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="BigBankModel.FK__FDTransac__FDAcc__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="BigBankModel.FK__LoanTrans__LoanA__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="BigBankModel.FK__SavingsTr__SBAcc__5DCAEF64" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

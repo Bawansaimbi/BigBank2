@@ -1,0 +1,53 @@
+@model BigBank.Models.ManagerDashboardViewModel
+
+@{
+    ViewBag.Title = "Manager Dashboard";
+}
+
+<div class="container py-4">
+    <h2>Manager Dashboard</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5>Customers</h5>
+                    <ul class="list-group">
+                        @foreach(var c in Model.Customers)
+                        {
+                            <li class="list-group-item">@c.CustID - @c.CustName</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5>Employees</h5>
+                    <ul class="list-group">
+                        @foreach(var e in Model.Employees)
+                        {
+                            <li class="list-group-item">@e.EmpID - @e.EmpName</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5>Recent Transactions</h5>
+                    <ul class="list-group">
+                        @foreach(var t in Model.RecentTransactions)
+                        {
+                            <li class="list-group-item">@t.Date?.ToString("g") - @t.AccountId - @t.Type - Rs @t.Amount.ToString("N2")</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

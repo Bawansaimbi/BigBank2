@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - BigBank</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="d-flex flex-column min-vh-100 interactive-bg">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            <!-- Centered slogan across all pages -->
+            <div class="w-100 text-center">
+                <span class="navbar-text" style="font-weight:700; font-size:1.25rem; color:#d4a017;">Bigbank - Where trust grows with every transaction</span>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                @* keep collapse region empty or add links if needed later *@
+            </div>
+        </div>
+    </nav>
+    <main class="container body-content flex-fill">
+        @RenderBody()
+        <hr />
+    </main>
+
+    <footer class="mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <p class="mb-0">Big Bank&#8482;</p>
+            <p class="small text-muted">Made By Bawan</p>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

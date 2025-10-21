@@ -1,0 +1,16 @@
+@model BigBank.Models.FDAccount
+
+@{
+    ViewBag.Title = "Fixed Deposit - BigBank";
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4>FD Account: @Model.FDAccountID</h4>
+            <p>Amount: @("Rs " + Model.Amount.ToString("N2"))</p>
+            <p>Start: @Model.StartDate.ToShortDateString()</p>
+            <p>End: @Model.EndDate.ToShortDateString()</p>
+        </div>
+    </div>
+</div>

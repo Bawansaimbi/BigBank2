@@ -1,0 +1,96 @@
+﻿@model BigBank.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register - BigBank";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3>Create your BigBank account</h3></div>
+                <div class="panel-body">
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["Message"]</div>
+                    }
+
+                    @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>Personal Details</h4>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.CustName, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.CustName, new { @class = "form-control", placeholder = "Full name" })
+                                    @Html.ValidationMessageFor(m => m.CustName)
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Gender, new { @class = "control-label" })
+                                    @Html.DropDownListFor(m => m.Gender, new System.Web.Mvc.SelectList(new[] { new { Value = "M", Text = "Male" }, new { Value = "F", Text = "Female" } }, "Value", "Text"), "Select gender", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Gender)
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.DOB, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.DOB, "", new { @class = "form-control", type = "date" })
+                                    @Html.ValidationMessageFor(m => m.DOB)
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.PAN, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.PAN, new { @class = "form-control", placeholder = "e.g. ABCDE1234F", maxlength = 10 })
+                                    @Html.ValidationMessageFor(m => m.PAN)
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.PhoneNum, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.PhoneNum, new { @class = "form-control", type = "tel", placeholder = "9876543210", maxlength = 10 })
+                                    @Html.ValidationMessageFor(m => m.PhoneNum)
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Address, new { @class = "control-label" })
+                                    @Html.TextAreaFor(m => m.Address, 4, 40, new { @class = "form-control", placeholder = "Address" })
+                                    @Html.ValidationMessageFor(m => m.Address)
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h4>Account Details</h4>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Username, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Choose a username" })
+                                    @Html.ValidationMessageFor(m => m.Username)
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                                    @Html.ValidationMessageFor(m => m.Password)
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm password" })
+                                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;</label>
+                                    <div>
+                                        <button type="submit" class="btn btn-primary btn-lg">Create Account</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

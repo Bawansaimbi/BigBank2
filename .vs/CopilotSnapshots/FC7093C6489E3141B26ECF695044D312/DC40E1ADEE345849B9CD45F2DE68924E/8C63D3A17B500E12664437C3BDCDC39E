@@ -1,0 +1,65 @@
+﻿@model BigBank.Models.SavingsDetailViewModel
+
+@{
+    ViewBag.Title = "Savings Account - BigBank";
+}
+
+<div class="container py-4">
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h4>Account Details</h4>
+                <p class="mb-1"><strong>Account No:</strong> @Model.Account.SBAccountID</p>
+                <p class="mb-1"><strong>Customer ID:</strong> @Model.Account.CustID</p>
+                @{
+                    var custName = "";
+                    using (var db = new BigBankEntities())
+                    {
+                        var cust = db.Customers.FirstOrDefault(c => c.CustID == Model.Account.CustID);
+                        if (cust != null) custName = cust.CustName;
+                    }
+                }
+                <p class="mb-1"><strong>Customer Name:</strong> @custName</p>
+                <p class="mb-1"><strong>PAN:</strong> @((custName != "") ? (db.Customers.FirstOrDefault(c => c.CustID == Model.Account.CustID)?.PAN) : "")</p>
+                <p class="mt-3"><strong>Account Type:</strong> Savings</p>
+                <p class="mt-1"><strong>Current Balance:</strong> @("Rs " + Model.Account.Balance.ToString("N2"))</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5>Recent Transactions</h5>
+                @if (Model.Transactions != null && Model.Transactions.Count > 0)
+                {
+                    <table class="table table-sm">
+                        <thead>
+                            <tr><th>Transaction ID</th><th>Date</th><th>Type</th><th class="text-end">Amount</th><th class="text-end">Balance</th></tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Transactions.Count; i++)
+                            {
+                                var t = Model.Transactions[i];
+                                <tr>
+                                    <td>@t.TransactionID</td>
+                                    <td>@(t.TransactionDate.HasValue ? t.TransactionDate.Value.ToString("g") : "")</td>
+                                    <td>@t.TransactionType</td>
+                                    <td class="text-end">@("Rs " + t.Amount.ToString("N2"))</td>
+                                    <td class="text-end">@("Rs " + Model.TransactionBalances[i].ToString("N2"))</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted">No transactions found.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+</div>

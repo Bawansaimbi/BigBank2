@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - BigBank</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="d-flex flex-column min-vh-100 interactive-bg">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            @{
+                var userType = Session["UserType"]?.ToString();
+                var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
+                var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+                var isCustomerHome = string.Equals(currentController, "Customer", StringComparison.OrdinalIgnoreCase) && string.Equals(currentAction, "Index", StringComparison.OrdinalIgnoreCase);
+                var isCustomerAccounts = string.Equals(currentController, "Customer", StringComparison.OrdinalIgnoreCase) && (string.Equals(currentAction, "Index", StringComparison.OrdinalIgnoreCase) || string.Equals(currentAction, "ViewSavings", StringComparison.OrdinalIgnoreCase) || string.Equals(currentAction, "ViewFD", StringComparison.OrdinalIgnoreCase) || string.Equals(currentAction, "ViewLoan", StringComparison.OrdinalIgnoreCase));
+
+                var custId = Session["UserID"]?.ToString();
+                string sbId = null;
+                var fdIds = new List<string>();
+                var lnIds = new List<string>();
+                if (userType == "Customer" && !string.IsNullOrEmpty(custId))
+                {
+                    using (var db = new BigBank.Models.BigBankEntities())
+                    {
+                        sbId = db.SavingsAccounts.Where(s => s.CustID == custId).Select(s => s.SBAccountID).FirstOrDefault();
+                        fdIds = db.FDAccounts.Where(f => f.CustomerID == custId).Select(f => f.FDAccountID).ToList();
+                        lnIds = db.LoanAccounts.Where(l => l.CustomerID == custId).Select(l => l.LoanAccountID).ToList();
+                    }
+                }
+            }
+
+            @Html.ActionLink("BigBank", "Index", "Home", new { area = "" }, new { @class = "navbar-brand me-3", style = "font-size:1.375rem;" })
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                @if (userType == "Customer")
+                {
+                    <!-- center nav links -->
+                    <ul class="navbar-nav mx-auto nav-center">
+                        <li class="nav-item px-2">
+                            @if (isCustomerHome) {
+                                <a class="nav-link disabled text-muted" href="#" style="font-size:1.375rem;">Home</a>
+                            } else {
+                                @Html.ActionLink("Home", "Index", "Customer", new { area = "" }, new { @class = "nav-link", style = "font-size:1.375rem;" })
+                            }
+                        </li>
+                        <li class="nav-item px-2">
+                            @if (isCustomerAccounts) {
+                                <a class="nav-link disabled text-muted" href="#" style="font-size:1.375rem;">Accounts</a>
+                            } else {
+                                <a class="nav-link dropdown-toggle" href="#" id="accountsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size:1.375rem;">Accounts</a>
+                            }
+                        </li>
+                    </ul>
+
+                    <!-- My Profile on right with profile icon -->
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item d-flex align-items-center me-2">
+                            <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" title="Toggle theme">
+                                <i class="bi bi-moon-fill"></i>
+                            </button>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="myProfileTop" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle" style="font-size:1.25rem; margin-right:.4rem;color:#d4a017"></i> My Profile
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="myProfileTop">
+                                <li><a class="dropdown-item" href="@Url.Action("Index","Customer")">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "dropdown-item" })</li>
+                            </ul>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">@Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link", style = "font-size:1.375rem;" })</li>
+                        <li class="nav-item">@Html.ActionLink("Register", "Register", "Home", new { area = "" }, new { @class = "nav-link", style = "font-size:1.375rem;" })</li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+    <main class="container body-content flex-fill">
+        @RenderBody()
+        <hr />
+    </main>
+
+    <footer class="mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <p class="mb-0">Big Bank&#8482;</p>
+            <p class="small text-muted">Made By Bawan</p>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        (function () {
+            var key = 'bb-theme';
+            var btn = document.getElementById('themeToggle');
+            var body = document.body;
+            function apply(theme) {
+                if (theme === 'dark') body.classList.add('dark-mode'); else body.classList.remove('dark-mode');
+                if (btn) btn.innerHTML = theme === 'dark' ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-fill"></i>';
+            }
+            try {
+                var saved = localStorage.getItem(key) || 'light';
+                apply(saved);
+                if (btn) {
+                    btn.addEventListener('click', function () {
+                        var next = body.classList.contains('dark-mode') ? 'light' : 'dark';
+                        localStorage.setItem(key, next);
+                        apply(next);
+                    });
+                }
+            } catch (e) { /* no-op */ }
+        })();
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

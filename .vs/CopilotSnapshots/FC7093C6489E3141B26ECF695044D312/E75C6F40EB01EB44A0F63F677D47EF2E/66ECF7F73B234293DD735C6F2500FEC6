@@ -1,0 +1,75 @@
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
+using BigBank.Models;
+
+namespace BigBank.Controllers
+{
+    public class CustomerController : Controller
+    {
+        public ActionResult Index()
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login", "Home");
+
+            string custId = Session["UserID"].ToString();
+            var vm = new CustomerDashboardViewModel();
+
+            using (var db = new BigBankEntities())
+            {
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.CustID == custId);
+                if (sb != null)
+                {
+                    vm.SavingsAccountID = sb.SBAccountID;
+                    vm.SavingsBalance = sb.Balance;
+                }
+
+                vm.FDAccountIDs = db.FDAccounts.Where(f => f.CustomerID == custId).Select(f => f.FDAccountID).ToList();
+                vm.LoanAccountIDs = db.LoanAccounts.Where(l => l.CustomerID == custId).Select(l => l.LoanAccountID).ToList();
+
+                vm.TotalBalance = (vm.SavingsBalance ?? 0) + db.FDAccounts.Where(f => f.CustomerID == custId).Sum(f => (decimal?)f.Amount) ?? 0 + db.LoanAccounts.Where(l => l.CustomerID == custId).Sum(l => (decimal?)0) ?? 0;
+            }
+
+            return View(vm);
+        }
+
+        public ActionResult ViewSavings(string id)
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login", "Home");
+
+            using (var db = new BigBankEntities())
+            {
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id);
+                if (sb == null) return HttpNotFound();
+                return View(sb);
+            }
+        }
+
+        public ActionResult ViewFD(string id)
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login", "Home");
+
+            using (var db = new BigBankEntities())
+            {
+                var fd = db.FDAccounts.FirstOrDefault(f => f.FDAccountID == id);
+                if (fd == null) return HttpNotFound();
+                return View(fd);
+            }
+        }
+
+        public ActionResult ViewLoan(string id)
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login", "Home");
+
+            using (var db = new BigBankEntities())
+            {
+                var ln = db.LoanAccounts.FirstOrDefault(l => l.LoanAccountID == id);
+                if (ln == null) return HttpNotFound();
+                return View(ln);
+            }
+        }
+    }
+}

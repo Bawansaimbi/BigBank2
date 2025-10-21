@@ -1,0 +1,87 @@
+﻿@model BigBank.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Login - BigBank";
+}
+
+@* Bootstrap 5 modern responsive login UI *@
+<div class="d-flex align-items-center justify-content-center vh-100" style="background: linear-gradient(135deg,#fff8e1 0%, #e6f0ff 100%);">
+    <div class="card shadow-sm rounded-4 p-3" style="width: 100%; max-width: 420px; animation: fadeIn 600ms ease;">
+        <div class="text-center mb-3">
+            <h1 class="mb-0" style="font-weight:700; font-size:2rem; color:#d4a017;">BigBank</h1>
+            <p class="small text-muted">Where trust grows with every transaction</p>
+        </div>
+
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3 d-flex justify-content-center">
+                <div style="max-width:360px; width:100%;">
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control text-center mx-auto", placeholder = "Username", autocomplete = "username" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger small ms-2" })
+            </div>
+
+            <div class="mb-3 d-flex justify-content-center">
+                <div style="max-width:360px; width:100%;">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control text-center mx-auto", placeholder = "Password", autocomplete = "current-password" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger small ms-2" })
+            </div>
+
+            <div class="mb-3 d-flex justify-content-center">
+                <div class="btn-group btn-group-toggle" data-bs-toggle="buttons" role="radiogroup" aria-label="User type">
+                    <label class="btn btn-outline-primary active">
+                        <input type="radio" name="userType" id="typeCustomer" value="Customer" autocomplete="off" checked> Customer
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="userType" id="typeEmployee" value="Employee" autocomplete="off"> Employee
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="userType" id="typeManager" value="Manager" autocomplete="off"> Manager
+                    </label>
+                </div>
+            </div>
+
+            if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger" role="alert">Invalid username, password or user type.</div>
+            }
+
+            <div class="d-grid mb-2">
+                <button type="submit" class="btn btn-primary btn-lg" id="loginBtn" style="transition: transform .15s ease, background-color .15s ease;">
+                    Login
+                </button>
+            </div>
+
+            <div class="text-center small">
+                <a href="@Url.Action("Register", "Home")">Create an account</a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    @@keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+    .btn-primary:hover { transform: scale(1.02); background-color: #1558b0 !important; }
+    .form-floating .bi { pointer-events: none; }
+    /* Ensure icon doesn't overlap label when focusing */
+    .form-control:focus { box-shadow: 0 0 0 0.1rem rgba(13,110,253,.15); }
+</style>
+
+<script>
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>

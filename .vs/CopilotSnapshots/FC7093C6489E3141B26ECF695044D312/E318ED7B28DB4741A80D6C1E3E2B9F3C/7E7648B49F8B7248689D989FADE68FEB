@@ -1,0 +1,58 @@
+﻿@model BigBank.Models.CustomerDashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard - BigBank";
+}
+
+<div class="interactive-bg py-4">
+    <div class="container">
+        <div class="card shadow-sm rounded-4 mb-4 p-4">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+                <div>
+                    <h2 class="mb-0">Welcome</h2>
+                    <p class="small text-muted mb-0">Your banking at a glance</p>
+                </div>
+                <div class="text-md-end mt-3 mt-md-0">
+                    @Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "btn btn-outline-mustard me-2" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Savings Account</h5>
+                        <p class="mb-2">@(!string.IsNullOrEmpty(Model.SavingsAccountID) ? "Account: " + Model.SavingsAccountID : "You can open one savings account")</p>
+                        @if (!string.IsNullOrEmpty(Model.SavingsAccountID)) {
+                            <a href="@Url.Action("ViewSavings","Customer", new { id = Model.SavingsAccountID })" class="btn btn-primary">View Account</a>
+                        } else {
+                            <a href="@Url.Action("OpenSavings","Home")" class="btn btn-primary">Open Savings</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">FD Account</h5>
+                        <p class="mb-2">Create fixed deposits to grow your savings</p>
+                        <a class="btn btn-primary" href="@Url.Action("OpenFD","Home")">Open FD</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Loan Account</h5>
+                        <p class="mb-2">Apply for loans to meet your financial needs</p>
+                        <a class="btn btn-primary" href="@Url.Action("OpenLoan","Home")">Apply Loan</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

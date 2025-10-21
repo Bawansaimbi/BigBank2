@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - BigBank</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            @{
+                var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
+                var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+                var isLoginPage = string.Equals(currentController, "Home", StringComparison.OrdinalIgnoreCase) && string.Equals(currentAction, "Login", StringComparison.OrdinalIgnoreCase);
+            }
+
+            @if (isLoginPage)
+            {
+                <!-- Centered title for Login page -->
+                <div class="w-100 text-center">
+                    <span class="navbar-text" style="font-weight:700; font-size:1.25rem; color:#d4a017;">Bigbank - Where trust grows with every transaction</span>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            }
+            else
+            {
+                @Html.ActionLink("BigBank", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+                    @if (Session["UserType"] == null)
+                    {
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item"><span class="navbar-text">Welcome to BigBank</span></li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li>@Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        </ul>
+                    }
+                    else if (Session["UserType"].ToString() == "Customer")
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li>@Html.ActionLink("Dashboard", "CustomerHome", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><span class="navbar-text">Hello, @Session["Username"]</span></li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item"><span class="navbar-text">Hello, @Session["Username"]</span></li>
+                            <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        </ul>
+                    }
+                </div>
+            }
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

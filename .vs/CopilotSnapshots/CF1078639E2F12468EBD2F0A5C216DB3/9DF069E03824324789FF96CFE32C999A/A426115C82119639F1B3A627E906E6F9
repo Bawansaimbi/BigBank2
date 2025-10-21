@@ -1,0 +1,125 @@
+﻿using BigBank.Models;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web.Mvc;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace BigBank.Controllers
+{
+    public class AccountController : Controller
+    {
+        // GET: /Account/Login
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string username, string password, string userType)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(userType))
+            {
+                ModelState.AddModelError("", "Please provide username, password and user type.");
+                return View();
+            }
+
+            var hashed = HashPassword(password);
+
+            using (var db = new BigBankEntities())
+            {
+                if (userType == "Customer")
+                {
+                    var user = db.Customers.FirstOrDefault(c => c.Username == username);
+                    if (user != null && user.Password != null && user.Password.SequenceEqual(hashed))
+                    {
+                        Session["UserType"] = "Customer";
+                        Session["UserID"] = user.CustID;
+                        Session["UserName"] = user.CustName;
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else // Employee or Manager
+                {
+                    var emp = db.Employees.FirstOrDefault(e => e.Username == username);
+                    if (emp != null && emp.Password != null && emp.Password.SequenceEqual(hashed))
+                    {
+                        if ((userType == "Employee" && emp.EmpType == "E") || (userType == "Manager" && emp.EmpType == "M"))
+                        {
+                            Session["UserType"] = emp.EmpType == "M" ? "Manager" : "Employee";
+                            Session["UserID"] = emp.EmpID;
+                            Session["UserName"] = emp.EmpName;
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                }
+            }
+
+            ModelState.AddModelError("", "Invalid username, password or user type.");
+            return View();
+        }
+
+        // GET: /Account/Register
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(Customer customer, string Password)
+        {
+            if (customer == null || string.IsNullOrWhiteSpace(Password))
+            {
+                ModelState.AddModelError("", "Please provide required details.");
+                return View();
+            }
+
+            using (var db = new BigBankEntities())
+            {
+                if (db.Customers.Any(c => c.Username == customer.Username) || db.Employees.Any(e => e.Username == customer.Username))
+                {
+                    ModelState.AddModelError("Username", "Username already exists.");
+                    return View();
+                }
+
+                if (db.Employees.Any(e => e.PAN == customer.PAN) || db.Customers.Any(c => c.PAN == customer.PAN))
+                {
+                    ModelState.AddModelError("PAN", "PAN already exists in system.");
+                    return View();
+                }
+
+                var sql = @"INSERT INTO Customer (CustName, Gender, DOB, PAN, PhoneNum, Address, Username, Password)
+                            VALUES (@name, @gender, @dob, @pan, @phone, @addr, @username, @pwd)";
+
+                var pwd = HashPassword(Password);
+
+                var parameters = new[] {
+                    new SqlParameter("@name", SqlDbType.NVarChar) { Value = customer.CustName },
+                    new SqlParameter("@gender", SqlDbType.Char) { Value = customer.Gender },
+                    new SqlParameter("@dob", SqlDbType.Date) { Value = customer.DOB },
+                    new SqlParameter("@pan", SqlDbType.Char) { Value = customer.PAN },
+                    new SqlParameter("@phone", SqlDbType.NVarChar) { Value = customer.PhoneNum },
+                    new SqlParameter("@addr", SqlDbType.NVarChar) { Value = customer.Address },
+                    new SqlParameter("@username", SqlDbType.NVarChar) { Value = customer.Username },
+                    new SqlParameter("@pwd", SqlDbType.VarBinary) { Value = pwd }
+                };
+
+                db.Database.ExecuteSqlCommand(sql, parameters);
+            }
+
+            TempData["Message"] = "Registration successful. You can now login.";
+            return RedirectToAction("Login");
+        }
+
+        private byte[] HashPassword(string password)
+        {
+            using (var sha = SHA256.Create())
+            {
+                return sha.ComputeHash(Encoding.UTF8.GetBytes(password ?? string.Empty));
+            }
+        }
+    }
+}

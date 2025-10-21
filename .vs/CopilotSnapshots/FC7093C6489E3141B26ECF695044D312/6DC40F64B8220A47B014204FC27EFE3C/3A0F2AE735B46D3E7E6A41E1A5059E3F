@@ -1,0 +1,108 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.hero-custom {
+    background: linear-gradient(#f5f5f5, #e9ecef);
+    color: #000;
+    padding: 30px;
+    border-radius: 6px;
+}
+
+.card .card-title, .card .card-text {
+    color: #000;
+}
+
+.btn-primary, .bg-primary {
+    background-color: #d4a017 !important; /* mustard */
+    border-color: #d4a017 !important;
+    color: #fff !important;
+}
+
+.navbar-brand {
+    color: #ffd700 !important;
+    font-weight: bold;
+}
+
+/* Interactive global background for pages */
+.interactive-bg {
+    background: linear-gradient(135deg,#fff8e1 0%, #f6e7c2 25%, #e6f0ff 60%, #dfefff 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 12s ease infinite;
+}
+
+@keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+footer {
+    background: transparent;
+}
+
+/* Card defaults to match design */
+.card {
+    border-radius: 12px;
+}
+
+/* Centered form control default */
+.form-control.text-center { text-align: center; }
+
+/* dropdown-submenu hover behavior */
+.dropdown-submenu {
+    position: relative;
+}
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: .1rem;
+}
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+}
+
+/* Dark mode */
+.dark-mode {
+    background-color: #0f172a !important; /* slate-900 */
+    color: #e2e8f0; /* slate-200 */
+}
+.dark-mode .interactive-bg { background: linear-gradient(135deg,#0b1324 0%, #0f172a 100%); }
+.dark-mode .navbar-dark.bg-dark { background-color: #0b1324 !important; }
+.dark-mode .card { background-color: #111827; color: #e5e7eb; border-color: #1f2937; }
+.dark-mode .card .card-title, .dark-mode .card .card-text { color: #e5e7eb; }
+.dark-mode .btn-primary { background-color: #b88700 !important; border-color: #b88700 !important; }
+.dark-mode .btn-outline-mustard { color: #d4a017; border-color: #d4a017; }
+.dark-mode .btn-outline-mustard:hover { background-color: #d4a017; color: #111827; }
+.dark-mode .dropdown-menu { background-color: #111827; color:#e5e7eb; border-color:#1f2937; }
+.dark-mode .dropdown-item { color: #e5e7eb; }
+.dark-mode .dropdown-item:hover { background-color: #1f2937; }
+.dark-mode footer { background-color: #0b1324; color: #94a3b8; }
+
+/* Ensure mustard/yellow action buttons inside cards align horizontally across a row */
+.card.h-100 .card-body {
+    display: flex;
+    flex-direction: column;
+}
+.card.h-100 .card-body .btn {
+    margin-top: auto; /* push buttons to bottom so they align */
+}
+
+/* Make mustard buttons have consistent padding/height */
+.btn-primary, .btn-outline-mustard {
+    padding-top: .55rem;
+    padding-bottom: .55rem;
+}

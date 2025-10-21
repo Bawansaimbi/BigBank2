@@ -1,0 +1,62 @@
+﻿@model BigBank.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CustName)
+        @Html.TextBoxFor(m => m.CustName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.CustName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Gender)
+        @Html.TextBoxFor(m => m.Gender, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Gender)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DOB)
+        @Html.TextBoxFor(m => m.DOB, "", new { @class = "form-control", type = "date" })
+        @Html.ValidationMessageFor(m => m.DOB)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PAN)
+        @Html.TextBoxFor(m => m.PAN, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PAN)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNum)
+        @Html.TextBoxFor(m => m.PhoneNum, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PhoneNum)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address)
+        @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Address)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Username)
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Username)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+}

@@ -1,0 +1,21 @@
+@model BigBank.Models.OpenSavingsViewModel
+
+@{
+    ViewBag.Title = "Open Savings - BigBank";
+}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Open Savings Account</h2>
+        @using (Html.BeginForm("OpenSavings", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(m => m.InitialBalance)
+                @Html.TextBoxFor(m => m.InitialBalance, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.InitialBalance)
+            </div>
+            <button type="submit" class="btn btn-primary">Open</button>
+        }
+    </div>
+</div>
