@@ -1,0 +1,201 @@
+﻿@model List<BigBank.Models.FDAccount>
+
+@{
+    ViewBag.Title = "FD Accounts";
+}
+
+<div class="container py-4">
+    <h2>Fixed Deposit Accounts</h2>
+
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("OpenFDAccount","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>➕ Open New FD</h5>
+                        <p class="text-muted">Create a new fixed deposit account</p>
+                        <div class="mt-2"><span class="small text-muted">Min FD: Rs 10,000</span></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("WithdrawFD","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>💰 Withdraw Matured FD</h5>
+                        <p class="text-muted">Close matured FD and withdraw amount</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("ForecloseFD","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>🔒 Foreclose FD</h5>
+                        <p class="text-muted">Close FD before maturity with penalty</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            @if (TempData["Error"] != null) { <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div> }
+            @if (TempData["Success"] != null) { <div class="alert alert-success">@Html.Raw(TempData["Success"])</div> }
+
+            <div class="mb-3">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search..." />
+                <small class="text-muted">Total: <span id="totalCount">@Model.Count</span> FD account(s)</small>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-sm table-striped" id="fdTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>FD Account ID</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Interest Rate</th>
+                            <th>Tenure</th>
+                            <th>Maturity Amount</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i=0;i<Model.Count;i++) {
+                            var fd = Model[i];
+                            string custName = "";
+                            bool hasMatured = fd.EndDate <= DateTime.Today;
+                            
+                            using (var db = new BigBank.Models.BigBankEntities())
+                            {
+                                var c = db.Customers.FirstOrDefault(x => x.CustID == fd.CustomerID);
+                                if (c != null){ custName = c.CustName; }
+                            }
+                            
+                            <tr class="@(fd.Status == "Closed" ? "table-secondary" : (hasMatured && fd.Status == "Active" ? "table-warning" : ""))">
+                                <td>@(i+1)</td>
+                                <td><strong>@fd.FDAccountID</strong></td>
+                                <td>
+                                    @fd.CustomerID<br/>
+                                    <small class="text-muted">@custName</small>
+                                </td>
+                                <td>Rs @fd.Amount.ToString("N2")</td>
+                                <td>@fd.InterestRate.ToString("N2")%</td>
+                                <td>@fd.Tenure year(s)</td>
+                                <td><strong>Rs @((fd.MaturityAmount ?? 0).ToString("N2"))</strong></td>
+                                <td>@fd.StartDate.ToString("dd-MMM-yyyy")</td>
+                                <td>@fd.EndDate.ToString("dd-MMM-yyyy")</td>
+                                <td>
+                                    @if (fd.Status == "Closed")
+                                    {
+                                        <span class="badge bg-secondary">Closed</span>
+                                    }
+                                    else if (hasMatured)
+                                    {
+                                        <span class="badge bg-info">Matured</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (fd.Status != "Closed")
+                                    {
+                                        <div class="btn-group-vertical btn-group-sm">
+                                            @if (hasMatured)
+                                            {
+                                                <a href="@Url.Action("WithdrawFD","Home", new { id = fd.FDAccountID })" class="btn btn-sm btn-success">Withdraw</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("ForecloseFD","Home", new { id = fd.FDAccountID })" class="btn btn-sm btn-warning">Foreclose</a>
+                                            }
+                                            @using (Html.BeginForm("CloseFDAccount","Home",FormMethod.Post, new { @onsubmit = "return confirm('Close FD account? This will delete all transactions.');" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("id", fd.FDAccountID)
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                            }
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noResults" class="alert alert-info mt-3" style="display:none;">
+                No FD accounts found matching your search.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var searchBox = document.getElementById('searchBox');
+    var table = document.getElementById('fdTable');
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = tbody.getElementsByTagName('tr');
+    var totalCount = document.getElementById('totalCount');
+    var noResults = document.getElementById('noResults');
+
+    searchBox.addEventListener('keyup', function() {
+        var searchTerm = this.value.toLowerCase().trim();
+        var visibleCount = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cells = row.getElementsByTagName('td');
+            var found = false;
+
+            // Search in FD Account ID (1), Customer ID/Name (2), Amount (3), 
+            // Interest Rate (4), Tenure (5), Maturity Amount (6), 
+            // Start Date (7), End Date (8), Status (9)
+            for (var j = 1; j <= 9; j++) {
+                if (cells[j]) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    // Remove extra whitespace and convert to lowercase
+                    cellText = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+                    
+                    if (cellText.indexOf(searchTerm) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found || searchTerm === '') {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        // Update count
+        totalCount.textContent = visibleCount;
+
+        // Show/hide no results message
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResults.style.display = 'block';
+            table.style.display = 'none';
+        } else {
+            noResults.style.display = 'none';
+            table.style.display = 'table';
+        }
+    });
+})();
+</script>

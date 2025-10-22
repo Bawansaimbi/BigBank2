@@ -1,0 +1,87 @@
+﻿@model List<BigBank.Models.Employee>
+
+@{
+    ViewBag.Title = "View Employees";
+    string currentSort = ViewBag.SortColumn as string ?? "EmpName";
+    string currentDir = ViewBag.SortDir as string ?? "asc";
+    Func<string,string> sortLink = col => {
+        var dir = (currentSort == col && currentDir == "asc") ? "desc" : "asc";
+        return Url.Action("ViewEmployees", "Home", new { sort = col, dir = dir });
+    };
+    Func<string,string> sortIndicator = col => {
+        if (string.Equals(currentSort, col, StringComparison.OrdinalIgnoreCase))
+        {
+            return currentDir == "asc" ? " &uarr;" : " &darr;";
+        }
+        return string.Empty;
+    };
+}
+
+<div class="container py-4">
+    <h2>Employees</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">All Employees</h5>
+            <div class="table-responsive" style="height:400px; overflow:auto;">
+                <table class="table table-sm mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th style="width:6%;">Sr. No.</th>
+                            <th style="width:18%;"><a href="@sortLink("EmpID")">Employee ID</a>@Html.Raw(sortIndicator("EmpID"))</th>
+                            <th><a href="@sortLink("EmpName")">Name</a>@Html.Raw(sortIndicator("EmpName"))</th>
+                            <th style="width:20%;"><a href="@sortLink("Department")">Department</a>@Html.Raw(sortIndicator("Department"))</th>
+                            <th style="width:12%;"><a href="@sortLink("DeptID")">Dept ID</a>@Html.Raw(sortIndicator("DeptID"))</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Count; i++)
+                            {
+                                var e = Model[i];
+                                string displayDept = "";
+                                string displayDeptId = e.DeptID ?? "";
+                                if (!string.IsNullOrEmpty(e.EmpType) && e.EmpType.Trim().ToUpper() == "M")
+                                {
+                                    displayDept = "Manager";
+                                    displayDeptId = "Manager";
+                                }
+                                else
+                                {
+                                    var did = (e.DeptID ?? "").Trim().ToUpper();
+                                    switch (did)
+                                    {
+                                        case "SB": displayDept = "Savings"; break;
+                                        case "LN": displayDept = "Loan"; break;
+                                        case "FD": displayDept = "Fixed Deposits"; break;
+                                        default: displayDept = e.Department != null ? e.Department.DeptName : e.DeptID; break;
+                                    }
+                                }
+
+                                <tr>
+                                    <td>@(i+1)</td>
+                                    <td>@e.EmpID</td>
+                                    <td>@e.EmpName</td>
+                                    <td>@displayDept</td>
+                                    <td>@displayDeptId</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-muted">No employees found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* keep the card fixed size and allow internal scrolling */
+    .card .table-responsive { max-height: 400px; }
+</style>

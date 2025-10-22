@@ -1,0 +1,242 @@
+﻿@model List<BigBank.Models.TransactionItem>
+
+@{
+    ViewBag.Title = "View Transactions";
+    string currentSort = ViewBag.SortColumn as string ?? "Date";
+    string currentDir = ViewBag.SortDir as string ?? "desc";
+    Func<string,string> sortLink = col => {
+        var dir = (currentSort == col && currentDir == "asc") ? "desc" : "asc";
+        return Url.Action("ViewTransactions", "Home", new { sort = col, dir = dir });
+    };
+    Func<string,string> sortIndicator = col => {
+        if (string.Equals(currentSort, col, StringComparison.OrdinalIgnoreCase))
+        {
+            return currentDir == "asc" ? " &uarr;" : " &darr;";
+        }
+        return string.Empty;
+    };
+}
+
+<div class="container py-4">
+    <h2>All Transactions</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="mb-3">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search..." />
+                <small class="text-muted">Showing: <span id="showingCount">0</span> of <span id="totalCount">@(Model?.Count ?? 0)</span> transaction(s)</small>
+            </div>
+
+            <div class="table-responsive" style="max-height:600px; overflow:auto;">
+                <table class="table table-sm mb-0" id="transactionsTable">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th><a href="@sortLink("TransID")">Trans ID</a>@Html.Raw(sortIndicator("TransID"))</th>
+                            <th><a href="@sortLink("Type")">Trans Type</a>@Html.Raw(sortIndicator("Type"))</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th><a href="@sortLink("Amount")">Amount</a>@Html.Raw(sortIndicator("Amount"))</th>
+                            <th><a href="@sortLink("Date")">Date</a>@Html.Raw(sortIndicator("Date"))</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Count; i++)
+                            {
+                                var t = Model[i];
+                                <tr>
+                                    <td>@(i+1)</td>
+                                    <td>@t.Id</td>
+                                    <td>@t.Source - @t.Type</td>
+                                    <td>@t.FromName</td>
+                                    <td>@t.ToName</td>
+                                    <td>@(t.Amount.ToString("N2"))</td>
+                                    <td>@(t.Date.HasValue ? t.Date.Value.ToString("g") : "")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="7" class="text-muted">No transactions found.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noResults" class="alert alert-info mt-3" style="display:none;">
+                No transactions found matching your search.
+            </div>
+
+            <div class="mt-3 d-flex justify-content-between align-items-center">
+                <div>
+                    <button class="btn btn-sm btn-outline-primary" id="prevBtn" disabled>Previous</button>
+                    <button class="btn btn-sm btn-outline-primary" id="nextBtn">Next 25</button>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-outline-secondary" id="show25">Show 25</button>
+                    <button class="btn btn-sm btn-outline-secondary" id="show50">Show 50</button>
+                    <button class="btn btn-sm btn-outline-secondary" id="show100">Show 100</button>
+                    <button class="btn btn-sm btn-outline-secondary" id="showAll">Show All</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var searchBox = document.getElementById('searchBox');
+    var table = document.getElementById('transactionsTable');
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = Array.from(tbody.getElementsByTagName('tr'));
+    var totalCount = document.getElementById('totalCount');
+    var showingCount = document.getElementById('showingCount');
+    var noResults = document.getElementById('noResults');
+    
+    var prevBtn = document.getElementById('prevBtn');
+    var nextBtn = document.getElementById('nextBtn');
+    var show25 = document.getElementById('show25');
+    var show50 = document.getElementById('show50');
+    var show100 = document.getElementById('show100');
+    var showAll = document.getElementById('showAll');
+
+    var currentPage = 0;
+    var pageSize = 25;
+    var filteredRows = rows.slice();
+
+    function applySearch() {
+        var searchTerm = searchBox.value.toLowerCase().trim();
+        filteredRows = [];
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cells = row.getElementsByTagName('td');
+            
+            // Skip empty state row
+            if (cells.length < 7) {
+                continue;
+            }
+
+            var found = false;
+
+            // Search in Trans ID (1), Trans Type (2), From (3), To (4), Amount (5), Date (6)
+            for (var j = 1; j <= 6; j++) {
+                if (cells[j]) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    cellText = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+                    
+                    if (cellText.indexOf(searchTerm) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found || searchTerm === '') {
+                filteredRows.push(row);
+            }
+        }
+
+        currentPage = 0;
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        // Hide all rows first
+        for (var i = 0; i < rows.length; i++) {
+            rows[i].style.display = 'none';
+        }
+
+        var start = currentPage * pageSize;
+        var end = Math.min(start + pageSize, filteredRows.length);
+        var displayedCount = 0;
+
+        // Show only the rows for current page
+        for (var i = start; i < end; i++) {
+            filteredRows[i].style.display = '';
+            displayedCount++;
+        }
+
+        // Update counts
+        showingCount.textContent = displayedCount;
+        totalCount.textContent = filteredRows.length;
+
+        // Update button states
+        prevBtn.disabled = currentPage === 0;
+        nextBtn.disabled = end >= filteredRows.length;
+
+        // Update active button
+        show25.classList.remove('active');
+        show50.classList.remove('active');
+        show100.classList.remove('active');
+        showAll.classList.remove('active');
+        
+        if (pageSize === 25) show25.classList.add('active');
+        else if (pageSize === 50) show50.classList.add('active');
+        else if (pageSize === 100) show100.classList.add('active');
+        else showAll.classList.add('active');
+
+        // Show/hide no results message
+        if (filteredRows.length === 0 && searchBox.value.trim() !== '') {
+            noResults.style.display = 'block';
+            table.style.display = 'none';
+        } else {
+            noResults.style.display = 'none';
+            table.style.display = 'table';
+        }
+    }
+
+    searchBox.addEventListener('keyup', applySearch);
+
+    prevBtn.addEventListener('click', function() {
+        if (currentPage > 0) {
+            currentPage--;
+            updateDisplay();
+        }
+    });
+
+    nextBtn.addEventListener('click', function() {
+        if ((currentPage + 1) * pageSize < filteredRows.length) {
+            currentPage++;
+            updateDisplay();
+        }
+    });
+
+    show25.addEventListener('click', function() {
+        pageSize = 25;
+        currentPage = 0;
+        updateDisplay();
+    });
+
+    show50.addEventListener('click', function() {
+        pageSize = 50;
+        currentPage = 0;
+        updateDisplay();
+    });
+
+    show100.addEventListener('click', function() {
+        pageSize = 100;
+        currentPage = 0;
+        updateDisplay();
+    });
+
+    showAll.addEventListener('click', function() {
+        pageSize = filteredRows.length || 9999999;
+        currentPage = 0;
+        updateDisplay();
+    });
+
+    // Initial display
+    updateDisplay();
+})();
+</script>
+
+<style>
+    .btn.active {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+</style>

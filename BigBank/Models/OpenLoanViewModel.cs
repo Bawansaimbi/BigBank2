@@ -14,7 +14,7 @@ namespace BigBank.Models
         public DateTime EndDate { get; set; }
 
         [Required]
-        [Range(10000, double.MaxValue, ErrorMessage = "Minimum Loan amount is 10000.")]
+        [Range(10000, double.MaxValue, ErrorMessage = "Minimum Loan amount is Rs 10,000.")]
         public decimal LoanAmount { get; set; }
 
         [Required]
@@ -22,5 +22,12 @@ namespace BigBank.Models
 
         [Required]
         public int Tenure { get; set; }
+
+        [Required]
+        [Range(1, double.MaxValue, ErrorMessage = "Monthly income is required.")]
+        public decimal MonthlyIncome { get; set; }
+
+        // For pre-filling customer DOB to check senior citizen status
+        public DateTime? CustomerDOB { get; set; }
     }
 }

@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\BigBank",
+    "\\BigBank\\Controllers",
     "\\BigBank\\Models"
   ],
-  "SelectedNode": "\\BigBank.sln",
+  "SelectedNode": "\\BigBank\\Controllers\\HomeController.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -1,0 +1,142 @@
+﻿@model List<BigBank.Models.FDAccount>
+
+@{
+    ViewBag.Title = "FD Accounts";
+}
+
+<div class="container py-4">
+    <h2>FD Accounts</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            @if (TempData["Error"] != null) { <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div> }
+            @if (TempData["Success"] != null) { <div class="alert alert-success">@Html.Raw(TempData["Success"])</div> }
+
+            <div class="mb-3">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search..." />
+                <small class="text-muted">Total: <span id="totalCount">@Model.Count</span> FD account(s)</small>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-sm table-striped" id="fdTable">
+                    <thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>FD Account ID</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Interest Rate</th>
+                            <th>Tenure</th>
+                            <th>Maturity Amount</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i=0;i<Model.Count;i++) {
+                            var a = Model[i];
+                            string custName = "";
+                            
+                            using (var db = new BigBank.Models.BigBankEntities())
+                            {
+                                var c = db.Customers.FirstOrDefault(x => x.CustID == a.CustomerID);
+                                if (c != null){ custName = c.CustName; }
+                            }
+                            
+                            <tr>
+                                <td>@(i+1)</td>
+                                <td><strong>@a.FDAccountID</strong></td>
+                                <td>
+                                    @a.CustomerID<br/>
+                                    <small class="text-muted">@custName</small>
+                                </td>
+                                <td>Rs @a.Amount.ToString("N2")</td>
+                                <td>@a.InterestRate.ToString("N2")%</td>
+                                <td>@a.Tenure years</td>
+                                <td><strong>Rs @((a.MaturityAmount ?? 0).ToString("N2"))</strong></td>
+                                <td>@a.StartDate.ToString("dd-MMM-yyyy")</td>
+                                <td>@a.EndDate.ToString("dd-MMM-yyyy")</td>
+                                <td>
+                                    @if (a.Status == "Active")
+                                    {
+                                        <span class="badge bg-success">@a.Status</span>
+                                    }
+                                    else if (a.Status == "Matured")
+                                    {
+                                        <span class="badge bg-info">@a.Status</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@a.Status</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noResults" class="alert alert-info mt-3" style="display:none;">
+                No FD accounts found matching your search.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var searchBox = document.getElementById('searchBox');
+    var table = document.getElementById('fdTable');
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = tbody.getElementsByTagName('tr');
+    var totalCount = document.getElementById('totalCount');
+    var noResults = document.getElementById('noResults');
+
+    searchBox.addEventListener('keyup', function() {
+        var searchTerm = this.value.toLowerCase().trim();
+        var visibleCount = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cells = row.getElementsByTagName('td');
+            var found = false;
+
+            // Search in FD Account ID (1), Customer ID/Name (2), Amount (3), 
+            // Interest Rate (4), Tenure (5), Maturity Amount (6), 
+            // Start Date (7), End Date (8), Status (9)
+            for (var j = 1; j <= 9; j++) {
+                if (cells[j]) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    // Remove extra whitespace and convert to lowercase
+                    cellText = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+                    
+                    if (cellText.indexOf(searchTerm) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found || searchTerm === '') {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        // Update count
+        totalCount.textContent = visibleCount;
+
+        // Show/hide no results message
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResults.style.display = 'block';
+            table.style.display = 'none';
+        } else {
+            noResults.style.display = 'none';
+            table.style.display = 'table';
+        }
+    });
+})();
+</script>

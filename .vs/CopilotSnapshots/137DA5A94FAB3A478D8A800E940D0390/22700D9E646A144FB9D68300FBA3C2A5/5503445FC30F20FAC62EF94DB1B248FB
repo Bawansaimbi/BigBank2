@@ -1,0 +1,156 @@
+﻿@model BigBank.Models.ManagerDashboardViewModel
+
+@{
+    ViewBag.Title = "Manager Dashboard";
+}
+
+<div class="container py-4">
+    <h2>Manager Dashboard</h2>
+
+    <!-- Summary area aligned to three-column grid to match action cards below -->
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-md-4">
+            <div class="d-flex flex-column gap-3">
+                <a href="@Url.Action("ViewCustomers","Home")" class="text-decoration-none">
+                    <div class="card h-100 p-3 text-center summary-card">
+                        <div class="card-body">
+                            <div class="mb-2"><i class="bi bi-people" style="font-size:1.5rem;color:#d4a017"></i></div>
+                            <div class="h5 mb-0">@Model.TotalCustomers</div>
+                            <div class="small text-muted">Total Customers</div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="@Url.Action("ViewEmployees","Home")" class="text-decoration-none">
+                    <div class="card h-100 p-3 text-center summary-card">
+                        <div class="card-body">
+                            <div class="mb-2"><i class="bi bi-people-fill" style="font-size:1.5rem;color:#0d6efd"></i></div>
+                            <div class="h5 mb-0">@Model.TotalEmployees</div>
+                            <div class="small text-muted">Total Employees</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="d-flex flex-column gap-3">
+                <a href="@Url.Action("ManageAccounts","Home")" class="text-decoration-none">
+                    <div class="card h-100 p-3 text-center summary-card" title="Savings: @Model.SavingsCount, FD: @Model.FDCount, Loan: @Model.LoanCount">
+                        <div class="card-body">
+                            <div class="mb-2"><i class="bi bi-bank" style="font-size:1.5rem;color:#198754"></i></div>
+                            <div class="h5 mb-0">@Model.TotalAccounts</div>
+                            <div class="small text-muted">Total Accounts</div>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="card h-100 p-3 text-center summary-card">
+                    <div class="card-body">
+                        <div class="mb-2"><i class="bi bi-cash-stack" style="font-size:1.5rem;color:#dc3545"></i></div>
+                        <div class="h5 mb-0">@Model.ActiveLoansCount</div>
+                        <div class="small text-muted">Active Loans</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="d-flex flex-column gap-3">
+                <a href="@Url.Action("ViewTransactions","Home", new { hours = 24 })" class="text-decoration-none">
+                    <div class="card h-100 p-3 text-center summary-card">
+                        <div class="card-body">
+                            <div class="mb-2"><i class="bi bi-clock-history" style="font-size:1.5rem;color:#6c757d"></i></div>
+                            <div class="h5 mb-0">@Model.RecentTransactionsCount</div>
+                            <div class="small text-muted">Recent Transactions (24h)</div>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="card h-100 p-3 text-center summary-card">
+                    <div class="card-body">
+                        <div class="mb-2"><i class="bi bi-wallet2" style="font-size:1.5rem;color:#fd7e14"></i></div>
+                        <div class="h5 mb-0">Rs @Model.PendingLoanAmount.ToString("N2")</div>
+                        <div class="small text-muted">Pending Loan Amount</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 my-3">
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("ManageCustomers","Home")" class="text-decoration-none">
+                <div class="card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add / Remove Customer</h5>
+                        <p class="card-text text-muted">Create or delete customer records.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("ManageEmployees","Home")" class="text-decoration-none">
+                <div class="card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add / Remove Employee</h5>
+                        <p class="card-text text-muted">Manage employee and manager accounts.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("ManageAccounts","Home")" class="text-decoration-none">
+                <div class="card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Accounts</h5>
+                        <p class="card-text text-muted">Create or remove savings / FD / loan accounts.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("ViewCustomers", "Home")" class="text-decoration-none">
+                <div class="card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">View Customers</h5>
+                        <p class="card-text text-muted">Browse all customers.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("ViewEmployees", "Home")" class="text-decoration-none">
+                <div class="card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">View Employees</h5>
+                        <p class="card-text text-muted">Browse all employees and managers.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("ViewTransactions", "Home")" class="text-decoration-none">
+                <div class="card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">View Transactions</h5>
+                        <p class="card-text text-muted">View recent transactions across accounts.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .clickable-card { cursor: pointer; }
+    .clickable-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); transition: all .15s ease-in-out; }
+    .summary-card .card-body { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:120px; }
+</style>

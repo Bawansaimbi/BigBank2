@@ -23,8 +23,14 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">All Customers</h5>
+            
+            <div class="mb-3">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search..." />
+                <small class="text-muted">Total: <span id="totalCount">@(Model?.Count ?? 0)</span> customer(s)</small>
+            </div>
+
             <div class="table-responsive" style="height:400px; overflow:auto;">
-                <table class="table table-sm mb-0">
+                <table class="table table-sm mb-0" id="customersTable">
                     <thead class="thead-light">
                         <tr>
                             <th style="width:6%;">Sr. No.</th>
@@ -58,6 +64,10 @@
                     </tbody>
                 </table>
             </div>
+
+            <div id="noResults" class="alert alert-info mt-3" style="display:none;">
+                No customers found matching your search.
+            </div>
         </div>
     </div>
 </div>
@@ -66,3 +76,62 @@
     /* keep the card fixed size and allow internal scrolling */
     .card .table-responsive { max-height: 400px; }
 </style>
+
+<script>
+(function() {
+    var searchBox = document.getElementById('searchBox');
+    var table = document.getElementById('customersTable');
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = tbody.getElementsByTagName('tr');
+    var totalCount = document.getElementById('totalCount');
+    var noResults = document.getElementById('noResults');
+
+    searchBox.addEventListener('keyup', function() {
+        var searchTerm = this.value.toLowerCase().trim();
+        var visibleCount = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cells = row.getElementsByTagName('td');
+            
+            // Skip empty state row
+            if (cells.length < 5) {
+                continue;
+            }
+
+            var found = false;
+
+            // Search in Customer ID (1), Name (2), PAN (3), Member Since (4)
+            for (var j = 1; j <= 4; j++) {
+                if (cells[j]) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    // Remove extra whitespace and convert to lowercase
+                    cellText = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+                    
+                    if (cellText.indexOf(searchTerm) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found || searchTerm === '') {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        // Update count
+        totalCount.textContent = visibleCount;
+
+        // Show/hide no results message
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    });
+})();
+</script>

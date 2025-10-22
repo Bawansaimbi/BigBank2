@@ -2,18 +2,17 @@
 
 @{
     ViewBag.Title = "Dashboard - BigBank";
+    var customer = ViewBag.Customer as BigBank.Models.Customer;
 }
 
 <div class="interactive-bg py-4">
     <div class="container">
         <div class="card shadow-sm rounded-4 mb-4 p-4">
-            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+            <div class="d-flex flex-column">
                 <div>
-                    <h2 class="mb-0">Welcome</h2>
-                    <p class="small text-muted mb-0">Your banking at a glance</p>
-                </div>
-                <div class="text-md-end mt-3 mt-md-0">
-                    @Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "btn btn-outline-mustard me-2" })
+                    <h2 class="mb-2">Welcome @(customer?.CustName ?? "Customer")</h2>
+                    <p class="small text-muted mb-0">Customer ID: @(customer?.CustID ?? "-")</p>
+                    <p class="small text-muted mb-0">PAN: @(customer?.PAN ?? "-")</p>
                 </div>
             </div>
         </div>
@@ -29,12 +28,16 @@
                 <div class="card h-100">
                     <div class="card-body text-center">
                         <h5 class="card-title"><i class="bi bi-piggy-bank me-2 text-muted" aria-hidden="true"></i>Savings Account</h5>
-                        <p class="mb-2">@(!string.IsNullOrEmpty(Model.SavingsAccountID) ? "Account: " + Model.SavingsAccountID : "You can open one savings account")</p>
-                        <p class="text-muted mb-2" style="font-size:14px;">Balance: @(Model.SavingsBalance.HasValue ? ("Rs " + Model.SavingsBalance.Value.ToString("N2")) : "-")</p>
-                        @if (!string.IsNullOrEmpty(Model.SavingsAccountID)) {
+                        @if (!string.IsNullOrEmpty(Model.SavingsAccountID))
+                        {
+                            <p class="mb-2">Account: @Model.SavingsAccountID</p>
+                            <p class="text-muted mb-2" style="font-size:14px;">Balance: Rs @(Model.SavingsBalance.HasValue ? Model.SavingsBalance.Value.ToString("N2") : "-")</p>
                             <a href="@Url.Action("ViewSavings","Customer", new { id = Model.SavingsAccountID })" class="btn btn-primary">View Account</a>
-                        } else {
-                            <a href="@Url.Action("OpenSavings","Home")" class="btn btn-primary">Open Savings</a>
+                        }
+                        else
+                        {
+                            <p class="mb-2">Please visit bank to open account</p>
+                            <p class="text-muted mb-0" style="font-size:14px;">(Min. Deposit: Rs 1,000)</p>
                         }
                     </div>
                 </div>

@@ -1,0 +1,136 @@
+@{
+    ViewBag.Title = "Withdraw FD";
+}
+
+<div class="container py-4">
+    <h2>Withdraw Fixed Deposit</h2>
+    <p class="text-muted">Withdraw matured FD or foreclose before maturity</p>
+
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div> }
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@Html.Raw(TempData["Success"])</div> }
+
+    @using (Html.BeginForm("WithdrawFD","Home",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <label class="form-label">FD Account ID <span class="text-danger">*</span></label>
+                <input name="FDAccountID" id="fdIdInput" class="form-control" placeholder="FD..." value="@ViewBag.LastFDID" required />
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <input id="custName" class="form-control mb-2" readonly placeholder="Customer name will appear here" />
+            <input id="fdAmount" class="form-control mb-2" readonly placeholder="FD amount" />
+            <input id="maturityAmount" class="form-control mb-2" readonly placeholder="Maturity amount" />
+            <input id="endDate" class="form-control mb-2" readonly placeholder="Maturity date" />
+            <div id="statusInfo" class="alert" style="display:none;"></div>
+        </div>
+
+        <div class="mt-3" id="actionButtons" style="display:none;">
+            <button class="btn btn-success" type="button" id="withdrawBtn" style="display:none;">Withdraw Matured FD</button>
+            <button class="btn btn-warning" type="button" id="forecloseBtn" style="display:none;">Foreclose FD (Penalty Applies)</button>
+            <a href="@Url.Action("ViewFDAccounts","Home")" class="btn btn-secondary">Cancel</a>
+        </div>
+    }
+</div>
+
+<script>
+    (function(){
+        var fdIdInput = document.getElementById('fdIdInput');
+        var custNameBox = document.getElementById('custName');
+        var fdAmountBox = document.getElementById('fdAmount');
+        var maturityAmountBox = document.getElementById('maturityAmount');
+        var endDateBox = document.getElementById('endDate');
+        var statusInfo = document.getElementById('statusInfo');
+        var withdrawBtn = document.getElementById('withdrawBtn');
+        var forecloseBtn = document.getElementById('forecloseBtn');
+        var actionButtons = document.getElementById('actionButtons');
+
+        function lookupFD(){
+            var id = fdIdInput.value.trim();
+            if (!id) { 
+                custNameBox.value = ''; 
+                fdAmountBox.value = '';
+                maturityAmountBox.value = '';
+                endDateBox.value = '';
+                statusInfo.style.display = 'none';
+                actionButtons.style.display = 'none';
+                return; 
+            }
+            
+            fetch('/Home/LookupFDAccount?id=' + encodeURIComponent(id))
+                .then(function(res){ return res.json(); })
+                .then(function(data){ 
+                    if (data && data.customerName) {
+                        custNameBox.value = 'Customer: ' + data.customerName;
+                        fdAmountBox.value = 'FD Amount: Rs ' + (data.amount || 0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+                        maturityAmountBox.value = 'Maturity Amount: Rs ' + (data.maturityAmount || 0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+                        endDateBox.value = 'Maturity Date: ' + data.endDate;
+                        
+                        actionButtons.style.display = 'block';
+                        
+                        if (data.status === 'Closed') {
+                            statusInfo.className = 'alert alert-secondary';
+                            statusInfo.textContent = 'This FD is already closed.';
+                            statusInfo.style.display = 'block';
+                            withdrawBtn.style.display = 'none';
+                            forecloseBtn.style.display = 'none';
+                        } else if (data.hasMatured) {
+                            statusInfo.className = 'alert alert-success';
+                            statusInfo.textContent = 'FD has matured! You can withdraw the full maturity amount.';
+                            statusInfo.style.display = 'block';
+                            withdrawBtn.style.display = 'inline-block';
+                            forecloseBtn.style.display = 'none';
+                        } else {
+                            var interestLoss = (data.maturityAmount || data.amount) - data.amount;
+                            statusInfo.className = 'alert alert-warning';
+                            statusInfo.innerHTML = '<strong>Warning:</strong> FD has not matured yet. Foreclosing will forfeit interest of Rs ' + interestLoss.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) + '. Only principal amount will be returned.';
+                            statusInfo.style.display = 'block';
+                            withdrawBtn.style.display = 'none';
+                            forecloseBtn.style.display = 'inline-block';
+                        }
+                    } else {
+                        custNameBox.value = 'FD not found';
+                        fdAmountBox.value = '';
+                        maturityAmountBox.value = '';
+                        endDateBox.value = '';
+                        statusInfo.style.display = 'none';
+                        actionButtons.style.display = 'none';
+                    }
+                })
+                .catch(function(){ 
+                    custNameBox.value = 'Error'; 
+                    fdAmountBox.value = '';
+                    maturityAmountBox.value = '';
+                    endDateBox.value = '';
+                    statusInfo.style.display = 'none';
+                    actionButtons.style.display = 'none';
+                });
+        }
+
+        withdrawBtn.addEventListener('click', function() {
+            if (confirm('Confirm withdrawal of matured FD?')) {
+                document.querySelector('form').submit();
+            }
+        });
+
+        forecloseBtn.addEventListener('click', function() {
+            var fdId = fdIdInput.value.trim();
+            if (confirm('WARNING: Foreclosing will forfeit all interest! Only principal amount will be returned. Continue?')) {
+                window.location.href = '/Home/ForecloseFD?id=' + encodeURIComponent(fdId);
+            }
+        });
+
+        fdIdInput.addEventListener('blur', lookupFD);
+        fdIdInput.addEventListener('change', lookupFD);
+
+        // Trigger lookup on page load if FDID is prefilled
+        var last = '@(ViewBag.LastFDID ?? "")';
+        if (last && fdIdInput) {
+            fdIdInput.value = last;
+            lookupFD();
+        }
+    })();
+</script>

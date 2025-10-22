@@ -1,0 +1,121 @@
+﻿@{
+    var userType = Session["UserType"]?.ToString();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - BigBank</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- Bootstrap Icons for sun/moon toggle (icons still used elsewhere) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+</head>
+<body class="d-flex flex-column min-vh-100 interactive-bg">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            @{
+                var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
+                var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+                var isCustomerHome = string.Equals(currentController, "Customer", StringComparison.OrdinalIgnoreCase) && string.Equals(currentAction, "Index", StringComparison.OrdinalIgnoreCase);
+                var isCustomerAccounts = string.Equals(currentController, "Customer", StringComparison.OrdinalIgnoreCase) && (string.Equals(currentAction, "Index", StringComparison.OrdinalIgnoreCase) || string.Equals(currentAction, "ViewSavings", StringComparison.OrdinalIgnoreCase) || string.Equals(currentAction, "ViewFD", StringComparison.OrdinalIgnoreCase) || string.Equals(currentAction, "ViewLoan", StringComparison.OrdinalIgnoreCase));
+                var isManagerHome = string.Equals(currentController, "Home", StringComparison.OrdinalIgnoreCase) && string.Equals(currentAction, "ManagerHome", StringComparison.OrdinalIgnoreCase);
+
+                var custId = Session["UserID"]?.ToString();
+                string sbId = null;
+                var fdIds = new List<string>();
+                var lnIds = new List<string>();
+                if (userType == "Customer" && !string.IsNullOrEmpty(custId))
+                {
+                    using (var db = new BigBank.Models.BigBankEntities())
+                    {
+                        sbId = db.SavingsAccounts.Where(s => s.CustID == custId).Select(s => s.SBAccountID).FirstOrDefault();
+                        fdIds = db.FDAccounts.Where(f => f.CustomerID == custId).Select(f => f.FDAccountID).ToList();
+                        lnIds = db.LoanAccounts.Where(l => l.CustomerID == custId).Select(l => l.LoanAccountID).ToList();
+                    }
+                }
+            }
+
+            <span class="navbar-brand me-3" style="font-size:1.375rem;color:inherit;">BigBank</span>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNav">
+                @if (userType == "Customer")
+                {
+                    <!-- center nav links -->
+                    <ul class="navbar-nav mx-auto nav-center">
+                        <li class="nav-item px-2">
+                            @if (isCustomerHome) {
+                                <a class="nav-link disabled text-muted" href="#" style="font-size:1.375rem;">Home</a>
+                            } else {
+                                @Html.ActionLink("Home", "Index", "Customer", new { area = "" }, new { @class = "nav-link", style = "font-size:1.375rem;" })
+                            }
+                        </li>
+                        <li class="nav-item px-2">
+                            @if (isCustomerAccounts) {
+                                <a class="nav-link disabled text-muted" href="#" style="font-size:1.375rem;">Accounts</a>
+                            } else {
+                                <a class="nav-link dropdown-toggle" href="#" id="accountsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size:1.375rem;">Accounts</a>
+                            }
+                        </li>
+                    </ul>
+                }
+                @if (userType == "Manager")
+                {
+                    <!-- Manager nav links -->
+                    <ul class="navbar-nav mx-auto nav-center">
+                        <li class="nav-item px-2">
+                            @if (isManagerHome) {
+                                <a class="nav-link disabled text-muted" href="#" style="font-size:1.375rem;">Home</a>
+                            } else {
+                                @Html.ActionLink("Home", "ManagerHome", "Home", new { area = "" }, new { @class = "nav-link", style = "font-size:1.375rem;" })
+                            }
+                        </li>
+                    </ul>
+                }
+
+                @* Right side: for authenticated users show Change Password + Logout; for guests show Login/Register *@
+                @if (!string.IsNullOrEmpty(userType))
+                {
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <!-- Dark mode toggle removed -->
+                        <li class="nav-item me-2">
+                            <a class="btn btn-mustard btn-sm" href="@Url.Action("ChangePassword","Home")">Change Password</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-danger btn-sm" href="@Url.Action("Logout","Home")">Logout</a>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">@Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link", style = "font-size:1.375rem;" })</li>
+                        <li class="nav-item">@Html.ActionLink("Register", "Register", "Home", new { area = "" }, new { @class = "nav-link", style = "font-size:1.375rem;" })</li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+    <main class="container body-content flex-fill">
+        @RenderBody()
+        <hr />
+    </main>
+
+    <footer class="mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <p class="mb-0">Big Bank&#8482;</p>
+            <p class="small text-muted">Made By Bawan</p>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <!-- Theme toggle script removed to disable dark mode -->
+    @RenderSection("scripts", required: false)
+</body>
+</html>

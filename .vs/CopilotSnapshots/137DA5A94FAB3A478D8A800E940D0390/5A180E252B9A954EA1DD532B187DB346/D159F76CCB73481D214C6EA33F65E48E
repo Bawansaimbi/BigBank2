@@ -1,0 +1,1770 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using BigBank.Models;
+using BigBank.Filters;
+
+namespace BigBank.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return RedirectToAction("Login");
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        // GET: Login
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string username, string password, string userType)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(userType))
+            {
+                ModelState.AddModelError("", "Please provide username, password and user type.");
+                return View();
+            }
+
+            var hashed = HashPassword(password);
+
+            using (var db = new BigBankEntities())
+            {
+                if (userType == "Customer")
+                {
+                    var cust = db.Customers.FirstOrDefault(c => c.Username == username);
+                    if (cust != null && cust.Password != null && cust.Password.SequenceEqual(hashed))
+                    {
+                        Session["UserType"] = "Customer";
+                        Session["UserID"] = cust.CustID;
+                        Session["Username"] = cust.Username;
+                        return RedirectToAction("CustomerHome");
+                    }
+                }
+                else
+                {
+                    var emp = db.Employees.FirstOrDefault(e => e.Username == username);
+                    if (emp != null && emp.Password != null && emp.Password.SequenceEqual(hashed))
+                    {
+                        if ((userType == "Employee" && emp.EmpType == "E") || (userType == "Manager" && emp.EmpType == "M"))
+                        {
+                            Session["UserType"] = emp.EmpType == "M" ? "Manager" : "Employee";
+                            Session["UserID"] = emp.EmpID;
+                            Session["Username"] = emp.Username;
+                            if (emp.EmpType == "M")
+                                return RedirectToAction("ManagerHome");
+                            return RedirectToAction("Index");
+                        }
+                    }
+                }
+            }
+
+            ModelState.AddModelError("", "Invalid username, password or user type.");
+            return View();
+        }
+
+        // GET: Register
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            // Additional server-side validations to match manager AddCustomer
+            if (!System.Text.RegularExpressions.Regex.IsMatch(model.CustName ?? string.Empty, "^[A-Za-z ]+$$"))
+            {
+                ModelState.AddModelError("CustName", "Name must contain letters and spaces only.");
+            }
+
+            var minDob = DateTime.Today.AddYears(-18);
+            if (model.DOB > minDob)
+            {
+                ModelState.AddModelError("DOB", "You must be at least 18 years old to register.");
+            }
+
+            var pan = (model.PAN ?? string.Empty).Trim().ToUpper();
+            if (!System.Text.RegularExpressions.Regex.IsMatch(pan, "^[A-Z]{4}[0-9]{4}$"))
+            {
+                ModelState.AddModelError("PAN", "PAN must be in format ABCD1234 (4 letters followed by 4 digits).");
+            }
+
+            var phone = System.Text.RegularExpressions.Regex.Replace(model.PhoneNum ?? string.Empty, "\\s+", "");
+            if (!System.Text.RegularExpressions.Regex.IsMatch(phone, "^[0-9]{10}$"))
+            {
+                ModelState.AddModelError("PhoneNum", "Phone number must be exactly 10 digits.");
+            }
+
+            using (var db = new BigBankEntities())
+            {
+                // unique username across customers and employees
+                if (db.Customers.Any(c => c.Username == model.Username) || db.Employees.Any(e => e.Username == model.Username))
+                {
+                    ModelState.AddModelError("Username", "Username already exists. Please choose a different username.");
+                }
+
+                // PAN must not exist in employees
+                if (db.Employees.Any(e => e.PAN == pan))
+                {
+                    ModelState.AddModelError("PAN", "PAN belongs to an employee or manager. Employees and managers cannot register as customers.");
+                }
+
+                // PAN must not exist in customers
+                if (db.Customers.Any(c => c.PAN == pan))
+                {
+                    ModelState.AddModelError("PAN", "A customer with this PAN already exists.");
+                }
+
+                // Phone must be unique among customers
+                if (db.Customers.Any(c => c.PhoneNum == phone))
+                {
+                    ModelState.AddModelError("PhoneNum", "Phone number is already registered.");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    // return view with validation messages
+                    return View(model);
+                }
+
+                var sql = @"INSERT INTO Customer (CustName, Gender, DOB, PAN, PhoneNum, Address, Username, Password, CreatedOn)
+                            VALUES (@name, @gender, @dob, @pan, @phone, @addr, @username, @pwd, @created)";
+
+                var pwd = HashPassword(model.Password);
+
+                var parameters = new[] {
+                    // sizes/types aligned with EDMX / DB schema
+                    new SqlParameter("@name", SqlDbType.NVarChar, 50) { Value = (object)model.CustName ?? DBNull.Value },
+                    new SqlParameter("@gender", SqlDbType.Char, 1) { Value = (object)model.Gender ?? DBNull.Value },
+                    new SqlParameter("@dob", SqlDbType.Date) { Value = model.DOB },
+                    // PAN is CHAR(8) in database
+                    new SqlParameter("@pan", SqlDbType.Char, 8) { Value = (object)pan ?? DBNull.Value },
+                    new SqlParameter("@phone", SqlDbType.NVarChar, 15) { Value = (object)phone ?? DBNull.Value },
+                    new SqlParameter("@addr", SqlDbType.NVarChar, 100) { Value = (object)model.Address ?? DBNull.Value },
+                    new SqlParameter("@username", SqlDbType.NVarChar, 50) { Value = (object)model.Username ?? DBNull.Value },
+                    // Password column is varbinary(64) in EDMX
+                    new SqlParameter("@pwd", SqlDbType.VarBinary, 64) { Value = (object)pwd ?? DBNull.Value },
+                    new SqlParameter("@created", SqlDbType.DateTime) { Value = DateTime.Now }
+                };
+
+                db.Database.ExecuteSqlCommand(sql, parameters);
+            }
+
+            TempData["Message"] = "Registration successful. You can now login.";
+            return RedirectToAction("Login");
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Login");
+        }
+
+        // GET: Settings
+        public ActionResult Settings()
+        {
+            if (Session["UserType"] == null) return RedirectToAction("Login");
+            return View();
+        }
+
+        public ActionResult CustomerHome()
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login");
+
+            string custId = Session["UserID"].ToString();
+            var vm = new CustomerDashboardViewModel();
+
+            using (var db = new BigBankEntities())
+            {
+                var customer = db.Customers.FirstOrDefault(c => c.CustID == custId);
+                ViewBag.Customer = customer;
+
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.CustID == custId);
+                if (sb != null)
+                {
+                    vm.SavingsAccountID = sb.SBAccountID;
+                    vm.SavingsBalance = sb.Balance;
+                }
+
+                vm.FDAccountIDs = db.FDAccounts.Where(f => f.CustomerID == custId).Select(f => f.FDAccountID).ToList();
+                vm.LoanAccountIDs = db.LoanAccounts.Where(l => l.CustomerID == custId).Select(l => l.LoanAccountID).ToList();
+
+                vm.TotalBalance = (vm.SavingsBalance ?? 0) + db.FDAccounts.Where(f => f.CustomerID == custId).Sum(f => (decimal?)f.Amount) ?? 0 + db.LoanAccounts.Where(l => l.CustomerID == custId).Sum(l => (decimal?)0) ?? 0;
+            }
+
+            return View(vm);
+        }
+
+        // Manager Home
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ManagerHome()
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Manager")
+                return RedirectToAction("Login");
+
+            var vm = new BigBank.Models.ManagerDashboardViewModel();
+            using (var db = new BigBankEntities())
+            {
+                vm.Customers = db.Customers.OrderBy(c => c.CustName).ToList();
+                vm.Employees = db.Employees.OrderBy(e => e.EmpName).ToList();
+
+                // collect recent savings transactions as a sample
+                vm.RecentTransactions = db.SavingsTransactions.OrderByDescending(t => t.TransactionDate).Take(50).Select(t => new BigBank.Models.TransactionItem {
+                    Id = t.TransactionID.ToString(),
+                    AccountId = t.SBAccountID,
+                    Date = t.TransactionDate,
+                    Source = "Savings",
+                    Type = t.TransactionType,
+                    Amount = t.Amount,
+                    Remarks = t.Remarks
+                }).ToList();
+
+                // summary stats
+                vm.TotalCustomers = db.Customers.Count();
+                vm.TotalEmployees = db.Employees.Count();
+                vm.SavingsCount = db.SavingsAccounts.Count();
+                vm.FDCount = db.FDAccounts.Count();
+                vm.LoanCount = db.LoanAccounts.Count();
+                vm.TotalAccounts = vm.SavingsCount + vm.FDCount + vm.LoanCount;
+
+                // active loans: loan accounts with outstanding > 0. We'll use LoanTransactions.Outstanding latest per loan
+                var loanOutstandings = db.LoanTransactions.GroupBy(lt => lt.LoanAccountID).Select(g => g.OrderByDescending(x => x.EMIDate).FirstOrDefault()).ToList();
+                vm.ActiveLoansCount = loanOutstandings.Count(l => l != null && (l.Outstanding.HasValue ? l.Outstanding.Value > 0 : false));
+                vm.PendingLoanAmount = loanOutstandings.Where(l => l != null && l.Outstanding.HasValue).Sum(l => l.Outstanding.Value);
+
+                // active users across whole website: count of sessions is not available; approximate by users who logged in recently: find distinct usernames in SavingsTransactions, FDTransaction, LoanTransaction last 7 days
+                var since = DateTime.Now.AddDays(-7);
+                var activeCustsFromSavings = db.SavingsTransactions.Where(t => t.TransactionDate >= since).Select(t => t.SBAccountID).ToList();
+                // better approach: count distinct customers who had any transaction in last 7 days
+                var activeCustomerIds = db.SavingsTransactions.Where(t => t.TransactionDate >= since).Select(t => t.SBAccountID).ToList();
+                // approximate by distinct customers from account tables
+                var activeFromSavingsCust = (from s in db.SavingsTransactions where s.TransactionDate >= since join acc in db.SavingsAccounts on s.SBAccountID equals acc.SBAccountID select acc.CustID).Distinct().Count();
+                var activeFromFD = (from t in db.FDTransactions where t.TransactionDate >= since join f in db.FDAccounts on t.FDAccountID equals f.FDAccountID select f.CustomerID).Distinct().Count();
+                var activeFromLoan = (from t in db.LoanTransactions where t.EMIDate >= since join l in db.LoanAccounts on t.LoanAccountID equals l.LoanAccountID select l.CustomerID).Distinct().Count();
+                vm.ActiveUsers = activeFromSavingsCust + activeFromFD + activeFromLoan;
+
+                // recent transactions: last 24 hours across savings, fd and loan
+                var since24 = DateTime.Now.AddDays(-1);
+                var recentSavings = db.SavingsTransactions.Count(t => t.TransactionDate >= since24);
+                var recentFD = db.FDTransactions.Count(t => t.TransactionDate >= since24);
+                var recentLoan = db.LoanTransactions.Count(t => t.EMIDate >= since24);
+                vm.RecentTransactionsCount = recentSavings + recentFD + recentLoan;
+
+                // also fill RecentTransactions list with up to 50 recent across savings for display
+                vm.RecentTransactions = db.SavingsTransactions.Where(t => t.TransactionDate >= since24).OrderByDescending(t => t.TransactionDate).Take(50).Select(t => new BigBank.Models.TransactionItem {
+                    Id = t.TransactionID.ToString(),
+                    AccountId = t.SBAccountID,
+                    Date = t.TransactionDate,
+                    Source = "Savings",
+                    Type = t.TransactionType,
+                    Amount = t.Amount,
+                    Remarks = t.Remarks
+                }).ToList();
+            }
+
+            return View(vm);
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ViewCustomers(string sort = "CreatedOn", string dir = "desc")
+        {
+            var customers = new List<Customer>();
+            using (var db = new BigBankEntities())
+            {
+                IQueryable<Customer> q = db.Customers;
+                // apply sorting
+                bool ascending = string.Equals(dir, "asc", StringComparison.OrdinalIgnoreCase);
+                switch (sort)
+                {
+                    case "CustID":
+                        q = ascending ? q.OrderBy(c => c.CustID) : q.OrderByDescending(c => c.CustID);
+                        break;
+                    case "CustName":
+                        q = ascending ? q.OrderBy(c => c.CustName) : q.OrderByDescending(c => c.CustName);
+                        break;
+                    case "PAN":
+                        q = ascending ? q.OrderBy(c => c.PAN) : q.OrderByDescending(c => c.PAN);
+                        break;
+                    case "CreatedOn":
+                    default:
+                        q = ascending ? q.OrderBy(c => c.CreatedOn) : q.OrderByDescending(c => c.CreatedOn);
+                        break;
+                }
+
+                customers = q.ToList();
+            }
+
+            ViewBag.SortColumn = sort;
+            ViewBag.SortDir = dir;
+            return View(customers);
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ViewEmployees(string sort = "EmpName", string dir = "asc")
+        {
+            var employees = new List<Employee>();
+            using (var db = new BigBankEntities())
+            {
+                IQueryable<Employee> q = db.Employees.Include("Department");
+                bool ascending = string.Equals(dir, "asc", StringComparison.OrdinalIgnoreCase);
+
+                // if sorting by Department (friendly name), fetch then sort in-memory
+                if (string.Equals(sort, "Department", StringComparison.OrdinalIgnoreCase))
+                {
+                    employees = q.ToList();
+                    Func<Employee, string> displayDept = e =>
+                    {
+                        if (!string.IsNullOrEmpty(e.EmpType) && e.EmpType.Trim().ToUpper() == "M") return "Manager";
+                        var did = (e.DeptID ?? "").Trim().ToUpper();
+                        switch (did)
+                        {
+                            case "SB": return "Savings";
+                            case "LN": return "Loan";
+                            case "FD": return "Fixed Deposits";
+                            default: return e.Department != null ? e.Department.DeptName : (e.DeptID ?? string.Empty);
+                        }
+                    };
+
+                    employees = ascending ? employees.OrderBy(displayDept).ThenBy(e => e.EmpName).ToList()
+                                          : employees.OrderByDescending(displayDept).ThenBy(e => e.EmpName).ToList();
+                }
+                else
+                {
+                    switch (sort)
+                    {
+                        case "EmpID":
+                            q = ascending ? q.OrderBy(e => e.EmpID) : q.OrderByDescending(e => e.EmpID);
+                            break;
+                        case "DeptID":
+                            q = ascending ? q.OrderBy(e => e.DeptID) : q.OrderByDescending(e => e.DeptID);
+                            break;
+                        case "EmpName":
+                        default:
+                            q = ascending ? q.OrderBy(e => e.EmpName) : q.OrderByDescending(e => e.EmpName);
+                            break;
+                    }
+
+                    employees = q.ToList();
+                }
+            }
+
+            ViewBag.SortColumn = sort;
+            ViewBag.SortDir = dir;
+            return View(employees);
+        }
+
+        // Open FD
+        public ActionResult OpenFD()
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login");
+
+            var vm = new OpenFDViewModel();
+            string custId = Session["UserID"].ToString();
+            using (var db = new BigBankEntities())
+            {
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == custId);
+                if (cust != null)
+                {
+                    vm.CustomerDOB = cust.DOB;
+                }
+            }
+            vm.StartDate = DateTime.Today;
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OpenFD(OpenFDViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            if (model.Amount < 10000m)
+            {
+                ModelState.AddModelError("Amount", "Minimum FD amount is 10000.");
+                return View(model);
+            }
+
+            // compute end date and interest rate server-side to avoid tampering
+            string custId = Session["UserID"].ToString();
+            DateTime dob = DateTime.MinValue;
+            using (var db = new BigBankEntities())
+            {
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == custId);
+                if (cust != null) dob = cust.DOB;
+
+                // calculate senior flag
+                bool isSenior = false;
+                if (dob != DateTime.MinValue)
+                {
+                    var age = (int)((DateTime.Today - dob).TotalDays / 365.25);
+                    isSenior = age >= 60;
+                }
+
+                // determine base interest rate by tenure
+                decimal baseRate;
+                if (model.Tenure <= 1) baseRate = 6.0m;
+                else if (model.Tenure == 2) baseRate = 7.0m;
+                else baseRate = 8.0m;
+
+                if (isSenior) baseRate += 0.5m;
+
+                model.InterestRate = baseRate;
+                // ensure StartDate is set
+                var start = model.StartDate == default(DateTime) ? DateTime.Today : model.StartDate;
+                var end = start.AddYears(model.Tenure);
+                model.EndDate = end;
+
+                // check customer's savings balance
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.CustID == custId);
+                if (sb == null)
+                {
+                    ModelState.AddModelError("", "Savings account not found.");
+                    model.CustomerDOB = cust != null ? (DateTime?)cust.DOB : null;
+                    return View(model);
+                }
+
+                if (sb.Balance < model.Amount || sb.Balance - model.Amount < 1000m)
+                {
+                    // insufficient funds
+                    TempData["Error"] = "Bank balance insufficient, please deposit.";
+                    model.CustomerDOB = cust != null ? (DateTime?)cust.DOB : null;
+                    return View(model);
+                }
+
+                // compute maturity amount (simple interest) and persist within transaction
+                var maturityAmount = model.Amount + (model.Amount * (model.InterestRate / 100m) * model.Tenure);
+
+                using (var tx = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        // deduct from savings
+                        var newBal = sb.Balance - model.Amount;
+                        db.Database.ExecuteSqlCommand("UPDATE SavingsAccount SET Balance = @p0 WHERE SBAccountID = @p1", newBal, sb.SBAccountID);
+
+                        var insertSql = @"INSERT INTO FDAccount (CustomerID, StartDate, EndDate, Amount, InterestRate, MaturityAmount, Tenure, Status)
+                                          OUTPUT INSERTED.FDAccountID
+                                          VALUES (@cust, @start, @end, @amt, @irate, @maturity, @tenure, @status)";
+                        var insertParams = new[] {
+                            new SqlParameter("@cust", SqlDbType.VarChar) { Value = custId },
+                            new SqlParameter("@start", SqlDbType.Date) { Value = start },
+                            new SqlParameter("@end", SqlDbType.Date) { Value = end },
+                            new SqlParameter("@amt", SqlDbType.Decimal) { Value = model.Amount },
+                            new SqlParameter("@irate", SqlDbType.Decimal) { Value = model.InterestRate },
+                            new SqlParameter("@maturity", SqlDbType.Decimal) { Value = maturityAmount },
+                            new SqlParameter("@tenure", SqlDbType.Int) { Value = model.Tenure },
+                            new SqlParameter("@status", SqlDbType.NVarChar) { Value = "Active" }
+                        };
+
+                        var newFdId = db.Database.SqlQuery<string>(insertSql, insertParams).FirstOrDefault();
+
+                        // insert a FDTransaction record for this opening
+                        var processedBy = Session["Username"] != null ? Session["Username"].ToString() : null;
+                        var txnSql = @"INSERT INTO FDTransaction (FDAccountID, TransactionDate, TransactionType, Amount, InterestRate, MaturityAmount, ProcessedBy, Remarks)
+                                       VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @7)";
+                        db.Database.ExecuteSqlCommand(txnSql, newFdId, DateTime.Now, "Open", model.Amount, model.InterestRate, maturityAmount, (object)processedBy ?? DBNull.Value, "FD opened via web");
+
+                        tx.Commit();
+                    }
+                    catch
+                    {
+                        tx.Rollback();
+                        throw;
+                    }
+                }
+
+                // read latest FD record for customer to show success details
+                var fdrec = db.FDAccounts.Where(f => f.CustomerID == custId).OrderByDescending(f => f.FDAuto).FirstOrDefault();
+                if (fdrec != null)
+                {
+                    TempData["FDSuccess"] = $"FD opened: {fdrec.FDAccountID}. Maturity Amount: Rs {fdrec.MaturityAmount.GetValueOrDefault():N2}. End Date: {fdrec.EndDate:yyyy-MM-dd}";
+                }
+            }
+
+            return RedirectToAction("CustomerHome");
+        }
+
+        // Open Loan
+        public ActionResult OpenLoan()
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
+                return RedirectToAction("Login");
+
+            return View(new OpenLoanViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OpenLoan(OpenLoanViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            if (model.LoanAmount < 10000m)
+            {
+                ModelState.AddModelError("LoanAmount", "Minimum Loan amount is 10000.");
+                return View(model);
+            }
+
+            string custId = Session["UserID"].ToString();
+            using (var db = new BigBankEntities())
+            {
+                var sql = @"INSERT INTO LoanAccount (CustomerID, StartDate, EndDate, LoanAmount, InterestRate, Tenure, Status) VALUES (@cust, @start, @end, @amt, @irate, @tenure, @status)";
+                var parameters = new[] {
+                    new SqlParameter("@cust", SqlDbType.VarChar) { Value = custId },
+                    new SqlParameter("@start", SqlDbType.Date) { Value = model.StartDate },
+                    new SqlParameter("@end", SqlDbType.Date) { Value = model.EndDate },
+                    new SqlParameter("@amt", SqlDbType.Decimal) { Value = model.LoanAmount },
+                    new SqlParameter("@irate", SqlDbType.Decimal) { Value = model.InterestRate },
+                    new SqlParameter("@tenure", SqlDbType.Int) { Value = model.Tenure },
+                    new SqlParameter("@status", SqlDbType.NVarChar) { Value = "Active" }
+                };
+
+                db.Database.ExecuteSqlCommand(sql, parameters);
+
+                var lnid = db.LoanAccounts.Where(l => l.CustomerID == custId).OrderByDescending(l => l.LNAuto).Select(l => l.LoanAccountID).FirstOrDefault();
+                TempData["Message"] = "Loan opened: " + lnid;
+            }
+
+            return RedirectToAction("CustomerHome");
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ManageCustomers()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult AddCustomer(string CustName, DateTime? DOB, string PAN, string Gender, string Address, string PhoneNum)
+        {
+            var errors = new List<string>();
+
+            // basic required checks
+            if (string.IsNullOrWhiteSpace(CustName)) errors.Add("Name is required.");
+            if (!DOB.HasValue) errors.Add("Date of birth is required.");
+            if (string.IsNullOrWhiteSpace(PAN)) errors.Add("PAN is required.");
+            if (string.IsNullOrWhiteSpace(Gender)) errors.Add("Gender is required.");
+            if (string.IsNullOrWhiteSpace(Address)) errors.Add("Address is required.");
+            if (string.IsNullOrWhiteSpace(PhoneNum)) errors.Add("Phone number is required.");
+
+            // further validations only if present
+            if (!string.IsNullOrWhiteSpace(CustName))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(CustName, "^[A-Za-z ]+$"))
+                    errors.Add("Name must contain letters and spaces only.");
+            }
+
+            if (DOB.HasValue)
+            {
+                var minDob = DateTime.Today.AddYears(-18);
+                if (DOB.Value > minDob)
+                    errors.Add("Customer must be at least 18 years old.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(PAN))
+            {
+                var pan = PAN.Trim().ToUpper();
+                // accept 4 letters followed by 4 digits (e.g. ABCD1234)
+                if (!System.Text.RegularExpressions.Regex.IsMatch(pan, "^[A-Z]{4}[0-9]{4}$"))
+                    errors.Add("PAN must be in format ABCD1234 (4 letters followed by 4 digits).");
+            }
+
+            if (!string.IsNullOrWhiteSpace(PhoneNum))
+            {
+                var phone = System.Text.RegularExpressions.Regex.Replace(PhoneNum, "\\s+", "");
+                if (!System.Text.RegularExpressions.Regex.IsMatch(phone, "^[0-9]{10}$"))
+                    errors.Add("Phone number must be exactly 10 digits.");
+            }
+
+            // normalize phone for uniqueness check
+            var phoneNorm = string.IsNullOrWhiteSpace(PhoneNum) ? string.Empty : System.Text.RegularExpressions.Regex.Replace(PhoneNum, "\\s+", "");
+
+            using (var db = new BigBankEntities())
+            {
+                if (!string.IsNullOrWhiteSpace(PAN))
+                {
+                    var panUpper = PAN.Trim().ToUpper();
+                    if (db.Customers.Any(c => c.PAN == panUpper))
+                        errors.Add("A customer with this PAN already exists.");
+                }
+
+                if (!string.IsNullOrWhiteSpace(phoneNorm))
+                {
+                    if (db.Customers.Any(c => c.PhoneNum == phoneNorm))
+                        errors.Add("Phone number is already registered to another customer.");
+                }
+            }
+
+            if (errors.Any())
+            {
+                // show all errors
+                TempData["Error"] = string.Join("<br/>", errors);
+                return RedirectToAction("ManageCustomers");
+            }
+
+            // generate username and password as requested
+            var baseUsername = CustName.Replace(" ", "") + "123";
+            var username = baseUsername;
+            var passwordPlain = PAN.Trim().ToUpper() + DOB.Value.Year.ToString();
+            var pwdHash = HashPassword(passwordPlain);
+
+            string newCustId = null;
+            using (var db = new BigBankEntities())
+            {
+                // ensure username uniqueness
+                int suffix = 1;
+                while (db.Customers.Any(c => c.Username == username))
+                {
+                    username = baseUsername + suffix.ToString();
+                    suffix++;
+                }
+
+                var sql = @"INSERT INTO Customer (CustName, Gender, DOB, PAN, PhoneNum, Address, Username, Password, CreatedOn)
+                            OUTPUT INSERTED.CustID
+                            VALUES (@name, @gender, @dob, @pan, @phone, @addr, @username, @pwd, @created)";
+
+                var parameters = new[] {
+                    new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50) { Value = (object)CustName ?? DBNull.Value },
+                    new SqlParameter("@gender", System.Data.SqlDbType.Char, 1) { Value = (object)Gender ?? DBNull.Value },
+                    new SqlParameter("@dob", System.Data.SqlDbType.Date) { Value = DOB.Value.Date },
+                    new SqlParameter("@pan", System.Data.SqlDbType.Char, 8) { Value = (object)PAN.Trim().ToUpper() ?? DBNull.Value },
+                    new SqlParameter("@phone", System.Data.SqlDbType.NVarChar, 15) { Value = (object)phoneNorm ?? DBNull.Value },
+                    new SqlParameter("@addr", System.Data.SqlDbType.NVarChar, 100) { Value = (object)Address ?? DBNull.Value },
+                    new SqlParameter("@username", System.Data.SqlDbType.NVarChar, 50) { Value = (object)username ?? DBNull.Value },
+                    new SqlParameter("@pwd", System.Data.SqlDbType.VarBinary, 64) { Value = (object)pwdHash ?? DBNull.Value },
+                    new SqlParameter("@created", System.Data.SqlDbType.DateTime) { Value = DateTime.Now }
+                };
+
+                try
+                {
+                    newCustId = db.Database.SqlQuery<string>(sql, parameters).FirstOrDefault();
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Failed to add customer: " + ex.Message;
+                    return RedirectToAction("ManageCustomers");
+                }
+            }
+
+            TempData["Success"] = "Customer added successfully.";
+            TempData["NewCustomerInfo"] = $"CustID: {newCustId}, Username: {username}, Password: {passwordPlain}";
+            return RedirectToAction("ManageCustomers");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult RemoveCustomer(string CustID)
+        {
+            if (string.IsNullOrWhiteSpace(CustID))
+            {
+                TempData["Error"] = "Please provide Customer ID to remove.";
+                return RedirectToAction("ManageCustomers");
+            }
+
+            using (var db = new BigBankEntities())
+            {
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == CustID);
+                if (cust == null)
+                {
+                    TempData["Error"] = "Customer not found.";
+                    return RedirectToAction("ManageCustomers");
+                }
+
+                // check for any active accounts
+                bool hasSavings = db.SavingsAccounts.Any(s => s.CustID == CustID);
+                bool hasFD = db.FDAccounts.Any(f => f.CustomerID == CustID);
+                bool hasLoan = db.LoanAccounts.Any(l => l.CustomerID == CustID);
+
+                if (hasSavings || hasFD || hasLoan)
+                {
+                    TempData["Error"] = "Cannot remove customer: active accounts exist. Close all accounts before deleting the customer.";
+                    return RedirectToAction("ManageCustomers");
+                }
+
+                try
+                {
+                    db.Database.ExecuteSqlCommand("DELETE FROM Customer WHERE CustID = @p0", CustID);
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Failed to remove customer: " + ex.Message;
+                    return RedirectToAction("ManageCustomers");
+                }
+            }
+
+            TempData["Success"] = "Customer removed successfully.";
+            return RedirectToAction("ManageCustomers");
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ManageEmployees()
+        {
+            using (var db = new BigBankEntities())
+            {
+                ViewBag.Departments = db.Departments.OrderBy(d => d.DeptName).ToList();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult AddEmployee(string EmpName, string Gender, string PAN, string PhoneNum, string Address, string DeptID, string EmpType)
+        {
+            var errors = new List<string>();
+            if (string.IsNullOrWhiteSpace(EmpName)) errors.Add("Name is required.");
+            if (string.IsNullOrWhiteSpace(Gender)) errors.Add("Gender is required.");
+            if (string.IsNullOrWhiteSpace(PAN)) errors.Add("PAN is required.");
+            if (string.IsNullOrWhiteSpace(PhoneNum)) errors.Add("Phone number is required.");
+            if (string.IsNullOrWhiteSpace(Address)) errors.Add("Address is required.");
+            if (string.IsNullOrWhiteSpace(DeptID)) errors.Add("Department is required.");
+            if (string.IsNullOrWhiteSpace(EmpType)) errors.Add("Employee type is required.");
+
+            if (!string.IsNullOrWhiteSpace(EmpName))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(EmpName, "^[A-Za-z ]+$"))
+                    errors.Add("Name must contain letters and spaces only.");
+            }
+
+            if (!string.IsNullOrWhiteSpace(PAN))
+            {
+                var pan = PAN.Trim().ToUpper();
+                if (!System.Text.RegularExpressions.Regex.IsMatch(pan, "^[A-Z]{4}[0-9]{4}$"))
+                    errors.Add("PAN must be in format ABCD1234 (4 letters followed by 4 digits).");
+            }
+
+            var phoneNorm = string.IsNullOrWhiteSpace(PhoneNum) ? string.Empty : System.Text.RegularExpressions.Regex.Replace(PhoneNum, "\\s+", "");
+            if (!string.IsNullOrWhiteSpace(phoneNorm))
+            {
+                if (!System.Text.RegularExpressions.Regex.IsMatch(phoneNorm, "^[0-9]{10}$"))
+                    errors.Add("Phone number must be exactly 10 digits.");
+            }
+
+            using (var db = new BigBankEntities())
+            {
+                var panUpper = (PAN ?? string.Empty).Trim().ToUpper();
+                if (!string.IsNullOrWhiteSpace(panUpper))
+                {
+                    if (db.Employees.Any(e => e.PAN == panUpper) || db.Customers.Any(c => c.PAN == panUpper))
+                        errors.Add("PAN already exists for another customer or employee.");
+                }
+
+                if (!string.IsNullOrWhiteSpace(phoneNorm))
+                {
+                    if (db.Employees.Any(e => e.PhoneNum == phoneNorm) || db.Customers.Any(c => c.PhoneNum == phoneNorm))
+                        errors.Add("Phone number is already registered to another user.");
+                }
+
+                if (!db.Departments.Any(d => d.DeptID == DeptID))
+                    errors.Add("Selected department does not exist.");
+
+                if (errors.Any())
+                {
+                    TempData["Error"] = string.Join("<br/>", errors);
+                    return RedirectToAction("ManageEmployees");
+                }
+
+                // generate username and password
+                var baseUsername = EmpName.Replace(" ", "") + "123";
+                var username = baseUsername;
+                int suffix = 1;
+                while (db.Employees.Any(e => e.Username == username) || db.Customers.Any(c => c.Username == username))
+                {
+                    username = baseUsername + suffix.ToString();
+                    suffix++;
+                }
+
+                var passwordPlain = panUpper + phoneNorm; // PAN + Phone
+                var pwdHash = HashPassword(passwordPlain);
+
+                var sql = @"INSERT INTO Employee (EmpName, Gender, Username, Password, PAN, PhoneNum, Address, DeptID, EmpType, CreatedOn)
+                            OUTPUT INSERTED.EmpID
+                            VALUES (@name, @gender, @username, @pwd, @pan, @phone, @addr, @dept, @emptype, @created)";
+
+                var parameters = new[] {
+                    new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50) { Value = (object)EmpName ?? DBNull.Value },
+                    new SqlParameter("@gender", System.Data.SqlDbType.Char, 1) { Value = (object)Gender ?? DBNull.Value },
+                    new SqlParameter("@username", System.Data.SqlDbType.NVarChar, 50) { Value = (object)username ?? DBNull.Value },
+                    new SqlParameter("@pwd", System.Data.SqlDbType.VarBinary, 64) { Value = (object)pwdHash ?? DBNull.Value },
+                    new SqlParameter("@pan", System.Data.SqlDbType.Char, 8) { Value = (object)panUpper ?? DBNull.Value },
+                    new SqlParameter("@phone", System.Data.SqlDbType.NVarChar, 15) { Value = (object)phoneNorm ?? DBNull.Value },
+                    new SqlParameter("@addr", System.Data.SqlDbType.NVarChar, 100) { Value = (object)Address ?? DBNull.Value },
+                    new SqlParameter("@dept", System.Data.SqlDbType.NVarChar, 10) { Value = (object)DeptID ?? DBNull.Value },
+                    new SqlParameter("@emptype", System.Data.SqlDbType.Char, 1) { Value = (object)EmpType ?? DBNull.Value },
+                    new SqlParameter("@created", System.Data.SqlDbType.DateTime) { Value = DateTime.Now }
+                };
+
+                string newEmpId = null;
+                try
+                {
+                    newEmpId = db.Database.SqlQuery<string>(sql, parameters).FirstOrDefault();
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Failed to add employee: " + ex.Message;
+                    return RedirectToAction("ManageEmployees");
+                }
+
+                TempData["Success"] = "Employee added successfully.";
+                TempData["NewEmployeeInfo"] = $"EmpID: {newEmpId}, Username: {username}, Password: {passwordPlain}";
+                return RedirectToAction("ManageEmployees");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult RemoveEmployee(string EmpID)
+        {
+            if (string.IsNullOrWhiteSpace(EmpID))
+            {
+                TempData["Error"] = "Please provide Employee ID to remove.";
+                return RedirectToAction("ManageEmployees");
+            }
+
+            using (var db = new BigBankEntities())
+            {
+                var emp = db.Employees.FirstOrDefault(e => e.EmpID == EmpID);
+                if (emp == null)
+                {
+                    TempData["Error"] = "Employee not found.";
+                    return RedirectToAction("ManageEmployees");
+                }
+
+                // check for related transactions that would block deletion
+                bool hasFDTrans = db.FDTransactions.Any(t => t.ProcessedBy == emp.Username || t.ProcessedBy == emp.EmpID);
+                bool hasLoanTrans = db.LoanTransactions.Any(t => t.ProcessedBy == emp.Username || t.ProcessedBy == emp.EmpID);
+                if (hasFDTrans || hasLoanTrans)
+                {
+                    TempData["Error"] = "Cannot remove employee: related transactions exist. Reassign or remove transactions first.";
+                    return RedirectToAction("ManageEmployees");
+                }
+
+                try
+                {
+                    db.Database.ExecuteSqlCommand("DELETE FROM Employee WHERE EmpID = @p0", EmpID);
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Failed to remove employee: " + ex.Message;
+                    return RedirectToAction("ManageEmployees");
+                }
+
+                TempData["Success"] = "Employee removed successfully.";
+                return RedirectToAction("ManageEmployees");
+            }
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ViewTransactions(string sort = "Date", string dir = "desc", int? hours = null)
+        {
+            var list = new List<BigBank.Models.TransactionItem>();
+            using (var db = new BigBankEntities())
+            {
+                DateTime? since = null;
+                if (hours.HasValue && hours.Value > 0)
+                {
+                    since = DateTime.Now.AddHours(-hours.Value);
+                }
+
+                // Project queries - materialize to avoid EF trying to translate complex expressions later
+                var svQuery = (from t in db.SavingsTransactions
+                             join a in db.SavingsAccounts on t.SBAccountID equals a.SBAccountID
+                             join c in db.Customers on a.CustID equals c.CustID
+                             where !(t.Remarks != null && t.Remarks.Contains("Transfer"))
+                             select new BigBank.Models.TransactionItem
+                             {
+                                 Id = "SB" + t.TransactionID.ToString(),
+                                 AccountId = t.SBAccountID,
+                                 Date = t.TransactionDate,
+                                 Source = "Savings",
+                                 Type = t.TransactionType,
+                                 Amount = t.Amount,
+                                 Remarks = t.Remarks,
+                                 CustomerId = a.CustID,
+                                 CustomerName = c.CustName,
+                                 FromName = c.CustName,
+                                 ToName = c.CustName
+                             }).ToList();
+
+                if (since.HasValue)
+                {
+                    svQuery = svQuery.Where(x => x.Date.HasValue && x.Date.Value >= since.Value).ToList();
+                }
+
+                var fdQuery = (from t in db.FDTransactions
+                             join a in db.FDAccounts on t.FDAccountID equals a.FDAccountID
+                             join c in db.Customers on a.CustomerID equals c.CustID
+                             select new BigBank.Models.TransactionItem
+                             {
+                                 Id = "FD" + t.FDTransID.ToString(),
+                                 AccountId = t.FDAccountID,
+                                 Date = t.TransactionDate,
+                                 Source = "FD",
+                                 Type = t.TransactionType,
+                                 Amount = t.Amount,
+                                 Remarks = t.Remarks,
+                                 CustomerId = a.CustomerID,
+                                 CustomerName = c.CustName,
+                                 FromName = c.CustName,
+                                 ToName = "Bank"
+                             }).ToList();
+
+                if (since.HasValue)
+                {
+                    fdQuery = fdQuery.Where(x => x.Date.HasValue && x.Date.Value >= since.Value).ToList();
+                }
+
+                var lnQuery = (from t in db.LoanTransactions
+                             join a in db.LoanAccounts on t.LoanAccountID equals a.LoanAccountID
+                             join c in db.Customers on a.CustomerID equals c.CustID
+                             select new BigBank.Models.TransactionItem
+                             {
+                                 Id = "LN" + t.TransactionID.ToString(),
+                                 AccountId = t.LoanAccountID,
+                                 Date = t.EMIDate,
+                                 Source = "Loan",
+                                 Type = "EMI",
+                                 Amount = t.Amount,
+                                 Remarks = t.Remarks,
+                                 CustomerId = a.CustomerID,
+                                 CustomerName = c.CustName,
+                                 FromName = c.CustName,
+                                 ToName = "Bank"
+                             }).ToList();
+
+                if (since.HasValue)
+                {
+                    lnQuery = lnQuery.Where(x => x.Date.HasValue && x.Date.Value >= since.Value).ToList();
+                }
+
+                // handle transfers between savings accounts by looking for remarks pattern 'Transfer to'
+                var transfersQuery = db.SavingsTransactions.Where(t => t.Remarks.Contains("Transfer to")).ToList();
+                if (since.HasValue)
+                {
+                    transfersQuery = transfersQuery.Where(t => t.TransactionDate >= since.Value).ToList();
+                }
+
+                var transferItems = new List<BigBank.Models.TransactionItem>();
+                foreach (var tr in transfersQuery)
+                {
+                    // attempt to parse partner account from remarks
+                    string partner = null;
+                    if (!string.IsNullOrEmpty(tr.Remarks))
+                    {
+                        var r = tr.Remarks;
+                        var idx = r.IndexOf("to ", StringComparison.OrdinalIgnoreCase);
+                        if (idx >= 0) partner = r.Substring(idx + 3).Trim();
+                    }
+
+                    var acc = db.SavingsAccounts.FirstOrDefault(a => a.SBAccountID == tr.SBAccountID);
+                    var fromCust = acc != null ? db.Customers.FirstOrDefault(c => c.CustID == acc.CustID) : null;
+                    string toName = partner;
+                    if (!string.IsNullOrEmpty(partner))
+                    {
+                        var recAcc = db.SavingsAccounts.FirstOrDefault(a => a.SBAccountID == partner);
+                        if (recAcc != null)
+                        {
+                            var recCust = db.Customers.FirstOrDefault(c => c.CustID == recAcc.CustID);
+                            if (recCust != null) toName = recCust.CustName;
+                        }
+                    }
+
+                    transferItems.Add(new BigBank.Models.TransactionItem
+                    {
+                        Id = "SB" + tr.TransactionID.ToString(),
+                        AccountId = tr.SBAccountID,
+                        Date = tr.TransactionDate,
+                        Source = "Savings",
+                        Type = "Transfer",
+                        Amount = tr.Amount,
+                        Remarks = tr.Remarks,
+                        CustomerId = acc != null ? acc.CustID : null,
+                        CustomerName = fromCust != null ? fromCust.CustName : null,
+                        FromName = fromCust != null ? fromCust.CustName : null,
+                        ToName = toName ?? ""
+                    });
+                }
+
+                // union all lists in-memory
+                list = svQuery.Concat(fdQuery).Concat(lnQuery).Concat(transferItems).ToList();
+
+                // sorting
+                bool asc = string.Equals(dir, "asc", StringComparison.OrdinalIgnoreCase);
+                switch (sort)
+                {
+                    case "TransID":
+                        list = asc ? list.OrderBy(x => x.Id).ToList() : list.OrderByDescending(x => x.Id).ToList();
+                        break;
+                    case "Type":
+                        list = asc ? list.OrderBy(x => x.Source).ToList() : list.OrderByDescending(x => x.Source).ToList();
+                        break;
+                    case "CustomerID":
+                        list = asc ? list.OrderBy(x => x.CustomerId).ToList() : list.OrderByDescending(x => x.CustomerId).ToList();
+                        break;
+                    case "Amount":
+                        list = asc ? list.OrderBy(x => x.Amount).ToList() : list.OrderByDescending(x => x.Amount).ToList();
+                        break;
+                    case "Date":
+                    default:
+                        list = asc ? list.OrderBy(x => x.Date).ToList() : list.OrderByDescending(x => x.Date).ToList();
+                        break;
+                }
+            }
+
+            ViewBag.SortColumn = sort;
+            ViewBag.SortDir = dir;
+            ViewBag.Hours = hours;
+            return View(list);
+        }
+
+        // GET: ChangePassword
+        public ActionResult ChangePassword()
+        {
+            if (Session["UserType"] == null) return RedirectToAction("Login");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(string CurrentPassword, string NewPassword, string ConfirmPassword)
+        {
+            if (Session["UserType"] == null) return RedirectToAction("Login");
+
+            if (string.IsNullOrWhiteSpace(CurrentPassword) || string.IsNullOrWhiteSpace(NewPassword) || string.IsNullOrWhiteSpace(ConfirmPassword))
+            {
+                ModelState.AddModelError("", "All fields are required.");
+                return View();
+            }
+
+            if (NewPassword != ConfirmPassword)
+            {
+                ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
+                return View();
+            }
+
+            if (NewPassword.Length < 6)
+            {
+                ModelState.AddModelError("NewPassword", "New password must be at least 6 characters.");
+                return View();
+            }
+
+            var userType = Session["UserType"].ToString();
+            var userId = Session["UserID"].ToString();
+            var currentHash = HashPassword(CurrentPassword);
+            var newHash = HashPassword(NewPassword);
+
+            using (var db = new BigBankEntities())
+            {
+                if (userType == "Customer")
+                {
+                    var cust = db.Customers.FirstOrDefault(c => c.CustID == userId);
+                    if (cust == null) return RedirectToAction("Login");
+                    if (cust.Password == null || !cust.Password.SequenceEqual(currentHash))
+                    {
+                        ModelState.AddModelError("CurrentPassword", "Current password is incorrect.");
+                        return View();
+                    }
+
+                    db.Database.ExecuteSqlCommand("UPDATE Customer SET Password = @p0 WHERE CustID = @p1", newHash, userId);
+                }
+                else // Employee or Manager
+                {
+                    var emp = db.Employees.FirstOrDefault(e => e.EmpID == userId);
+                    if (emp == null) return RedirectToAction("Login");
+                    if (emp.Password == null || !emp.Password.SequenceEqual(currentHash))
+                    {
+                        ModelState.AddModelError("CurrentPassword", "Current password is incorrect.");
+                        return View();
+                    }
+
+                    db.Database.ExecuteSqlCommand("UPDATE Employee SET Password = @p0 WHERE EmpID = @p1", newHash, userId);
+                }
+            }
+
+            TempData["Message"] = "Password changed successfully!";
+            return RedirectToAction("ChangePassword");
+        }
+
+        private byte[] HashPassword(string password)
+        {
+            using (var sha = SHA256.Create())
+            {
+                return sha.ComputeHash(Encoding.UTF8.GetBytes(password ?? string.Empty));
+            }
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ManageAccounts()
+        {
+            var vm = new BigBank.Models.ManagerDashboardViewModel();
+            using (var db = new BigBankEntities())
+            {
+                vm.SavingsCount = db.SavingsAccounts.Count();
+                vm.FDCount = db.FDAccounts.Count();
+                vm.LoanCount = db.LoanAccounts.Count();
+                vm.TotalAccounts = vm.SavingsCount + vm.FDCount + vm.LoanCount;
+            }
+            return View(vm);
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ViewSavingsAccounts()
+        {
+            using (var db = new BigBankEntities())
+            {
+                var list = db.SavingsAccounts.OrderBy(s => s.SBAccountID).ToList();
+                return View(list);
+            }
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ViewFDAccounts()
+        {
+            using (var db = new BigBankEntities())
+            {
+                var list = db.FDAccounts.OrderBy(f => f.FDAccountID).ToList();
+                return View(list);
+            }
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ViewLoanAccounts()
+        {
+            using (var db = new BigBankEntities())
+            {
+                var list = db.LoanAccounts.OrderBy(l => l.LoanAccountID).ToList();
+                return View(list);
+            }
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult OpenSavingsAccount()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult OpenSavingsAccount(string CustID, decimal? InitialDeposit)
+        {
+            if (string.IsNullOrWhiteSpace(CustID) || !InitialDeposit.HasValue)
+            {
+                TempData["Error"] = "Customer ID and initial deposit are required.";
+                return View();
+            }
+
+            if (InitialDeposit.Value < 1000m)
+            {
+                TempData["Error"] = "Minimum opening balance is 1000.";
+                ViewBag.LastCustID = CustID;
+                ViewBag.LastDeposit = InitialDeposit;
+                return View();
+            }
+
+            string newId = null;
+            using (var db = new BigBankEntities())
+            {
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == CustID);
+                if (cust == null)
+                {
+                    TempData["Error"] = "Customer not found.";
+                    ViewBag.LastCustID = CustID;
+                    ViewBag.LastDeposit = InitialDeposit;
+                    return View();
+                }
+
+                // ensure customer doesn't already have a savings account (optional)
+                if (db.SavingsAccounts.Any(s => s.CustID == CustID))
+                {
+                    TempData["Error"] = "Customer already has a savings account.";
+                    ViewBag.LastCustID = CustID;
+                    ViewBag.LastDeposit = InitialDeposit;
+                    return View();
+                }
+
+                // create account and transaction in transaction
+                using (var tx = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var sql = "INSERT INTO SavingsAccount (CustID, Balance, CreatedOn) OUTPUT INSERTED.SBAccountID VALUES (@cust, @bal, @created)";
+                        newId = db.Database.SqlQuery<string>(sql, new SqlParameter("@cust", SqlDbType.VarChar) { Value = CustID }, new SqlParameter("@bal", SqlDbType.Decimal) { Value = InitialDeposit.Value }, new SqlParameter("@created", SqlDbType.DateTime) { Value = DateTime.Now }).FirstOrDefault();
+
+                        // insert transaction record (use 'D' type)
+                        db.Database.ExecuteSqlCommand("INSERT INTO SavingsTransaction (SBAccountID, TransactionDate, TransactionType, Amount, Remarks) VALUES (@p0,@p1,@p2,@p3,@p4)", newId, DateTime.Now, "D", InitialDeposit.Value, "Opening deposit by manager");
+
+                        tx.Commit();
+                        TempData["Success"] = "Savings account opened: " + newId;
+                    }
+                    catch (Exception ex)
+                    {
+                        tx.Rollback();
+                        TempData["Error"] = "Failed to open account: " + ex.Message;
+                        ViewBag.LastCustID = CustID;
+                        ViewBag.LastDeposit = InitialDeposit;
+                        return View();
+                    }
+                }
+            }
+
+            // return the same view and display the generated account id
+            ViewBag.NewAccountId = newId;
+            ViewBag.LastCustID = CustID;
+            ViewBag.LastDeposit = InitialDeposit;
+            return View();
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public JsonResult LookupCustomerName(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return Json(new { name = "" }, JsonRequestBehavior.AllowGet);
+            using (var db = new BigBankEntities())
+            {
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == id);
+                if (cust == null) return Json(new { name = "" }, JsonRequestBehavior.AllowGet);
+                return Json(new { name = cust.CustName }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public JsonResult LookupLoanAccount(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return Json(new { customerName = "", loanAmount = (decimal?)null, outstanding = (decimal?)null, monthlyEMI = (decimal?)null, todaysDate = "", nextDueDate = "" }, JsonRequestBehavior.AllowGet);
+            using (var db = new BigBankEntities())
+            {
+                var loan = db.LoanAccounts.FirstOrDefault(l => l.LoanAccountID == id);
+                if (loan == null) return Json(new { customerName = "", loanAmount = (decimal?)null, outstanding = (decimal?)null, monthlyEMI = (decimal?)null, todaysDate = "", nextDueDate = "" }, JsonRequestBehavior.AllowGet);
+                
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == loan.CustomerID);
+                var latestTxn = db.LoanTransactions.Where(t => t.LoanAccountID == id).OrderByDescending(t => t.EMIDate).FirstOrDefault();
+                decimal outstanding = latestTxn?.Outstanding ?? loan.TotalPayable ?? loan.LoanAmount;
+                
+                // Calculate monthly EMI using reducing balance method
+                decimal monthlyEMI = 0;
+                if (loan.Tenure > 0 && loan.LoanAmount > 0 && loan.InterestRate > 0)
+                {
+                    decimal monthlyRate = loan.InterestRate / 12m / 100m;
+                    int tenureMonths = loan.Tenure;
+                    
+                    // EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)
+                    double temp = Math.Pow((double)(1 + monthlyRate), tenureMonths);
+                    monthlyEMI = loan.LoanAmount * monthlyRate * (decimal)temp / ((decimal)temp - 1);
+                    monthlyEMI = Math.Round(monthlyEMI, 2);
+                }
+                
+                // Calculate next due date
+                string nextDueDate = "";
+                DateTime today = DateTime.Today;
+                
+                if (latestTxn != null)
+                {
+                    // Next EMI due after the latest transaction date
+                    DateTime nextDue = latestTxn.EMIDate.AddMonths(1);
+                    // If the calculated next due date is in the past, make it today
+                    if (nextDue < today)
+                    {
+                        nextDue = today;
+                    }
+                    nextDueDate = nextDue.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    // First EMI - due from loan start date or today, whichever is later
+                    DateTime firstDue = loan.StartDate > today ? loan.StartDate : today;
+                    nextDueDate = firstDue.ToString("yyyy-MM-dd");
+                }
+                
+                return Json(new { 
+                    customerName = cust != null ? cust.CustName : "", 
+                    loanAmount = loan.LoanAmount,
+                    outstanding = outstanding,
+                    monthlyEMI = monthlyEMI,
+                    todaysDate = today.ToString("yyyy-MM-dd"),
+                    nextDueDate = nextDueDate
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // GET: Pay EMI for Loan
+        [HttpGet]
+        public ActionResult PayEMI()
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Manager")
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult PayEMI(string LoanAccountID, decimal? Amount)
+        {
+            if (string.IsNullOrWhiteSpace(LoanAccountID) || !Amount.HasValue)
+            {
+                TempData["Error"] = "Loan Account ID and amount are required.";
+                return RedirectToAction("PayEMI");
+            }
+
+            if (Amount.Value <= 0)
+            {
+                TempData["Error"] = "Amount must be greater than zero.";
+                return RedirectToAction("PayEMI");
+            }
+
+            using (var db = new BigBankEntities())
+            {
+                var loan = db.LoanAccounts.FirstOrDefault(l => l.LoanAccountID == LoanAccountID);
+                if (loan == null)
+                {
+                    TempData["Error"] = "Loan account not found.";
+                    return RedirectToAction("PayEMI");
+                }
+
+                // Get latest transaction to find outstanding amount
+                var latestTxn = db.LoanTransactions
+                    .Where(t => t.LoanAccountID == LoanAccountID)
+                    .OrderByDescending(t => t.EMIDate)
+                    .FirstOrDefault();
+
+                decimal outstanding = latestTxn?.Outstanding ?? loan.TotalPayable ?? loan.LoanAmount;
+
+                if (Amount.Value > outstanding)
+                {
+                    TempData["Error"] = $"Payment amount cannot exceed outstanding balance of Rs {outstanding:N2}.";
+                    return RedirectToAction("PayEMI");
+                }
+
+                decimal newOutstanding = outstanding - Amount.Value;
+
+                // Insert EMI transaction
+                db.Database.ExecuteSqlCommand(
+                    "INSERT INTO LoanTransaction (LoanAccountID, EMIDate, Amount, Outstanding, Remarks) VALUES (@p0, @p1, @p2, @p3, @p4)",
+                    LoanAccountID, DateTime.Now, Amount.Value, newOutstanding, "EMI payment by manager");
+
+                // Update loan status if fully paid
+                if (newOutstanding == 0)
+                {
+                    db.Database.ExecuteSqlCommand("UPDATE LoanAccount SET Status = @p0 WHERE LoanAccountID = @p1", "Closed", LoanAccountID);
+                }
+
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == loan.CustomerID);
+                var custName = cust != null ? cust.CustName : loan.CustomerID;
+                TempData["Success"] = $"EMI payment of Rs {Amount.Value:N2} processed for {LoanAccountID} ({custName}). Outstanding: Rs {newOutstanding:N2}.";
+            }
+
+            return RedirectToAction("ViewLoanAccounts");
+        }
+
+        // GET: Open Loan Account for Manager
+        [HttpGet]
+        public ActionResult OpenLoanAccount()
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Manager")
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult OpenLoanAccount(string CustID, decimal? LoanAmount, decimal? MonthlyIncome, int? Tenure, DateTime? StartDate, decimal? InterestRate)
+        {
+            var errors = new List<string>();
+
+            // Validate required fields
+            if (string.IsNullOrWhiteSpace(CustID)) errors.Add("Customer ID is required.");
+            if (!LoanAmount.HasValue) errors.Add("Loan amount is required.");
+            if (!MonthlyIncome.HasValue) errors.Add("Monthly take home is required.");
+            if (!Tenure.HasValue) errors.Add("Tenure is required.");
+            if (!StartDate.HasValue) errors.Add("Start date is required.");
+
+            if (errors.Any())
+            {
+                TempData["Error"] = string.Join("<br/>", errors);
+                ViewBag.LastCustID = CustID;
+                return View();
+            }
+
+            // Minimum loan validation
+            if (LoanAmount.Value < 10000m)
+            {
+                TempData["Error"] = "Minimum loan amount is Rs 10,000.";
+                ViewBag.LastCustID = CustID;
+                return View();
+            }
+
+            string newLoanId = null;
+            decimal calculatedEMI = 0;
+            decimal totalPayable = 0;
+            using (var db = new BigBankEntities())
+            {
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == CustID);
+                if (cust == null)
+                {
+                    TempData["Error"] = "Customer not found.";
+                    ViewBag.LastCustID = CustID;
+                    return View();
+                }
+
+                // Check if senior citizen (age >= 60)
+                var age = (int)((DateTime.Today - cust.DOB).TotalDays / 365.25);
+                bool isSenior = age >= 60;
+
+                // Senior citizen validation: cannot get loan > 1 lakh
+                if (isSenior && LoanAmount.Value > 100000m)
+                {
+                    TempData["Error"] = "Senior citizens cannot be sanctioned a loan greater than Rs 1 lakh.";
+                    ViewBag.LastCustID = CustID;
+                    return View();
+                }
+
+                // Calculate interest rate based on loan amount and senior status
+                decimal rate;
+                if (isSenior)
+                {
+                    rate = 9.5m; // Fixed 9.5% for senior citizens
+                }
+                else
+                {
+                    if (LoanAmount.Value <= 500000m)
+                    {
+                        rate = 10m; // 10% for loans up to 5 lakhs
+                    }
+                    else if (LoanAmount.Value <= 1000000m)
+                    {
+                        rate = 9.5m; // 9.5% for loans from 5 lakhs to 10 lakhs
+                    }
+                    else
+                    {
+                        rate = 9m; // 9% for loans above 10 lakhs
+                    }
+                }
+
+                // Override with provided rate if specified (for manual adjustment)
+                if (InterestRate.HasValue && InterestRate.Value > 0)
+                {
+                    rate = InterestRate.Value;
+                }
+
+                // Calculate EMI using reducing balance method
+                // EMI = P × r × (1 + r)^n / ((1 + r)^n - 1)
+                // where P = principal, r = monthly rate, n = number of months
+                decimal monthlyRate = rate / 12m / 100m;
+                int tenureMonths = Tenure.Value;
+                
+                // Calculate EMI
+                double temp = Math.Pow((double)(1 + monthlyRate), tenureMonths);
+                calculatedEMI = LoanAmount.Value * monthlyRate * (decimal)temp / ((decimal)temp - 1);
+                calculatedEMI = Math.Round(calculatedEMI, 2);
+
+                // Removed validation: allow EMI above 60% of monthly income per request
+
+                // Calculate total payable
+                totalPayable = calculatedEMI * tenureMonths;
+                
+                // Calculate end date
+                var endDate = StartDate.Value.AddMonths(tenureMonths);
+
+                try
+                {
+                    using (var tx = db.Database.BeginTransaction())
+                    {
+                        // Insert loan account
+                        var sql = @"INSERT INTO LoanAccount (CustomerID, StartDate, EndDate, LoanAmount, InterestRate, Tenure, TotalPayable, Status)
+                                    OUTPUT INSERTED.LoanAccountID
+                                    VALUES (@cust, @start, @end, @amt, @rate, @tenure, @total, @status)";
+                        
+                        newLoanId = db.Database.SqlQuery<string>(sql,
+                            new SqlParameter("@cust", CustID),
+                            new SqlParameter("@start", StartDate.Value),
+                            new SqlParameter("@end", endDate),
+                            new SqlParameter("@amt", LoanAmount.Value),
+                            new SqlParameter("@rate", rate),
+                            new SqlParameter("@tenure", tenureMonths),
+                            new SqlParameter("@total", totalPayable),
+                            new SqlParameter("@status", "Active")
+                        ).FirstOrDefault();
+
+                        // Do not insert an opening LoanTransaction with Amount = 0 to avoid CHECK constraint violation.
+                        // If a transaction record is required, create it with a non-zero meaningful amount elsewhere.
+
+                        tx.Commit();
+
+                        TempData["Success"] = $"Loan account {newLoanId} created successfully!<br/>" +
+                            $"Monthly EMI: Rs {calculatedEMI:N2}<br/>" +
+                            $"Total Payable: Rs {totalPayable:N2}<br/>" +
+                            $"Interest Rate: {rate}%<br/>" +
+                            $"Tenure: {tenureMonths} months";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Failed to create loan account: " + ex.Message;
+                    ViewBag.LastCustID = CustID;
+                    return View();
+                }
+            }
+
+            ViewBag.NewLoanId = newLoanId;
+            ViewBag.EMI = calculatedEMI.ToString("N2");
+            ViewBag.TotalPayable = totalPayable.ToString("N2");
+            ViewBag.EndDate = StartDate.Value.AddMonths(Tenure.Value).ToShortDateString();
+            ViewBag.LastCustID = CustID;
+            return View();
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public JsonResult LookupCustomerDetails(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) 
+                return Json(new { name = "", dob = "", isSenior = false }, JsonRequestBehavior.AllowGet);
+            
+            using (var db = new BigBankEntities())
+            {
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == id);
+                if (cust == null) 
+                    return Json(new { name = "", dob = "", isSenior = false }, JsonRequestBehavior.AllowGet);
+                
+                var age = (int)((DateTime.Today - cust.DOB).TotalDays / 365.25);
+                bool isSenior = age >= 60;
+                
+                return Json(new { 
+                    name = cust.CustName, 
+                    dob = cust.DOB.ToString("yyyy-MM-dd"),
+                    isSenior = isSenior
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // GET: Foreclose Loan
+        [HttpGet]
+        public ActionResult ForeCloseLoan(string id = null)
+        {
+            if (Session["UserType"] == null || Session["UserType"].ToString() != "Manager")
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                ViewBag.LastLoanID = id;
+            }
+            
+            return View();
+        }
+
+        
+        [HttpPost]
+        [ActionName("ForeCloseLoan")]
+        [ValidateAntiForgeryToken]
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult ForeCloseLoanPost(string LoanAccountID)
+        {
+            if (string.IsNullOrWhiteSpace(LoanAccountID))
+            {
+                TempData["Error"] = "Loan Account ID is required.";
+                return View();
+            }
+
+            using (var db = new BigBankEntities())
+            {
+                var loan = db.LoanAccounts.FirstOrDefault(l => l.LoanAccountID == LoanAccountID);
+                if (loan == null)
+                {
+                    TempData["Error"] = "Loan account not found.";
+                    ViewBag.LastLoanID = LoanAccountID;
+                    return View();
+                }
+
+                // Get outstanding amount
+                var latestTxn = db.LoanTransactions
+                    .Where(t => t.LoanAccountID == LoanAccountID)
+                    .OrderByDescending(t => t.EMIDate)
+                    .FirstOrDefault();
+
+                decimal outstanding = latestTxn?.Outstanding ?? loan.TotalPayable ?? loan.LoanAmount;
+
+                if (outstanding == 0)
+                {
+                    TempData["Error"] = "Loan is already fully paid. Use Close option instead.";
+                    ViewBag.LastLoanID = LoanAccountID;
+                    return View();
+                }
+
+                try
+                {
+                    // Pay full outstanding and close
+                    db.Database.ExecuteSqlCommand(
+                        "INSERT INTO LoanTransaction (LoanAccountID, EMIDate, Amount, Outstanding, Remarks) VALUES (@p0, @p1, @p2, @p3, @p4)",
+                        LoanAccountID, DateTime.Now, outstanding, 0m, "Foreclosure - Full payment by manager");
+
+                    // Update status to Closed
+                    db.Database.ExecuteSqlCommand(
+                        "UPDATE LoanAccount SET Status = @p0 WHERE LoanAccountID = @p1",
+                        "Closed", LoanAccountID);
+
+                    ViewBag.ForeclosureSuccess = true;
+                    ViewBag.ForeClosedLoanId = LoanAccountID;
+                    ViewBag.AmountPaid = outstanding.ToString("N2");
+                    
+                    TempData["Success"] = $"Loan account {LoanAccountID} foreclosed successfully. Amount paid: Rs {outstanding:N2}";
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Failed to foreclose loan: " + ex.Message;
+                    ViewBag.LastLoanID = LoanAccountID;
+                    return View();
+                }
+            }
+
+            return View();
+        }
+
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult DownloadLoanReport()
+        {
+            using (var db = new BigBankEntities())
+            {
+                var loans = db.LoanAccounts.OrderBy(l => l.LoanAccountID).ToList();
+
+                var csv = new System.Text.StringBuilder();
+                csv.AppendLine("LoanAccountID,CustomerID,CustomerName,LoanAmount,InterestRate,Tenure(Months),TotalPayable,MonthlyEMI,Outstanding,StartDate,EndDate,Status");
+
+                foreach (var loan in loans)
+                {
+                    var cust = db.Customers.FirstOrDefault(c => c.CustID == loan.CustomerID);
+                    var custName = cust != null ? cust.CustName : "";
+
+                    // Calculate EMI
+                    decimal emi = 0;
+                    if (loan.Tenure > 0)
+                    {
+                        decimal monthlyRate = loan.InterestRate / 12m / 100m;
+                        double temp = Math.Pow((double)(1 + monthlyRate), loan.Tenure);
+                        emi = loan.LoanAmount * monthlyRate * (decimal)temp / ((decimal)temp - 1);
+                        emi = Math.Round(emi, 2);
+                    }
+
+                    // Get outstanding
+                    var latestTxn = db.LoanTransactions
+                        .Where(t => t.LoanAccountID == loan.LoanAccountID)
+                        .OrderByDescending(t => t.EMIDate)
+                        .FirstOrDefault();
+                    decimal outstanding = latestTxn?.Outstanding ?? loan.TotalPayable ?? loan.LoanAmount;
+
+                    csv.AppendLine($"{loan.LoanAccountID},{loan.CustomerID},\"{custName}\",{loan.LoanAmount:F2},{loan.InterestRate:F2},{loan.Tenure},{loan.TotalPayable:F2},{emi:F2},{outstanding:F2},{loan.StartDate:yyyy-MM-dd},{loan.EndDate:yyyy-MM-dd},{loan.Status}");
+                }
+
+                var bytes = System.Text.Encoding.UTF8.GetBytes(csv.ToString());
+                return File(bytes, "text/csv", "loan_accounts_report_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".csv");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [SessionAuthorize(RolesCsv = "Manager")]
+        [NoCache]
+        public ActionResult CloseLoanAccount(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                TempData["Error"] = "Loan account ID is required.";
+                return RedirectToAction("ViewLoanAccounts");
+            }
+
+            using (var db = new BigBankEntities())
+            {
+                var loan = db.LoanAccounts.FirstOrDefault(l => l.LoanAccountID == id);
+                if (loan == null)
+                {
+                    TempData["Error"] = "Loan account not found.";
+                    return RedirectToAction("ViewLoanAccounts");
+                }
+
+                // Check if loan is fully paid
+                var latestTxn = db.LoanTransactions
+                    .Where(t => t.LoanAccountID == id)
+                    .OrderByDescending(t => t.EMIDate)
+                    .FirstOrDefault();
+
+                decimal outstanding = latestTxn?.Outstanding ?? loan.TotalPayable ?? loan.LoanAmount;
+
+                if (outstanding != 0m)
+                {
+                    TempData["Error"] = $"Cannot close loan account: outstanding balance is Rs {outstanding:N2}. Please pay all EMIs first or use Foreclose option.";
+                    return RedirectToAction("ViewLoanAccounts");
+                }
+
+                try
+                {
+                    db.Database.ExecuteSqlCommand("DELETE FROM LoanTransaction WHERE LoanAccountID = @p0", id);
+                    db.Database.ExecuteSqlCommand("DELETE FROM LoanAccount WHERE LoanAccountID = @p0", id);
+                    TempData["Success"] = "Loan account closed successfully.";
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Failed to close loan account: " + ex.Message;
+                }
+            }
+
+            return RedirectToAction("ViewLoanAccounts");
+        }
+    }
+}

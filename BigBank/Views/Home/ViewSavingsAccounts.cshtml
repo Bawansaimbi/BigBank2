@@ -39,45 +39,111 @@
             @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
             @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
 
-            <table class="table table-sm">
-                <thead>
-                    <tr><th>#</th><th>SB Account ID</th><th>Cust ID</th><th>Cust Name</th><th>Balance</th><th>Created On</th><th></th></tr>
-                </thead>
-                <tbody>
-                    @for (int i=0;i<Model.Count;i++) {
-                        var a = Model[i];
-                        <tr>
-                            <td>@(i+1)</td>
-                            <td>@a.SBAccountID</td>
-                            <td>@a.CustID</td>
-                            <td>
-                                @{ 
-                                    var name = String.Empty;
-                                    using (var db = new BigBank.Models.BigBankEntities())
-                                    {
-                                        var c = db.Customers.FirstOrDefault(x => x.CustID == a.CustID);
-                                        if (c != null)
+            <div class="mb-3">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search..." />
+                <small class="text-muted">Total: <span id="totalCount">@Model.Count</span> account(s)</small>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-sm" id="accountsTable">
+                    <thead>
+                        <tr><th>#</th><th>SB Account ID</th><th>Cust ID</th><th>Cust Name</th><th>Balance</th><th>Created On</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        @for (int i=0;i<Model.Count;i++) {
+                            var a = Model[i];
+                            <tr>
+                                <td>@(i+1)</td>
+                                <td>@a.SBAccountID</td>
+                                <td>@a.CustID</td>
+                                <td>
+                                    @{ 
+                                        var name = String.Empty;
+                                        using (var db = new BigBank.Models.BigBankEntities())
                                         {
-                                            name = c.CustName;
+                                            var c = db.Customers.FirstOrDefault(x => x.CustID == a.CustID);
+                                            if (c != null)
+                                            {
+                                                name = c.CustName;
+                                            }
                                         }
                                     }
-                                }
-                                @name
-                            </td>
-                            <td>@("Rs " + a.Balance.ToString("N2"))</td>
-                            <td>@(a.CreatedOn.HasValue ? a.CreatedOn.Value.ToString("g") : "")</td>
-                            <td>
-                                @using (Html.BeginForm("CloseSavingsAccount","Home",FormMethod.Post, new { @onsubmit = "return confirm('Close account? This will delete transactions as well.');" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.Hidden("id", a.SBAccountID)
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Close</button>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                    @name
+                                </td>
+                                <td>@("Rs " + a.Balance.ToString("N2"))</td>
+                                <td>@(a.CreatedOn.HasValue ? a.CreatedOn.Value.ToString("g") : "")</td>
+                                <td>
+                                    @using (Html.BeginForm("CloseSavingsAccount","Home",FormMethod.Post, new { @onsubmit = "return confirm('Close account? This will delete transactions as well.');" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("id", a.SBAccountID)
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Close</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noResults" class="alert alert-info" style="display:none;">
+                No accounts found matching your search.
+            </div>
         </div>
     </div>
-</div></div>
+</div>
+
+<script>
+(function() {
+    var searchBox = document.getElementById('searchBox');
+    var table = document.getElementById('accountsTable');
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = tbody.getElementsByTagName('tr');
+    var totalCount = document.getElementById('totalCount');
+    var noResults = document.getElementById('noResults');
+
+    searchBox.addEventListener('keyup', function() {
+        var searchTerm = this.value.toLowerCase().trim();
+        var visibleCount = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cells = row.getElementsByTagName('td');
+            var found = false;
+
+            // Search in all relevant columns: Account ID (1), Cust ID (2), Cust Name (3), Balance (4), Created On (5)
+            for (var j = 1; j <= 5; j++) {
+                if (cells[j]) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    // Remove extra whitespace and convert to lowercase
+                    cellText = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+                    
+                    if (cellText.indexOf(searchTerm) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found || searchTerm === '') {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        // Update count
+        totalCount.textContent = visibleCount;
+
+        // Show/hide no results message
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResults.style.display = 'block';
+            table.style.display = 'none';
+        } else {
+            noResults.style.display = 'none';
+            table.style.display = 'table';
+        }
+    });
+})();
+</script>

@@ -259,7 +259,6 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\CustomerHome.cshtml" />
-    <Content Include="Views\Home\OpenSavings.cshtml" />
     <Content Include="Views\Home\OpenFD.cshtml" />
     <Content Include="Views\Home\OpenLoan.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
@@ -276,7 +275,6 @@
     <Content Include="Views\Home\ChangePassword.cshtml" />
     <Content Include="Views\Home\ManageAccounts.cshtml" />
     <Content Include="Views\Home\ViewSavingsAccounts.cshtml" />
-    <Content Include="Views\Home\ViewFDAccounts.cshtml" />
     <Content Include="Views\Home\ViewLoanAccounts.cshtml" />
     <Content Include="Views\Home\OpenSavingsAccount.cshtml" />
     <Content Include="Views\Home\DepositWithdraw.cshtml" />
@@ -289,6 +287,21 @@
     <Content Include="Views\Home\PayEMI.cshtml" />
     <Content Include="Views\Home\OpenLoanAccount.cshtml" />
     <Content Include="Views\Home\ForeCloseLoan.cshtml" />
+    <Content Include="Views\Home\WithdrawFD.cshtml" />
+    <Content Include="Views\Home\ViewFDAccounts.cshtml" />
+    <Content Include="Views\Home\SavingsEmployeeHome.cshtml" />
+    <Content Include="Views\Home\FDEmployeeHome.cshtml" />
+    <Content Include="Views\Home\LoanEmployeeHome.cshtml" />
+    <Content Include="Views\Home\EmployeeViewCustomers.cshtml" />
+    <Content Include="Views\Home\EmployeeViewSavingsAccounts.cshtml" />
+    <Content Include="Views\Home\EmployeeOpenSavingsAccount.cshtml" />
+    <Content Include="Views\Home\EmployeeViewSavingsTransactions.cshtml" />
+    <Content Include="Views\Home\EmployeeViewFDAccounts.cshtml" />
+    <Content Include="Views\Home\EmployeeOpenFDAccount.cshtml" />
+    <Content Include="Views\Home\EmployeeViewFDTransactions.cshtml" />
+    <Content Include="Views\Home\EmployeeViewLoanAccounts.cshtml" />
+    <Content Include="Views\Home\EmployeeViewLoanTransactions.cshtml" />
+    <Content Include="Views\Home\EmployeeHome.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

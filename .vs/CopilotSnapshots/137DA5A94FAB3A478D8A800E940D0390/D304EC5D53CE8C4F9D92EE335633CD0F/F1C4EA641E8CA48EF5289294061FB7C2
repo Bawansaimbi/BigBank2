@@ -1,0 +1,68 @@
+﻿@model List<BigBank.Models.Customer>
+
+@{
+    ViewBag.Title = "View Customers";
+    string currentSort = ViewBag.SortColumn as string ?? "CreatedOn";
+    string currentDir = ViewBag.SortDir as string ?? "desc";
+    Func<string,string> sortLink = col => {
+        var dir = (currentSort == col && currentDir == "asc") ? "desc" : "asc";
+        return Url.Action("ViewCustomers", "Home", new { sort = col, dir = dir });
+    };
+    Func<string,string> sortIndicator = col => {
+        if (string.Equals(currentSort, col, StringComparison.OrdinalIgnoreCase))
+        {
+            return currentDir == "asc" ? " &uarr;" : " &darr;";
+        }
+        return string.Empty;
+    };
+}
+
+<div class="container py-4">
+    <h2>Customers</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">All Customers</h5>
+            <div class="table-responsive" style="height:400px; overflow:auto;">
+                <table class="table table-sm mb-0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th style="width:6%;">Sr. No.</th>
+                            <th style="width:18%;"><a href="@sortLink("CustID")">Customer ID</a>@Html.Raw(sortIndicator("CustID"))</th>
+                            <th><a href="@sortLink("CustName")">Name</a>@Html.Raw(sortIndicator("CustName"))</th>
+                            <th style="width:20%;"><a href="@sortLink("PAN")">PAN</a>@Html.Raw(sortIndicator("PAN"))</th>
+                            <th style="width:15%;"><a href="@sortLink("CreatedOn")">Member Since</a>@Html.Raw(sortIndicator("CreatedOn"))</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Count; i++)
+                            {
+                                var c = Model[i];
+                                <tr>
+                                    <td>@(i+1)</td>
+                                    <td>@c.CustID</td>
+                                    <td>@c.CustName</td>
+                                    <td>@c.PAN</td>
+                                    <td>@(c.CreatedOn.HasValue ? c.CreatedOn.Value.ToString("yyyy-MM-dd") : "")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-muted">No customers found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* keep the card fixed size and allow internal scrolling */
+    .card .table-responsive { max-height: 400px; }
+</style>

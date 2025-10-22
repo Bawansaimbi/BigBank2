@@ -35,13 +35,15 @@
 
         <div class="col-12 col-md-4">
             <div class="d-flex flex-column gap-3">
-                <div class="card h-100 p-3 text-center summary-card" title="Savings: @Model.SavingsCount, FD: @Model.FDCount, Loan: @Model.LoanCount">
-                    <div class="card-body">
-                        <div class="mb-2"><i class="bi bi-bank" style="font-size:1.5rem;color:#198754"></i></div>
-                        <div class="h5 mb-0">@Model.TotalAccounts</div>
-                        <div class="small text-muted">Total Accounts</div>
+                <a href="@Url.Action("ManageAccounts","Home")" class="text-decoration-none">
+                    <div class="card h-100 p-3 text-center summary-card" title="Savings: @Model.SavingsCount, FD: @Model.FDCount, Loan: @Model.LoanCount">
+                        <div class="card-body">
+                            <div class="mb-2"><i class="bi bi-bank" style="font-size:1.5rem;color:#198754"></i></div>
+                            <div class="h5 mb-0">@Model.TotalAccounts</div>
+                            <div class="small text-muted">Total Accounts</div>
+                        </div>
                     </div>
-                </div>
+                </a>
 
                 <div class="card h-100 p-3 text-center summary-card">
                     <div class="card-body">
