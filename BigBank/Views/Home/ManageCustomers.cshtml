@@ -1,0 +1,69 @@
+@{
+    ViewBag.Title = "Manage Customers";
+}
+
+<div class="container py-4">
+    <h2>Manage Customers</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@Html.Raw(TempData["Success"])</div>
+    }
+    @if (TempData["NewCustomerInfo"] != null)
+    {
+        <div class="alert alert-success">@Html.Raw(TempData["NewCustomerInfo"])</div>
+    }
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Add Customer</h5>
+                    @using (Html.BeginForm("AddCustomer","Home",FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="mb-2">
+                            <input name="CustName" class="form-control" placeholder="Full Name" />
+                        </div>
+                        <div class="mb-2">
+                            <input name="DOB" class="form-control" type="date" />
+                        </div>
+                        <div class="mb-2">
+                            <input name="PAN" class="form-control" placeholder="PAN (8 chars: ABCD1234)" maxlength="8" />
+                        </div>
+                        <div class="mb-2">
+                            <select name="Gender" class="form-control"><option value="M">Male</option><option value="F">Female</option></select>
+                        </div>
+                        <div class="mb-2">
+                            <input name="Address" class="form-control" placeholder="Address" />
+                        </div>
+                        <div class="mb-2">
+                            <input name="PhoneNum" class="form-control" placeholder="Phone Number" />
+                        </div>
+                        <button class="btn btn-success" type="submit">Add Customer</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Remove Customer</h5>
+                    @using (Html.BeginForm("RemoveCustomer","Home",FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="mb-2">
+                            <input name="CustID" class="form-control" placeholder="Customer ID" />
+                        </div>
+                        <button class="btn btn-danger" type="submit">Remove Customer</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

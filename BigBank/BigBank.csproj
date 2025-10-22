@@ -131,6 +131,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\NoCacheAttribute.cs" />
+    <Compile Include="Filters\SessionAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -266,6 +268,27 @@
     <Content Include="Views\Customer\ViewLoan.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
     <Content Include="Views\Home\ManagerHome.cshtml" />
+    <Content Include="Views\Home\ViewCustomers.cshtml" />
+    <Content Include="Views\Home\ViewEmployees.cshtml" />
+    <Content Include="Views\Home\ManageCustomers.cshtml" />
+    <Content Include="Views\Home\ManageEmployees.cshtml" />
+    <Content Include="Views\Home\ViewTransactions.cshtml" />
+    <Content Include="Views\Home\ChangePassword.cshtml" />
+    <Content Include="Views\Home\ManageAccounts.cshtml" />
+    <Content Include="Views\Home\ViewSavingsAccounts.cshtml" />
+    <Content Include="Views\Home\ViewFDAccounts.cshtml" />
+    <Content Include="Views\Home\ViewLoanAccounts.cshtml" />
+    <Content Include="Views\Home\OpenSavingsAccount.cshtml" />
+    <Content Include="Views\Home\DepositWithdraw.cshtml" />
+    <Content Include="Views\Home\OpenFDAccount.cshtml" />
+    <Content Include="Views\Home\ForecloseFD.cshtml" />
+    <Content Include="Views\FD\Manage.cshtml" />
+    <Content Include="Views\FD\ViewFDAccounts.cshtml" />
+    <Content Include="Views\FD\AddFDAccount.cshtml" />
+    <Content Include="Views\FD\ForecloseFD.cshtml" />
+    <Content Include="Views\Home\PayEMI.cshtml" />
+    <Content Include="Views\Home\OpenLoanAccount.cshtml" />
+    <Content Include="Views\Home\ForeCloseLoan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

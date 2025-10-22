@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Deposit / Withdraw";
+}
+
+<div class="container py-4">
+    <h2>Deposit / Withdraw</h2>
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+
+    @using (Html.BeginForm("DepositWithdraw","Home",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row g-2 align-items-end">
+            <div class="col-12 col-md-4">
+                <label class="form-label small">Account ID</label>
+                <input name="AccountID" id="accountIdInput" class="form-control" placeholder="SB..." />
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="form-label small">Amount</label>
+                <div class="input-group">
+                    <span class="input-group-text">Rs</span>
+                    <input name="Amount" type="number" min="1" step="0.01" class="form-control" placeholder="Amount" />
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <label class="form-label small">Mode</label>
+                <select name="Mode" class="form-select">
+                    <option value="Deposit">Deposit</option>
+                    <option value="Withdraw">Withdraw</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-1 d-grid">
+                <button class="btn btn-primary" type="submit">Go</button>
+            </div>
+        </div>
+    }
+
+    <div class="mt-2">
+        <input id="accountName" class="form-control" readonly placeholder="Customer name will appear here when you enter an account ID" />
+    </div>
+</div>
+
+<script>
+    (function(){
+        var input = document.getElementById('accountIdInput');
+        var nameBox = document.getElementById('accountName');
+        if (!input) return;
+        input.addEventListener('blur', function(){
+            var acc = input.value.trim();
+            if (!acc) { nameBox.value = ''; return; }
+            fetch('/Home/LookupAccountName?id=' + encodeURIComponent(acc))
+                .then(function(res){ return res.json(); })
+                .then(function(data){ if (data && data.name) nameBox.value = data.name; else nameBox.value = 'Not found'; })
+                .catch(function(){ nameBox.value = 'Error'; });
+        });
+    })();
+</script>

@@ -75,7 +75,7 @@ footer {
     display: block;
 }
 
-/* Dark mode */
+/* Dark mode (disabled)
 .dark-mode {
     background-color: #0f172a !important; /* slate-900 */
     color: #e2e8f0; /* slate-200 */
@@ -91,17 +91,19 @@ footer {
 .dark-mode .dropdown-item { color: #e5e7eb; }
 .dark-mode .dropdown-item:hover { background-color: #1f2937; }
 .dark-mode footer { background-color: #0b1324; color: #94a3b8; }
+*/
 
-/* Remove focus outline for the theme toggle button only */
-#themeToggle:focus, #themeToggle:active, #themeToggle:focus-visible {
+/* Remove focus outline for the theme toggle button only (toggle removed) */
+/*#themeToggle:focus, #themeToggle:active, #themeToggle:focus-visible {
     outline: none !important;
     box-shadow: none !important;
-}
+}*/
 
-/* Slightly reduce button border on small toggle */
+/* Slightly reduce button border on small toggle (toggle removed)
 #themeToggle {
     border-width: 1px !important;
 }
+*/
 
 /* Ensure mustard/yellow action buttons inside cards align horizontally across a row */
 .card.h-100 .card-body {
@@ -116,6 +118,36 @@ footer {
 .btn-primary, .btn-outline-mustard {
     padding-top: .55rem;
     padding-bottom: .55rem;
+}
+
+/* Solid mustard button with white text for prominent actions */
+.btn-mustard {
+    background-color: #d4a017 !important; /* mustard */
+    border-color: #d4a017 !important;
+    color: #ffffff !important;
+}
+.btn-mustard:hover, .btn-mustard:focus, .btn-mustard:active {
+    background-color: #b88700 !important;
+    border-color: #b88700 !important;
+    color: #ffffff !important;
+}
+
+/* Keep outline variant for less prominent actions */
+.btn-outline-mustard {
+    color: #d4a017;
+    border-color: #d4a017;
+}
+.btn-check:checked + .btn-outline-mustard {
+    color: #fff;
+    background-color: #d4a017 !important;
+    border-color: #d4a017 !important;
+    transform: scale(1.02);
+}
+.btn-outline-mustard.active, .btn-outline-mustard:active, .btn-outline-mustard:hover {
+    color: #fff;
+    background-color: #d4a017 !important;
+    border-color: #d4a017 !important;
+    transform: scale(1.02);
 }
 
 /* Highlighted current balance style used in account details */

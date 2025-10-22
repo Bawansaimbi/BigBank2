@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Pay EMI";
+}
+
+<div class="container py-4">
+    <h2>Pay EMI</h2>
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+
+    @using (Html.BeginForm("PayEMI","Home",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row g-2 align-items-end">
+            <div class="col-12 col-md-5">
+                <label class="form-label small">Loan Account ID</label>
+                <input name="LoanAccountID" id="loanAccountInput" class="form-control" placeholder="LN..." />
+            </div>
+            <div class="col-12 col-md-5">
+                <label class="form-label small">EMI Amount</label>
+                <div class="input-group">
+                    <span class="input-group-text">Rs</span>
+                    <input name="Amount" type="number" min="1" step="0.01" class="form-control" placeholder="Amount" />
+                </div>
+            </div>
+            <div class="col-12 col-md-2 d-grid">
+                <button class="btn btn-primary" type="submit">Pay</button>
+            </div>
+        </div>
+    }
+
+    <div class="row g-2 mt-2">
+        <div class="col-12 col-md-4">
+            <input id="custName" class="form-control" readonly placeholder="Customer name" />
+        </div>
+        <div class="col-12 col-md-4">
+            <input id="loanAmount" class="form-control" readonly placeholder="Loan amount" />
+        </div>
+        <div class="col-12 col-md-4">
+            <input id="outstanding" class="form-control" readonly placeholder="Outstanding balance" />
+        </div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        var input = document.getElementById('loanAccountInput');
+        var nameBox = document.getElementById('custName');
+        var loanBox = document.getElementById('loanAmount');
+        var outBox = document.getElementById('outstanding');
+        
+        if (!input) return;
+        
+        function lookup(){
+            var id = input.value.trim();
+            if (!id) { 
+                if (nameBox) nameBox.value = ''; 
+                if (loanBox) loanBox.value=''; 
+                if (outBox) outBox.value='';
+                return; 
+            }
+            
+            fetch('/Home/LookupLoanAccount?id=' + encodeURIComponent(id))
+                .then(function(res){ return res.json(); })
+                .then(function(data){ 
+                    if (data) {
+                        if (nameBox) nameBox.value = data.customerName || 'Not found'; 
+                        if (loanBox) loanBox.value = (data.loanAmount != null) ? ('Rs ' + parseFloat(data.loanAmount).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})) : '';
+                        if (outBox) outBox.value = (data.outstanding != null) ? ('Rs ' + parseFloat(data.outstanding).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})) : '';
+                    }
+                })
+                .catch(function(){ 
+                    if (nameBox) nameBox.value = 'Error'; 
+                    if (loanBox) loanBox.value=''; 
+                    if (outBox) outBox.value='';
+                });
+        }
+        
+        input.addEventListener('blur', lookup);
+        input.addEventListener('change', lookup);
+    })();
+</script>

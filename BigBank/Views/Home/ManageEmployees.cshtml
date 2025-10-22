@@ -1,0 +1,78 @@
+@{
+    ViewBag.Title = "Manage Employees";
+}
+
+<div class="container py-4">
+    <h2>Manage Employees</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@Html.Raw(TempData["Success"])</div>
+    }
+    @if (TempData["NewEmployeeInfo"] != null)
+    {
+        <div class="alert alert-success">@Html.Raw(TempData["NewEmployeeInfo"])</div>
+    }
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Add Employee</h5>
+                    @using (Html.BeginForm("AddEmployee","Home",FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="mb-2">
+                            <input name="EmpName" class="form-control" placeholder="Full Name" />
+                        </div>
+                        <div class="mb-2">
+                            <select name="Gender" class="form-control"><option value="M">Male</option><option value="F">Female</option></select>
+                        </div>
+                        <div class="mb-2">
+                            <input name="PAN" class="form-control" placeholder="PAN (8 chars: ABCD1234)" maxlength="8" />
+                        </div>
+                        <div class="mb-2">
+                            <input name="PhoneNum" class="form-control" placeholder="Phone Number" maxlength="10" />
+                        </div>
+                        <div class="mb-2">
+                            <input name="Address" class="form-control" placeholder="Address" />
+                        </div>
+                        <div class="mb-2">
+                            <select name="DeptID" class="form-control">
+                                <option value="">Select Department</option>
+                                @foreach(var d in ViewBag.Departments as List<BigBank.Models.Department>)
+                                {
+                                    <option value="@d.DeptID">@d.DeptName</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <select name="EmpType" class="form-control"><option value="E">Employee</option><option value="M">Manager</option></select>
+                        </div>
+                        <button class="btn btn-success" type="submit">Add Employee</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Remove Employee</h5>
+                    @using (Html.BeginForm("RemoveEmployee","Home",FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="mb-2">
+                            <input name="EmpID" class="form-control" placeholder="Employee ID" />
+                        </div>
+                        <button class="btn btn-danger" type="submit">Remove Employee</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

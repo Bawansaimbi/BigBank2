@@ -1,0 +1,47 @@
+@model BigBank.Models.ManagerDashboardViewModel
+
+@{
+    ViewBag.Title = "Manage Accounts";
+}
+
+<div class="container py-4">
+    <h2>Accounts</h2>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <a href="@Url.Action("ViewSavingsAccounts","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>Savings Accounts</h5>
+                        <div class="h4">@Model.SavingsCount</div>
+                        <div class="small text-muted">Total savings accounts</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="@Url.Action("ViewFDAccounts","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>FD Accounts</h5>
+                        <div class="h4">@Model.FDCount</div>
+                        <div class="small text-muted">Total FD accounts</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="@Url.Action("ViewLoanAccounts","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>Loan Accounts</h5>
+                        <div class="h4">@Model.LoanCount</div>
+                        <div class="small text-muted">Total loan accounts</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

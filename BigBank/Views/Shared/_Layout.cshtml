@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var userType = Session["UserType"]?.ToString();
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,14 +9,13 @@
     <title>@ViewBag.Title - BigBank</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <!-- Bootstrap Icons for sun/moon toggle -->
+    <!-- Bootstrap Icons for sun/moon toggle (icons still used elsewhere) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 </head>
 <body class="d-flex flex-column min-vh-100 interactive-bg">
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
         <div class="container">
             @{
-                var userType = Session["UserType"]?.ToString();
                 var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? string.Empty;
                 var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
                 var isCustomerHome = string.Equals(currentController, "Customer", StringComparison.OrdinalIgnoreCase) && string.Equals(currentAction, "Index", StringComparison.OrdinalIgnoreCase);
@@ -34,9 +36,9 @@
                 }
             }
 
-            @Html.ActionLink("BigBank", "Login", "Home", new { area = "" }, new { @class = "navbar-brand me-3", style = "font-size:1.375rem;" })
+            <span class="navbar-brand me-3" style="font-size:1.375rem;color:inherit;">BigBank</span>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -60,24 +62,18 @@
                             }
                         </li>
                     </ul>
+                }
 
-                    <!-- My Profile on right with profile icon -->
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item d-flex align-items-center me-2">
-                            <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" title="Switch theme" aria-label="Switch theme">
-                                <i class="bi bi-moon-fill" aria-hidden="true"></i>
-                            </button>
+                @* Right side: for authenticated users show Change Password + Logout; for guests show Login/Register *@
+                @if (!string.IsNullOrEmpty(userType))
+                {
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <!-- Dark mode toggle removed -->
+                        <li class="nav-item me-2">
+                            <a class="btn btn-mustard btn-sm" href="@Url.Action("ChangePassword","Home")">Change Password</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="myProfileTop" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle" style="font-size:1.25rem; margin-right:.4rem;color:#d4a017"></i> My Profile
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="myProfileTop">
-                                <li><a class="dropdown-item" href="@Url.Action("Index","Customer")">Profile</a></li>
-                                <li><a class="dropdown-item" href="@Url.Action("Settings","Home")">Settings</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "dropdown-item" })</li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="btn btn-danger btn-sm" href="@Url.Action("Logout","Home")">Logout</a>
                         </li>
                     </ul>
                 }
@@ -86,14 +82,6 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">@Html.ActionLink("Login", "Login", "Home", new { area = "" }, new { @class = "nav-link", style = "font-size:1.375rem;" })</li>
                         <li class="nav-item">@Html.ActionLink("Register", "Register", "Home", new { area = "" }, new { @class = "nav-link", style = "font-size:1.375rem;" })</li>
-                    </ul>
-                }
-
-                @if (userType == "Manager")
-                {
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">@Html.ActionLink("Manager", "ManagerHome", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li class="nav-item">@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     </ul>
                 }
             </div>
@@ -113,33 +101,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script>
-        (function () {
-            var key = 'bb-theme';
-            var btn = document.getElementById('themeToggle');
-            var body = document.body;
-            function apply(theme) {
-                if (theme === 'dark') {
-                    body.classList.add('dark-mode');
-                    if (btn) { btn.innerHTML = '<i class="bi bi-sun-fill" aria-hidden="true"></i>'; btn.title = 'Switch to light mode'; }
-                } else {
-                    body.classList.remove('dark-mode');
-                    if (btn) { btn.innerHTML = '<i class="bi bi-moon-fill" aria-hidden="true"></i>'; btn.title = 'Switch to dark mode'; }
-                }
-            }
-            try {
-                var saved = localStorage.getItem(key) || 'light';
-                apply(saved);
-                if (btn) {
-                    btn.addEventListener('click', function () {
-                        var next = body.classList.contains('dark-mode') ? 'light' : 'dark';
-                        localStorage.setItem(key, next);
-                        apply(next);
-                    });
-                }
-            } catch (e) { /* no-op */ }
-        })();
-    </script>
+    <!-- Theme toggle script removed to disable dark mode -->
     @RenderSection("scripts", required: false)
 </body>
 </html>

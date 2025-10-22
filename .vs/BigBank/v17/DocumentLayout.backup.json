@@ -1,141 +1,244 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\",
+  "WorkspaceRootPath": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\viewloanaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\viewloanaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\accountviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\accountviewmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\home\\customerhome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\customerhome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\CustomerController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Controllers\\CustomerController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\customer\\viewsavings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\customer\\viewsavings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\viewsavingsaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\viewsavingsaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\home\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Content\\Site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Content\\Site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\home\\openfd.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\openfd.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Shared\\_Layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Shared\\_Layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\content\\site.css||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\content\\site.css||{8B382828-6202-11D1-8870-0000F87579D2}|"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\shared\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\ManagerDashboardViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\ManagerDashboardViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\bigbankmodel.edmx||{C99AEA30-8E36-4515-B76F-496F5A48A6AA}|",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\bigbankmodel.edmx||{C99AEA30-8E36-4515-B76F-496F5A48A6AA}|"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\App_Start\\RouteConfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\App_Start\\RouteConfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\customerdashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\customerdashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\managecustomers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\managecustomers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\opensavingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\opensavingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\filters\\nocacheattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\filters\\nocacheattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\openfdviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\openfdviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\viewcustomers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\viewcustomers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\openloanviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\openloanviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\filters\\sessionauthorizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\filters\\sessionauthorizeattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\home\\opensavings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\opensavings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\Employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\home\\openloan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\openloan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\content\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\content\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bawandeepsingh.s\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\theme.css||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\customer\\viewfd.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\customer\\viewfd.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\Department.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\customer\\viewloan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\customer\\viewloan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManagerHome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\ManagerHome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\content\\theme.css||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\content\\theme.css||{8B382828-6202-11D1-8870-0000F87579D2}|"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\Settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\savingsdetailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\savingsdetailviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\OpenLoan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\SavingsDetailViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\SavingsDetailViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\app_start\\routeconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenSavings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\OpenSavings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\home\\settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\settings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\AccountViewModels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\AccountViewModels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\models\\managerdashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\models\\managerdashboardviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewSavings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Customer\\ViewSavings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\bigbank\\bigbank\\views\\home\\managerhome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\managerhome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Content\\Site.css||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Content\\Site.css||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Customer\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\CustomerHome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\CustomerHome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\packages.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\Register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewFD.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Customer\\ViewFD.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewLoan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Customer\\ViewLoan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\CustomerDashboardViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\CustomerDashboardViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenFD.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\OpenFD.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenSavingsViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\OpenSavingsViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\Index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenFDViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\OpenFDViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenLoanViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\OpenLoanViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\BigBankModel.edmx||{C99AEA30-8E36-4515-B76F-496F5A48A6AA}|",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\BigBankModel.edmx||{C99AEA30-8E36-4515-B76F-496F5A48A6AA}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\app_start\\filterconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\app_start\\filterconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\viewemployees.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\viewemployees.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\manageemployees.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\manageemployees.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\viewtransactions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\viewtransactions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\manageaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\manageaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\viewfdaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\viewfdaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\opensavingsaccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\opensavingsaccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\depositwithdraw.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\depositwithdraw.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\home\\openfdaccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\openfdaccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\home\\foreclosefd.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\foreclosefd.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\fd\\manage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\fd\\manage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\fd\\viewfdaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\fd\\viewfdaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\fd\\addfdaccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\fd\\addfdaccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\fd\\foreclosefd.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\fd\\foreclosefd.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\payemi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\payemi.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\openloanaccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\openloanaccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\forecloseloan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\forecloseloan.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -145,21 +248,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "Login.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Login.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Login.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\Login.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Login.cshtml",
               "RelativeToolTip": "BigBank\\Views\\Home\\Login.cshtml",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAAwCMAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-10-21T04:03:33.993Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "BigBank\\Controllers\\CustomerController.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "BigBank\\Controllers\\CustomerController.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAwwHYAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T07:27:42.235Z",
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -188,430 +303,700 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Customer.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\Customer.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\Customer.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\Customer.cs",
-              "RelativeToolTip": "BigBank\\Models\\Customer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T13:17:10.513Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Department.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\Department.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\Department.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\Department.cs",
-              "RelativeToolTip": "BigBank\\Models\\Department.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T13:17:09.736Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Employee.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\Employee.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\Employee.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\Employee.cs",
-              "RelativeToolTip": "BigBank\\Models\\Employee.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T13:17:08.773Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "ManagerHome.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\ManagerHome.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ManagerHome.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\ManagerHome.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Home\\ManagerHome.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADQAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T13:03:03.982Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "ManagerDashboardViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\ManagerDashboardViewModel.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\ManagerDashboardViewModel.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\ManagerDashboardViewModel.cs",
-              "RelativeToolTip": "BigBank\\Models\\ManagerDashboardViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T13:02:39.705Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Controllers\\HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "BigBank\\Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\HomeController.cs",
               "RelativeToolTip": "BigBank\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAWwGMBAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAA0FAAAAAAAAAAApwIUGAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-21T03:40:23.611Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "ForeCloseLoan.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ForeCloseLoan.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ForeCloseLoan.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ForeCloseLoan.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ForeCloseLoan.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T14:10:36.844Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "PayEMI.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\PayEMI.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\PayEMI.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\PayEMI.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\PayEMI.cshtml",
+              "ViewState": "AgIAAHAAAAAAAAAAACBjwHgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T13:56:23.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "ForecloseFD.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\ForecloseFD.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\FD\\ForecloseFD.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\ForecloseFD.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\FD\\ForecloseFD.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T13:02:36.76Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "AddFDAccount.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\AddFDAccount.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\FD\\AddFDAccount.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\AddFDAccount.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\FD\\AddFDAccount.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T13:02:27.944Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "ViewFDAccounts.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\ViewFDAccounts.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\FD\\ViewFDAccounts.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\ViewFDAccounts.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\FD\\ViewFDAccounts.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T13:02:19.974Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ViewLoanAccounts.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewLoanAccounts.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewLoanAccounts.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewLoanAccounts.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ViewLoanAccounts.cshtml",
+              "ViewState": "AgIAAEYAAAAAAAAAAAArwFMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T09:43:21.125Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "OpenLoanAccount.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoanAccount.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenLoanAccount.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoanAccount.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\OpenLoanAccount.cshtml",
+              "ViewState": "AgIAAOIAAAAAAAAAACBjwOoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T13:56:49.19Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "Manage.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\Manage.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\FD\\Manage.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\Manage.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\FD\\Manage.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T13:02:07.073Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "ForecloseFD.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ForecloseFD.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ForecloseFD.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ForecloseFD.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ForecloseFD.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T12:07:09.903Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "OpenFDAccount.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenFDAccount.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenFDAccount.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenFDAccount.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\OpenFDAccount.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T12:06:54.838Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "ViewFDAccounts.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewFDAccounts.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewFDAccounts.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewFDAccounts.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ViewFDAccounts.cshtml",
+              "ViewState": "AgIAAA0AAAAAAAAAAABxwBwAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T09:43:13.817Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "CustomerController.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Controllers\\CustomerController.cs",
-              "RelativeDocumentMoniker": "BigBank\\Controllers\\CustomerController.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Controllers\\CustomerController.cs",
-              "RelativeToolTip": "BigBank\\Controllers\\CustomerController.cs",
-              "ViewState": "AgIAAFIAAAAAAAAAAAAawGIAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T07:27:42.235Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "Settings.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\Settings.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Settings.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\Settings.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Home\\Settings.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAGAAAAAAAAAA==",
+              "Title": "ViewSavingsAccounts.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewSavingsAccounts.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewSavingsAccounts.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewSavingsAccounts.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ViewSavingsAccounts.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T12:42:17.804Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T09:43:02.832Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "OpenLoan.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\OpenLoan.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenLoan.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\OpenLoan.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Home\\OpenLoan.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 49,
+              "Title": "OpenSavingsAccount.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenSavingsAccount.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenSavingsAccount.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenSavingsAccount.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\OpenSavingsAccount.cshtml",
+              "ViewState": "AgIAADUAAAAAAAAAAEBlwD4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T04:04:17.004Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T10:05:46.577Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "SavingsDetailViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\SavingsDetailViewModel.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\SavingsDetailViewModel.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\SavingsDetailViewModel.cs",
-              "RelativeToolTip": "BigBank\\Models\\SavingsDetailViewModel.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAIBHwBMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T09:24:44.14Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "OpenSavings.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\OpenSavings.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenSavings.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\OpenSavings.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Home\\OpenSavings.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 47,
+              "Title": "ManageAccounts.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManageAccounts.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ManageAccounts.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManageAccounts.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ManageAccounts.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T04:04:03.425Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AccountViewModels.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\AccountViewModels.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\AccountViewModels.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\AccountViewModels.cs",
-              "RelativeToolTip": "BigBank\\Models\\AccountViewModels.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAYwCgAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T03:50:35.803Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "RouteConfig.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\App_Start\\RouteConfig.cs",
-              "RelativeDocumentMoniker": "BigBank\\App_Start\\RouteConfig.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\App_Start\\RouteConfig.cs",
-              "RelativeToolTip": "BigBank\\App_Start\\RouteConfig.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T11:13:47.718Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ViewSavings.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Customer\\ViewSavings.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\ViewSavings.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Customer\\ViewSavings.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Customer\\ViewSavings.cshtml",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAmwAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T07:27:54.046Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Site.css",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\Site.css",
-              "RelativeDocumentMoniker": "BigBank\\Content\\Site.css",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\Site.css",
-              "RelativeToolTip": "BigBank\\Content\\Site.css",
-              "ViewState": "AgIAAGoAAAAAAAAAAAAtwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-21T04:05:04.497Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Customer\\Index.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\Index.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Customer\\Index.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Customer\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T07:27:47.503Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T09:42:51.598Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "CustomerHome.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\CustomerHome.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\CustomerHome.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\CustomerHome.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Home\\CustomerHome.cshtml",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAmwEEAAAAAAAAAAAAAAA==",
+              "Title": "Error.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Shared\\Error.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Shared\\Error.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Shared\\Error.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Shared\\Error.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T04:03:57.594Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T08:55:06.769Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "theme.css",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\theme.css",
-              "RelativeDocumentMoniker": "BigBank\\Content\\theme.css",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\theme.css",
-              "RelativeToolTip": "BigBank\\Content\\theme.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIgAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 50,
+              "Title": "DepositWithdraw.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\DepositWithdraw.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\DepositWithdraw.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\DepositWithdraw.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\DepositWithdraw.cshtml",
+              "ViewState": "AgIAAD0AAAAAAAAAACBjwEUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T10:05:56.043Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T08:55:04.441Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "ViewTransactions.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewTransactions.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewTransactions.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewTransactions.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ViewTransactions.cshtml",
+              "ViewState": "AgIAAD4AAAAAAAAAAABBwD8AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T07:19:35.438Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "ViewEmployees.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewEmployees.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewEmployees.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewEmployees.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ViewEmployees.cshtml",
+              "ViewState": "AgIAAFUAAAAAAAAAAABBwFYAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T05:00:53.189Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAiwGsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T03:48:23.554Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Site.css",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Content\\Site.css",
+              "RelativeDocumentMoniker": "BigBank\\Content\\Site.css",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Content\\Site.css",
+              "RelativeToolTip": "BigBank\\Content\\Site.css",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-21T09:06:42.797Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T04:04:56.27Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "packages.config",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\packages.config",
-              "RelativeDocumentMoniker": "BigBank\\packages.config",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\packages.config",
-              "RelativeToolTip": "BigBank\\packages.config",
-              "ViewState": "AgIAABEAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2025-10-21T10:11:47.956Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\Register.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Register.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\Register.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Home\\Register.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAARAAAAAAAAAA==",
+              "DocumentIndex": 11,
+              "Title": "ChangePassword.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ChangePassword.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ChangePassword.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ChangePassword.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ChangePassword.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T04:03:45.804Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "ViewFD.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Customer\\ViewFD.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\ViewFD.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Customer\\ViewFD.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Customer\\ViewFD.cshtml",
-              "ViewState": "AgIAAAkAAAAAAAAAAIBJwA8AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T07:27:58.937Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "ViewLoan.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Customer\\ViewLoan.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\ViewLoan.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Customer\\ViewLoan.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Customer\\ViewLoan.cshtml",
-              "ViewState": "AgIAAAkAAAAAAAAAAIBJwA8AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T07:28:04.237Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "CustomerDashboardViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\CustomerDashboardViewModel.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\CustomerDashboardViewModel.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\CustomerDashboardViewModel.cs",
-              "RelativeToolTip": "BigBank\\Models\\CustomerDashboardViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T04:02:55.679Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T08:40:30.372Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "OpenFD.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\OpenFD.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenFD.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\OpenFD.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Home\\OpenFD.cshtml",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAtwIsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T04:04:10.78Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "Site.css",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\Site.css",
-              "RelativeDocumentMoniker": "BigBank\\Content\\Site.css",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\Site.css",
-              "RelativeToolTip": "BigBank\\Content\\Site.css",
-              "ViewState": "AgIAAA8AAAAAAAAAAHB4wAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-21T04:04:56.27Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "OpenSavingsViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\OpenSavingsViewModel.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\OpenSavingsViewModel.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\OpenSavingsViewModel.cs",
-              "RelativeToolTip": "BigBank\\Models\\OpenSavingsViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T04:03:00.243Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Home\\Index.cshtml",
+              "Title": "RouteConfig.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\App_Start\\RouteConfig.cs",
+              "RelativeDocumentMoniker": "BigBank\\App_Start\\RouteConfig.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\App_Start\\RouteConfig.cs",
+              "RelativeToolTip": "BigBank\\App_Start\\RouteConfig.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T04:36:29.002Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "OpenFDViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\OpenFDViewModel.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\OpenFDViewModel.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\OpenFDViewModel.cs",
-              "RelativeToolTip": "BigBank\\Models\\OpenFDViewModel.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAIBHwB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T04:03:05.972Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T11:13:47.718Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
-              "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
-              "RelativeToolTip": "..\\..\\..\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T04:15:49.848Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "OpenLoanViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\OpenLoanViewModel.cs",
-              "RelativeDocumentMoniker": "BigBank\\Models\\OpenLoanViewModel.cs",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\OpenLoanViewModel.cs",
-              "RelativeToolTip": "BigBank\\Models\\OpenLoanViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "ManagerDashboardViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\ManagerDashboardViewModel.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\ManagerDashboardViewModel.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\ManagerDashboardViewModel.cs",
+              "RelativeToolTip": "BigBank\\Models\\ManagerDashboardViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-21T04:03:12.083Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "BigBank\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAF8AAAAAAAAAAABRwJEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-21T03:48:23.554Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-21T13:02:39.705Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 13,
+              "Title": "NoCacheAttribute.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Filters\\NoCacheAttribute.cs",
+              "RelativeDocumentMoniker": "BigBank\\Filters\\NoCacheAttribute.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Filters\\NoCacheAttribute.cs",
+              "RelativeToolTip": "BigBank\\Filters\\NoCacheAttribute.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-22T04:37:51.827Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ManageCustomers.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManageCustomers.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ManageCustomers.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManageCustomers.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ManageCustomers.cshtml",
+              "ViewState": "AgIAADAAAAAAAAAAAAAiwEQAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T05:42:32.717Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "ManageEmployees.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManageEmployees.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ManageEmployees.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManageEmployees.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ManageEmployees.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T07:06:04.256Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ViewCustomers.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewCustomers.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewCustomers.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewCustomers.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ViewCustomers.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAASwEMAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T04:50:27.692Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "FilterConfig.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\App_Start\\FilterConfig.cs",
+              "RelativeDocumentMoniker": "BigBank\\App_Start\\FilterConfig.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\App_Start\\FilterConfig.cs",
+              "RelativeToolTip": "BigBank\\App_Start\\FilterConfig.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-22T04:37:04.082Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "SessionAuthorizeAttribute.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Filters\\SessionAuthorizeAttribute.cs",
+              "RelativeDocumentMoniker": "BigBank\\Filters\\SessionAuthorizeAttribute.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Filters\\SessionAuthorizeAttribute.cs",
+              "RelativeToolTip": "BigBank\\Filters\\SessionAuthorizeAttribute.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-22T04:36:57.491Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Employee.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Employee.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\Employee.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Employee.cs",
+              "RelativeToolTip": "BigBank\\Models\\Employee.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAA5wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T13:17:08.773Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ManagerHome.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManagerHome.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ManagerHome.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManagerHome.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\ManagerHome.cshtml",
+              "ViewState": "AgIAAJEAAAAAAAAAACBjwJkAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T13:03:03.982Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Customer.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\Customer.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Customer.cs",
+              "RelativeToolTip": "BigBank\\Models\\Customer.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T13:17:10.513Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Settings.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Settings.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Settings.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Settings.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\Settings.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T12:42:17.804Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "OpenLoan.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoan.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenLoan.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoan.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\OpenLoan.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T04:04:17.004Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
               "Title": "Web.config",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Web.config",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Web.config",
               "RelativeDocumentMoniker": "BigBank\\Web.config",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Web.config",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Web.config",
               "RelativeToolTip": "BigBank\\Web.config",
-              "ViewState": "AgIAADsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
               "WhenOpened": "2025-10-21T03:40:04.355Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 21,
+              "Title": "Department.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Department.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\Department.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Department.cs",
+              "RelativeToolTip": "BigBank\\Models\\Department.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T13:17:09.736Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "SavingsDetailViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\SavingsDetailViewModel.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\SavingsDetailViewModel.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\SavingsDetailViewModel.cs",
+              "RelativeToolTip": "BigBank\\Models\\SavingsDetailViewModel.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAIBHwBMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T09:24:44.14Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "OpenSavings.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenSavings.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenSavings.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenSavings.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\OpenSavings.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T04:04:03.425Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "AccountViewModels.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\AccountViewModels.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\AccountViewModels.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\AccountViewModels.cs",
+              "RelativeToolTip": "BigBank\\Models\\AccountViewModels.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAYwCgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T03:50:35.803Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "ViewSavings.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewSavings.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\ViewSavings.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewSavings.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Customer\\ViewSavings.cshtml",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAmwAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T07:27:54.046Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Site.css",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Content\\Site.css",
+              "RelativeDocumentMoniker": "BigBank\\Content\\Site.css",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Content\\Site.css",
+              "RelativeToolTip": "BigBank\\Content\\Site.css",
+              "ViewState": "AgIAAG0AAAAAAAAAADB0wJ4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-21T04:05:04.497Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\Index.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\Index.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\Index.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Customer\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T07:27:47.503Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "CustomerHome.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\CustomerHome.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\CustomerHome.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\CustomerHome.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\CustomerHome.cshtml",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAmwEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T04:03:57.594Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "theme.css",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\theme.css",
+              "RelativeDocumentMoniker": "..\\..\\BigBank\\BigBank\\Content\\theme.css",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\theme.css",
+              "RelativeToolTip": "..\\..\\BigBank\\BigBank\\Content\\theme.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-21T09:06:42.797Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "packages.config",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\packages.config",
+              "RelativeDocumentMoniker": "BigBank\\packages.config",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\packages.config",
+              "RelativeToolTip": "BigBank\\packages.config",
+              "ViewState": "AgIAABEAAAAAAAAAAABBwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-10-21T10:11:47.956Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Register.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Register.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Register.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\Register.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T04:03:45.804Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "ViewFD.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewFD.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\ViewFD.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewFD.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Customer\\ViewFD.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAIBJwA8AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T07:27:58.937Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "ViewLoan.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewLoan.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\ViewLoan.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewLoan.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Customer\\ViewLoan.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAIBJwA8AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T07:28:04.237Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "CustomerDashboardViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\CustomerDashboardViewModel.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\CustomerDashboardViewModel.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\CustomerDashboardViewModel.cs",
+              "RelativeToolTip": "BigBank\\Models\\CustomerDashboardViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T04:02:55.679Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "OpenFD.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenFD.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenFD.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenFD.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\OpenFD.cshtml",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAtwIsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T04:04:10.78Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "OpenSavingsViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenSavingsViewModel.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\OpenSavingsViewModel.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenSavingsViewModel.cs",
+              "RelativeToolTip": "BigBank\\Models\\OpenSavingsViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T04:03:00.243Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T04:36:29.002Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "OpenFDViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenFDViewModel.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\OpenFDViewModel.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenFDViewModel.cs",
+              "RelativeToolTip": "BigBank\\Models\\OpenFDViewModel.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAIBHwB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T04:03:05.972Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
+              "RelativeToolTip": "..\\..\\..\\..\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-21T04:15:49.848Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "OpenLoanViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenLoanViewModel.cs",
+              "RelativeDocumentMoniker": "BigBank\\Models\\OpenLoanViewModel.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenLoanViewModel.cs",
+              "RelativeToolTip": "BigBank\\Models\\OpenLoanViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-21T04:03:12.083Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
               "Title": "BigBankModel.edmx [Diagram1]",
-              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\BigBankModel.edmx",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\BigBankModel.edmx",
               "RelativeDocumentMoniker": "BigBank\\Models\\BigBankModel.edmx",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Models\\BigBankModel.edmx [Diagram1]",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\BigBankModel.edmx [Diagram1]",
               "RelativeToolTip": "BigBank\\Models\\BigBankModel.edmx [Diagram1]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001116|",
-              "WhenOpened": "2025-10-21T03:39:21.965Z",
-              "EditorCaption": " [Diagram1]"
+              "WhenOpened": "2025-10-21T03:39:21.965Z"
             }
           ]
         }

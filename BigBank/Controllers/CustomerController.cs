@@ -4,17 +4,17 @@ using System.Data.Entity;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using BigBank.Models;
+using BigBank.Filters;
 // CSV export used instead of PDF to avoid external dependencies
 
 namespace BigBank.Controllers
 {
+    [SessionAuthorize(RolesCsv = "Customer")]
+    [NoCache]
     public class CustomerController : Controller
     {
         public ActionResult Index()
         {
-            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
-                return RedirectToAction("Login", "Home");
-
             string custId = Session["UserID"].ToString();
             var vm = new CustomerDashboardViewModel();
 

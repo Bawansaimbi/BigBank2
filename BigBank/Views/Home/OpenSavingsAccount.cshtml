@@ -1,0 +1,63 @@
+@{
+    ViewBag.Title = "Open Savings Account";
+}
+
+<div class="container py-4">
+    <h2>Open Savings Account</h2>
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+
+    @using (Html.BeginForm("OpenSavingsAccount","Home",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row g-2 align-items-end">
+            <div class="col-12 col-md-6">
+                <label class="form-label small">Customer ID</label>
+                <input name="CustID" id="custIdInput" class="form-control" placeholder="Cust..." value="@ViewBag.LastCustID" />
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="form-label small">Initial Deposit (Rs)</label>
+                <input name="InitialDeposit" type="number" min="1000" step="0.01" class="form-control" placeholder="Initial deposit (min 1000)" value="@(ViewBag.LastDeposit ?? "")" />
+            </div>
+            <div class="col-12 col-md-2 d-grid">
+                <button class="btn btn-primary" type="submit">Open</button>
+            </div>
+        </div>
+    }
+
+    <div class="mt-2">
+        <input id="custName" class="form-control" readonly placeholder="Customer name will appear here when you enter a Customer ID" />
+    </div>
+
+    @if (ViewBag.NewAccountId != null)
+    {
+        <div class="alert alert-success mt-3">
+            <h5>Congratulations!</h5>
+            <p>Your new savings account <strong>@ViewBag.NewAccountId</strong> has been created.</p>
+        </div>
+    }
+</div>
+
+<script>
+    (function(){
+        var input = document.getElementById('custIdInput');
+        var nameBox = document.getElementById('custName');
+        if (!input) return;
+        input.addEventListener('blur', function(){
+            var id = input.value.trim();
+            if (!id) { nameBox.value = ''; return; }
+            fetch('/Home/LookupCustomerName?id=' + encodeURIComponent(id))
+                .then(function(res){ return res.json(); })
+                .then(function(data){ if (data && data.name) nameBox.value = data.name; else nameBox.value = 'Not found'; })
+                .catch(function(){ nameBox.value = 'Error'; });
+        });
+
+        // if server provided LastCustID, trigger lookup on load
+        var last = '@(ViewBag.LastCustID ?? "")';
+        if (last) {
+            input.value = last;
+            var evt = new Event('blur');
+            input.dispatchEvent(evt);
+        }
+    })();
+</script>

@@ -1,0 +1,83 @@
+@model List<BigBank.Models.SavingsAccount>
+
+@{
+    ViewBag.Title = "Savings Accounts";
+}
+
+<div class="container py-4">
+    <h2>Savings Accounts</h2>
+
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-md-6">
+            <a href="@Url.Action("DepositWithdraw","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>Deposit / Withdraw</h5>
+                        <p class="text-muted">Quick deposit or withdrawal by Customer ID</p>
+                        <div class="h4">&nbsp;</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <a href="@Url.Action("OpenSavingsAccount","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>Open New Account</h5>
+                        <p class="text-muted">Create savings account with initial deposit</p>
+                        <div class="h4">&nbsp;</div>
+                        <div class="mt-2"><span class="small text-muted">Min deposit: Rs 1000</span></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+            @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+
+            <table class="table table-sm">
+                <thead>
+                    <tr><th>#</th><th>SB Account ID</th><th>Cust ID</th><th>Cust Name</th><th>Balance</th><th>Created On</th><th></th></tr>
+                </thead>
+                <tbody>
+                    @for (int i=0;i<Model.Count;i++) {
+                        var a = Model[i];
+                        <tr>
+                            <td>@(i+1)</td>
+                            <td>@a.SBAccountID</td>
+                            <td>@a.CustID</td>
+                            <td>
+                                @{ 
+                                    var name = String.Empty;
+                                    using (var db = new BigBank.Models.BigBankEntities())
+                                    {
+                                        var c = db.Customers.FirstOrDefault(x => x.CustID == a.CustID);
+                                        if (c != null)
+                                        {
+                                            name = c.CustName;
+                                        }
+                                    }
+                                }
+                                @name
+                            </td>
+                            <td>@("Rs " + a.Balance.ToString("N2"))</td>
+                            <td>@(a.CreatedOn.HasValue ? a.CreatedOn.Value.ToString("g") : "")</td>
+                            <td>
+                                @using (Html.BeginForm("CloseSavingsAccount","Home",FormMethod.Post, new { @onsubmit = "return confirm('Close account? This will delete transactions as well.');" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("id", a.SBAccountID)
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Close</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div></div>

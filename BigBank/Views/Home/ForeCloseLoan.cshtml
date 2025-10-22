@@ -1,0 +1,106 @@
+@{
+    ViewBag.Title = "Foreclose Loan";
+}
+
+<div class="container py-4">
+    <h2>Foreclose Loan Account</h2>
+    <p class="text-muted">Pay the full outstanding amount and close the loan account</p>
+
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div> }
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@Html.Raw(TempData["Success"])</div> }
+
+    @using (Html.BeginForm("ForeCloseLoan","Home",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <label class="form-label">Loan Account ID <span class="text-danger">*</span></label>
+                <input name="LoanAccountID" id="loanIdInput" class="form-control" placeholder="LN..." value="@ViewBag.LastLoanID" required />
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <input id="custName" class="form-control mb-2" readonly placeholder="Customer name will appear here" />
+            <input id="loanAmount" class="form-control mb-2" readonly placeholder="Loan amount" />
+            <input id="outstanding" class="form-control mb-2" readonly placeholder="Outstanding amount" />
+        </div>
+
+        <div class="alert alert-warning mt-3">
+            <strong>Note:</strong> Foreclosure will close the loan account immediately and the full outstanding amount will be charged.
+        </div>
+
+        <div class="mt-3">
+            <button class="btn btn-warning" type="submit" id="submitBtn">Foreclose Loan</button>
+            <a href="@Url.Action("ViewLoanAccounts","Home")" class="btn btn-secondary">Cancel</a>
+        </div>
+    }
+
+    @if (ViewBag.ForeclosureSuccess != null)
+    {
+        <div class="alert alert-success mt-3">
+            <h5>? Loan Foreclosed Successfully!</h5>
+            <p class="mb-1"><strong>Loan Account ID:</strong> @ViewBag.ForeClosedLoanId</p>
+            <p class="mb-1"><strong>Amount Paid:</strong> Rs @ViewBag.AmountPaid</p>
+            <p class="mb-0"><strong>Status:</strong> Closed</p>
+        </div>
+    }
+</div>
+
+<script>
+    (function(){
+        var loanIdInput = document.getElementById('loanIdInput');
+        var custNameBox = document.getElementById('custName');
+        var loanAmtBox = document.getElementById('loanAmount');
+        var outstandingBox = document.getElementById('outstanding');
+        var submitBtn = document.getElementById('submitBtn');
+
+        function lookupLoan(){
+            var id = loanIdInput.value.trim();
+            if (!id) { 
+                custNameBox.value = ''; 
+                loanAmtBox.value = '';
+                outstandingBox.value = '';
+                return; 
+            }
+            
+            fetch('/Home/LookupLoanAccount?id=' + encodeURIComponent(id))
+                .then(function(res){ return res.json(); })
+                .then(function(data){ 
+                    if (data && data.customerName) {
+                        custNameBox.value = 'Customer: ' + data.customerName;
+                        loanAmtBox.value = 'Loan Amount: Rs ' + (data.loanAmount || 0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+                        outstandingBox.value = 'Outstanding: Rs ' + (data.outstanding || 0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+                        
+                        if (data.outstanding && data.outstanding > 0) {
+                            submitBtn.disabled = false;
+                        } else {
+                            submitBtn.disabled = true;
+                            outstandingBox.value += ' (Already paid)';
+                        }
+                    } else {
+                        custNameBox.value = 'Not found';
+                        loanAmtBox.value = '';
+                        outstandingBox.value = '';
+                        submitBtn.disabled = true;
+                    }
+                })
+                .catch(function(){ 
+                    custNameBox.value = 'Error'; 
+                    loanAmtBox.value = '';
+                    outstandingBox.value = '';
+                    submitBtn.disabled = true;
+                });
+        }
+
+        loanIdInput.addEventListener('blur', lookupLoan);
+        loanIdInput.addEventListener('change', lookupLoan);
+
+        // Trigger lookup on page load if LoanID is prefilled
+        var last = '@(ViewBag.LastLoanID ?? "")';
+        if (last && loanIdInput) {
+            loanIdInput.value = last;
+            lookupLoan();
+        }
+    })();
+</script>
