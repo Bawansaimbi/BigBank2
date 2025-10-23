@@ -47,29 +47,40 @@
 
     <!-- Action Cards -->
     <div class="row g-3 my-3">
-        <div class="col-12 col-md-4">
-            <a href="@Url.Action("OpenSavingsAccount")" class="text-decoration-none">
+        <div class="col-12 col-md-3">
+            <a href="@Url.Action("DepositWithdraw", "Home")" class="text-decoration-none">
                 <div class="card h-100 clickable-card">
                     <div class="card-body">
-                        <h5 class="card-title">Open Savings Account</h5>
-                        <p class="card-text text-muted">Create new savings accounts for customers.</p>
+                        <h5 class="card-title">Deposit/Withdraw</h5>
+                        <p class="card-text text-muted">Process cash transactions.</p>
                     </div>
                 </div>
             </a>
         </div>
 
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-3">
+            <a href="@Url.Action("OpenSavingsAccount")" class="text-decoration-none">
+                <div class="card h-100 clickable-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Open Savings Account</h5>
+                        <p class="card-text text-muted">Create new savings account.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-3">
             <a href="@Url.Action("ViewSavingsAccounts")" class="text-decoration-none">
                 <div class="card h-100 clickable-card">
                     <div class="card-body">
-                        <h5 class="card-title">View Savings Accounts</h5>
+                        <h5 class="card-title">View Accounts</h5>
                         <p class="card-text text-muted">Browse all savings accounts.</p>
                     </div>
                 </div>
             </a>
         </div>
 
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-3">
             <a href="@Url.Action("ViewCustomers")" class="text-decoration-none">
                 <div class="card h-100 clickable-card">
                     <div class="card-body">
@@ -87,7 +98,7 @@
                 <div class="card h-100 clickable-card">
                     <div class="card-body">
                         <h5 class="card-title">View Transactions</h5>
-                        <p class="card-text text-muted">View savings transactions history.</p>
+                        <p class="card-text text-muted">View transaction history.</p>
                     </div>
                 </div>
             </a>

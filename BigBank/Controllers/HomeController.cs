@@ -89,6 +89,7 @@ namespace BigBank.Controllers
                             switch (deptId)
                             {
                                 case "SB":
+                                case "DEPT01":
                                     return RedirectToAction("SavingsEmployeeHome", "Employee");
                                 case "FD":
                                     return RedirectToAction("FDEmployeeHome", "Employee");
@@ -1774,25 +1775,26 @@ namespace BigBank.Controllers
         }
 
         [SessionAuthorize(RolesCsv = "Manager,Employee")]
-        public ActionResult DepositWithdraw()
+        public ActionResult DepositWithdraw(string AccountID = null)
         {
-            return View();
-        }
-
-        // Lookup savings account name and balance for manager/employee UI
-        [SessionAuthorize(RolesCsv = "Manager,Employee")]
-        public ActionResult LookupAccountName(string id)
-        {
-            if (string.IsNullOrWhiteSpace(id))
-                return Json(new { name = "", balance = (decimal?)null }, JsonRequestBehavior.AllowGet);
-
-            using (var db = new BigBankEntities())
+            if (!string.IsNullOrEmpty(AccountID))
             {
-                var acc = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id);
-                if (acc == null) return Json(new { name = "", balance = (decimal?)null }, JsonRequestBehavior.AllowGet);
-                var cust = db.Customers.FirstOrDefault(c => c.CustID == acc.CustID);
-                return Json(new { name = cust != null ? cust.CustName : "", balance = acc.Balance }, JsonRequestBehavior.AllowGet);
+                ViewBag.AccountID = AccountID;
+                
+                // Lookup account name and balance
+                using (var db = new BigBankEntities())
+                {
+                    var acc = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == AccountID);
+                    if (acc != null)
+                    {
+                        var cust = db.Customers.FirstOrDefault(c => c.CustID == acc.CustID);
+                        ViewBag.AccountName = cust != null ? cust.CustName : "";
+                        ViewBag.AccountBalance = acc.Balance;
+                    }
+                }
             }
+            
+            return View();
         }
 
         [HttpPost]

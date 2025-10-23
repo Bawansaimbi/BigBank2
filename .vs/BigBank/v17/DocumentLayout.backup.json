@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\bigbank\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\HomeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Controllers\\HomeController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoanAccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\OpenLoanAccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\home\\openloanaccountmanager.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\openloanaccountmanager.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\CustomerController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -47,10 +55,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewLoanAccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\ViewLoanAccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoanAccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Views\\Home\\OpenLoanAccount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\Manage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -241,8 +245,20 @@
       "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:BigBank\\Models\\BigBankModel.edmx||{C99AEA30-8E36-4515-B76F-496F5A48A6AA}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\home\\openloanaccountmanager.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\home\\openloanaccountmanager.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\employee\\savingsemployeehome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\employee\\savingsemployeehome.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\controllers\\employeecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\employee\\viewsavingstransactions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\employee\\viewsavingstransactions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|c:\\users\\bawandeepsingh.s\\source\\repos\\miniproject\\bigbank\\bigbank\\views\\employee\\viewsavingsaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0097235-5881-4A4F-ABF5-380D807D77D5}|BigBank\\BigBank.csproj|solutionrelative:bigbank\\views\\employee\\viewsavingsaccounts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -260,9 +276,9 @@
               "Title": "Login.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Login.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Login.cshtml",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Login.cshtml",
-              "RelativeToolTip": "BigBank\\Views\\Home\\Login.cshtml",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAAABcAAAASAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Login.cshtml*",
+              "RelativeToolTip": "BigBank\\Views\\Home\\Login.cshtml*",
+              "ViewState": "AgIAAGQAAAAAAAAAAAASwHAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-10-21T04:03:33.993Z",
               "IsPinned": true,
@@ -270,7 +286,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "CustomerController.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\CustomerController.cs",
               "RelativeDocumentMoniker": "BigBank\\Controllers\\CustomerController.cs",
@@ -279,8 +295,7 @@
               "ViewState": "AgIAABgBAAAAAAAAAIAwwCsBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-21T07:27:42.235Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Bookmark",
@@ -308,33 +323,85 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "ViewSavingsAccounts.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Employee\\ViewSavingsAccounts.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Employee\\ViewSavingsAccounts.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Employee\\ViewSavingsAccounts.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Employee\\ViewSavingsAccounts.cshtml",
+              "ViewState": "AgIAANwAAAAAAAAAAGBnwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-23T10:30:49.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "ViewSavingsTransactions.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Employee\\ViewSavingsTransactions.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Employee\\ViewSavingsTransactions.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Employee\\ViewSavingsTransactions.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Employee\\ViewSavingsTransactions.cshtml",
+              "ViewState": "AgIAAOQAAAAAAAAAAIBpwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-23T10:29:16.308Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "EmployeeController.cs",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\EmployeeController.cs",
+              "RelativeDocumentMoniker": "BigBank\\Controllers\\EmployeeController.cs",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\EmployeeController.cs",
+              "RelativeToolTip": "BigBank\\Controllers\\EmployeeController.cs",
+              "ViewState": "AgIAAC4CAAAAAAAAAABRwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-23T10:28:19.394Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "SavingsEmployeeHome.cshtml",
+              "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Employee\\SavingsEmployeeHome.cshtml",
+              "RelativeDocumentMoniker": "BigBank\\Views\\Employee\\SavingsEmployeeHome.cshtml",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Employee\\SavingsEmployeeHome.cshtml",
+              "RelativeToolTip": "BigBank\\Views\\Employee\\SavingsEmployeeHome.cshtml",
+              "ViewState": "AgIAAH4AAAAAAAAAACBjwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-23T10:25:38.013Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "BigBank\\Controllers\\HomeController.cs",
               "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Controllers\\HomeController.cs",
               "RelativeToolTip": "BigBank\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAAEYHAAAAAAAAAAAAwCQCAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAADoHAAAAAAAAAAAMwFkHAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-21T03:40:23.611Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 3,
               "Title": "OpenLoanAccountManager.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoanAccountManager.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenLoanAccountManager.cshtml",
               "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoanAccountManager.cshtml",
               "RelativeToolTip": "BigBank\\Views\\Home\\OpenLoanAccountManager.cshtml",
-              "ViewState": "AgIAAMUAAAAAAAAAAEBlwM4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAiwIoAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-10-23T07:29:10.068Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "ForeCloseLoan.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ForeCloseLoan.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ForeCloseLoan.cshtml",
@@ -346,7 +413,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "PayEMI.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\PayEMI.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\PayEMI.cshtml",
@@ -354,12 +421,11 @@
               "RelativeToolTip": "BigBank\\Views\\Home\\PayEMI.cshtml",
               "ViewState": "AgIAAFIAAAAAAAAAAAAAAHgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-22T13:56:23.955Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T13:56:23.955Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "ForecloseFD.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\ForecloseFD.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\FD\\ForecloseFD.cshtml",
@@ -371,7 +437,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "AddFDAccount.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\AddFDAccount.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\FD\\AddFDAccount.cshtml",
@@ -383,7 +449,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "ViewFDAccounts.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\ViewFDAccounts.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\FD\\ViewFDAccounts.cshtml",
@@ -395,7 +461,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "ViewLoanAccounts.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewLoanAccounts.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewLoanAccounts.cshtml",
@@ -403,24 +469,24 @@
               "RelativeToolTip": "BigBank\\Views\\Home\\ViewLoanAccounts.cshtml",
               "ViewState": "AgIAAOAAAAAAAAAAAABBwOEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-22T09:43:21.125Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-22T09:43:21.125Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 2,
               "Title": "OpenLoanAccount.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoanAccount.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenLoanAccount.cshtml",
               "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoanAccount.cshtml",
               "RelativeToolTip": "BigBank\\Views\\Home\\OpenLoanAccount.cshtml",
-              "ViewState": "AgIAAOIAAAAAAAAAACBjwOoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAOsAAAAAAAAAAAAAAOoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-22T13:56:49.19Z"
+              "WhenOpened": "2025-10-22T13:56:49.19Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Manage.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\FD\\Manage.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\FD\\Manage.cshtml",
@@ -432,7 +498,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "ForecloseFD.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ForecloseFD.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ForecloseFD.cshtml",
@@ -444,7 +510,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "OpenFDAccount.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenFDAccount.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenFDAccount.cshtml",
@@ -456,7 +522,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "ViewFDAccounts.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewFDAccounts.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewFDAccounts.cshtml",
@@ -468,7 +534,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "ViewSavingsAccounts.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewSavingsAccounts.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewSavingsAccounts.cshtml",
@@ -480,7 +546,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "OpenSavingsAccount.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenSavingsAccount.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenSavingsAccount.cshtml",
@@ -492,7 +558,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "ManageAccounts.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManageAccounts.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ManageAccounts.cshtml",
@@ -504,7 +570,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "Error.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Shared\\Error.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Shared\\Error.cshtml",
@@ -516,19 +582,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "DepositWithdraw.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\DepositWithdraw.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\DepositWithdraw.cshtml",
               "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\DepositWithdraw.cshtml",
               "RelativeToolTip": "BigBank\\Views\\Home\\DepositWithdraw.cshtml",
-              "ViewState": "AgIAAD0AAAAAAAAAACBjwEUAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAGIAAAAAAAAAAEBlwGsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-22T10:05:56.043Z"
+              "WhenOpened": "2025-10-22T10:05:56.043Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 23,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\_ViewStart.cshtml",
@@ -540,7 +607,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 24,
               "Title": "ViewTransactions.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewTransactions.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewTransactions.cshtml",
@@ -552,7 +619,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 25,
               "Title": "ViewEmployees.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewEmployees.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewEmployees.cshtml",
@@ -564,7 +631,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 26,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Shared\\_Layout.cshtml",
@@ -576,7 +643,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 27,
               "Title": "Site.css",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Content\\Site.css",
               "RelativeDocumentMoniker": "BigBank\\Content\\Site.css",
@@ -588,7 +655,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 28,
               "Title": "ChangePassword.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ChangePassword.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ChangePassword.cshtml",
@@ -600,7 +667,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 29,
               "Title": "RouteConfig.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\App_Start\\RouteConfig.cs",
               "RelativeDocumentMoniker": "BigBank\\App_Start\\RouteConfig.cs",
@@ -612,7 +679,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 30,
               "Title": "ManagerDashboardViewModel.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\ManagerDashboardViewModel.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\ManagerDashboardViewModel.cs",
@@ -624,7 +691,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 31,
               "Title": "NoCacheAttribute.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Filters\\NoCacheAttribute.cs",
               "RelativeDocumentMoniker": "BigBank\\Filters\\NoCacheAttribute.cs",
@@ -636,7 +703,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 32,
               "Title": "ManageCustomers.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManageCustomers.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ManageCustomers.cshtml",
@@ -648,7 +715,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 33,
               "Title": "ManageEmployees.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManageEmployees.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ManageEmployees.cshtml",
@@ -660,7 +727,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 34,
               "Title": "ViewCustomers.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ViewCustomers.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ViewCustomers.cshtml",
@@ -672,7 +739,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 35,
               "Title": "FilterConfig.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\App_Start\\FilterConfig.cs",
               "RelativeDocumentMoniker": "BigBank\\App_Start\\FilterConfig.cs",
@@ -684,7 +751,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 36,
               "Title": "SessionAuthorizeAttribute.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Filters\\SessionAuthorizeAttribute.cs",
               "RelativeDocumentMoniker": "BigBank\\Filters\\SessionAuthorizeAttribute.cs",
@@ -696,7 +763,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 37,
               "Title": "Employee.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Employee.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\Employee.cs",
@@ -708,7 +775,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 38,
               "Title": "ManagerHome.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\ManagerHome.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\ManagerHome.cshtml",
@@ -720,7 +787,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 39,
               "Title": "Customer.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Customer.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\Customer.cs",
@@ -732,7 +799,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 40,
               "Title": "Settings.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Settings.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Settings.cshtml",
@@ -744,7 +811,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 41,
               "Title": "OpenLoan.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenLoan.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenLoan.cshtml",
@@ -756,7 +823,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 42,
               "Title": "Web.config",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Web.config",
               "RelativeDocumentMoniker": "BigBank\\Web.config",
@@ -769,7 +836,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 43,
               "Title": "Department.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\Department.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\Department.cs",
@@ -781,7 +848,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 44,
               "Title": "SavingsDetailViewModel.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\SavingsDetailViewModel.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\SavingsDetailViewModel.cs",
@@ -793,7 +860,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "OpenSavings.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenSavings.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenSavings.cshtml",
@@ -805,7 +872,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 45,
               "Title": "AccountViewModels.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\AccountViewModels.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\AccountViewModels.cs",
@@ -817,7 +884,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 46,
               "Title": "ViewSavings.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewSavings.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\ViewSavings.cshtml",
@@ -829,7 +896,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 47,
               "Title": "Site.css",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Content\\Site.css",
               "RelativeDocumentMoniker": "BigBank\\Content\\Site.css",
@@ -841,7 +908,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 48,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\Index.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\Index.cshtml",
@@ -853,7 +920,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 49,
               "Title": "CustomerHome.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\CustomerHome.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\CustomerHome.cshtml",
@@ -865,7 +932,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "theme.css",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\BigBank\\BigBank\\Content\\theme.css",
               "RelativeDocumentMoniker": "..\\..\\BigBank\\BigBank\\Content\\theme.css",
@@ -877,7 +944,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 50,
               "Title": "packages.config",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\packages.config",
               "RelativeDocumentMoniker": "BigBank\\packages.config",
@@ -889,7 +956,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 51,
               "Title": "Register.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Register.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Register.cshtml",
@@ -901,7 +968,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 52,
               "Title": "ViewFD.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewFD.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\ViewFD.cshtml",
@@ -913,7 +980,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 53,
               "Title": "ViewLoan.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Customer\\ViewLoan.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Customer\\ViewLoan.cshtml",
@@ -925,7 +992,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 54,
               "Title": "CustomerDashboardViewModel.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\CustomerDashboardViewModel.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\CustomerDashboardViewModel.cs",
@@ -937,7 +1004,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 55,
               "Title": "OpenFD.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\OpenFD.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\OpenFD.cshtml",
@@ -949,7 +1016,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 56,
               "Title": "OpenSavingsViewModel.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenSavingsViewModel.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\OpenSavingsViewModel.cs",
@@ -961,7 +1028,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 57,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "BigBank\\Views\\Home\\Index.cshtml",
@@ -973,7 +1040,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 58,
               "Title": "OpenFDViewModel.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenFDViewModel.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\OpenFDViewModel.cs",
@@ -985,7 +1052,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Register.cshtml",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\AppData\\Local\\Temp\\CopilotBaseline\\Deleted\\-647034941\\Register.cshtml",
@@ -997,7 +1064,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 59,
               "Title": "OpenLoanViewModel.cs",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\OpenLoanViewModel.cs",
               "RelativeDocumentMoniker": "BigBank\\Models\\OpenLoanViewModel.cs",
@@ -1009,14 +1076,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
-              "Title": "BigBankModel.edmx",
+              "DocumentIndex": 60,
+              "Title": "BigBankModel.edmx [Diagram1]",
               "DocumentMoniker": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\BigBankModel.edmx",
               "RelativeDocumentMoniker": "BigBank\\Models\\BigBankModel.edmx",
-              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\BigBankModel.edmx",
-              "RelativeToolTip": "BigBank\\Models\\BigBankModel.edmx",
+              "ToolTip": "C:\\Users\\bawandeepsingh.s\\source\\repos\\MiniProject\\BigBank\\BigBank\\Models\\BigBankModel.edmx [Diagram1]",
+              "RelativeToolTip": "BigBank\\Models\\BigBankModel.edmx [Diagram1]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001116|",
-              "WhenOpened": "2025-10-21T03:39:21.965Z"
+              "WhenOpened": "2025-10-21T03:39:21.965Z",
+              "EditorCaption": " [Diagram1]"
             }
           ]
         }

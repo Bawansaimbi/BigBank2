@@ -1,0 +1,122 @@
+﻿@model List<BigBank.Models.SavingsTransaction>
+
+@{
+    ViewBag.Title = "View Savings Transactions";
+}
+
+<div class="container py-4">
+    <h2>Savings Transactions</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Recent Savings Transactions (Last 100)</h5>
+            
+            <div class="mb-3">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search by Account ID or Transaction Type..." />
+                <small class="text-muted">Total: <span id="totalCount">@(Model?.Count ?? 0)</span> transaction(s)</small>
+            </div>
+
+            <div class="table-responsive" style="height:400px; overflow:auto;">
+                <table class="table table-sm mb-0" id="transactionsTable">
+                    <thead class="thead-light">
+                        <tr>
+                            <th style="width:8%;">Sr. No.</th>
+                            <th style="width:12%;">Transaction ID</th>
+                            <th style="width:15%;">Account ID</th>
+                            <th style="width:15%;">Date</th>
+                            <th style="width:12%;">Type</th>
+                            <th style="width:12%;">Amount</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Count; i++)
+                            {
+                                var txn = Model[i];
+                                <tr>
+                                    <td>@(i+1)</td>
+                                    <td>@txn.TransactionID</td>
+                                    <td>@txn.SBAccountID</td>
+                                    <td>@(txn.TransactionDate?.ToString("dd-MMM-yy HH:mm") ?? "")</td>
+                                    <td>@txn.TransactionType</td>
+                                    <td>Rs @txn.Amount.ToString("N2")</td>
+                                    <td>@txn.Remarks</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-muted">No transactions found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noResults" class="alert alert-info mt-3" style="display:none;">
+                No transactions found matching your search.
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card .table-responsive { max-height: 400px; }
+</style>
+
+<script>
+(function() {
+    var searchBox = document.getElementById('searchBox');
+    var table = document.getElementById('transactionsTable');
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = tbody.getElementsByTagName('tr');
+    var totalCount = document.getElementById('totalCount');
+    var noResults = document.getElementById('noResults');
+
+    searchBox.addEventListener('keyup', function() {
+        var searchTerm = this.value.toLowerCase().trim();
+        var visibleCount = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cells = row.getElementsByTagName('td');
+            
+            if (cells.length < 7) {
+                continue;
+            }
+
+            var found = false;
+
+            for (var j = 1; j <= 6; j++) {
+                if (cells[j]) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    cellText = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+                    
+                    if (cellText.indexOf(searchTerm) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found || searchTerm === '') {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        totalCount.textContent = visibleCount;
+
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    });
+})();
+</script>

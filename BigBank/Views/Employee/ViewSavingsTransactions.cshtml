@@ -2,6 +2,29 @@
 
 @{
     ViewBag.Title = "View Savings Transactions";
+    string currentSort = ViewBag.SortColumn as string ?? "TransactionDate";
+    string currentDir = ViewBag.SortDir as string ?? "desc";
+    int currentPage = ViewBag.Page;
+    int pageSize = ViewBag.PageSize;
+    int totalPages = ViewBag.TotalPages;
+    int totalCount = ViewBag.TotalCount;
+    
+    Func<string,string> sortLink = col => {
+        var dir = (currentSort == col && currentDir == "asc") ? "desc" : "asc";
+        return Url.Action("ViewSavingsTransactions", new { page = currentPage, pageSize = pageSize, sort = col, dir = dir });
+    };
+    
+    Func<string,string> sortIndicator = col => {
+        if (string.Equals(currentSort, col, StringComparison.OrdinalIgnoreCase))
+        {
+            return currentDir == "asc" ? " ?" : " ?";
+        }
+        return string.Empty;
+    };
+    
+    Func<int,string> pageLink = page => {
+        return Url.Action("ViewSavingsTransactions", new { page = page, pageSize = pageSize, sort = currentSort, dir = currentDir });
+    };
 }
 
 <div class="container py-4">
@@ -9,38 +32,63 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Recent Savings Transactions (Last 100)</h5>
+            <h5 class="card-title">Savings Transactions</h5>
             
             <div class="mb-3">
-                <input type="text" id="searchBox" class="form-control" placeholder="Search by Account ID or Transaction Type..." />
-                <small class="text-muted">Total: <span id="totalCount">@(Model?.Count ?? 0)</span> transaction(s)</small>
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="text" id="searchBox" class="form-control" placeholder="Search by Account ID or Transaction Type..." />
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="d-inline-block">
+                            <label class="me-2">Page Size:</label>
+                            <select id="pageSizeSelect" class="form-select form-select-sm d-inline-block w-auto">
+                                <option value="10" @(pageSize == 10 ? "selected" : "")>10</option>
+                                <option value="20" @(pageSize == 20 ? "selected" : "")>20</option>
+                                <option value="50" @(pageSize == 50 ? "selected" : "")>50</option>
+                                <option value="100" @(pageSize == 100 ? "selected" : "")>100</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <small class="text-muted">Total: <span id="totalCount">@totalCount</span> transaction(s)</small>
             </div>
 
-            <div class="table-responsive" style="height:400px; overflow:auto;">
+            <div class="table-responsive">
                 <table class="table table-sm mb-0" id="transactionsTable">
                     <thead class="thead-light">
                         <tr>
                             <th style="width:8%;">Sr. No.</th>
-                            <th style="width:12%;">Transaction ID</th>
-                            <th style="width:15%;">Account ID</th>
-                            <th style="width:15%;">Date</th>
-                            <th style="width:12%;">Type</th>
-                            <th style="width:12%;">Amount</th>
+                            <th style="width:12%;"><a href="@sortLink("TransactionID")">Transaction ID@Html.Raw(sortIndicator("TransactionID"))</a></th>
+                            <th style="width:15%;"><a href="@sortLink("SBAccountID")">Account ID@Html.Raw(sortIndicator("SBAccountID"))</a></th>
+                            <th style="width:15%;"><a href="@sortLink("TransactionDate")">Date@Html.Raw(sortIndicator("TransactionDate"))</a></th>
+                            <th style="width:12%;"><a href="@sortLink("TransactionType")">Type@Html.Raw(sortIndicator("TransactionType"))</a></th>
+                            <th style="width:12%;"><a href="@sortLink("Amount")">Amount@Html.Raw(sortIndicator("Amount"))</a></th>
                             <th>Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (Model != null && Model.Count > 0)
                         {
+                            int startingNumber = (currentPage - 1) * pageSize + 1;
                             for (int i = 0; i < Model.Count; i++)
                             {
                                 var txn = Model[i];
                                 <tr>
-                                    <td>@(i+1)</td>
+                                    <td>@(startingNumber + i)</td>
                                     <td>@txn.TransactionID</td>
                                     <td>@txn.SBAccountID</td>
                                     <td>@(txn.TransactionDate?.ToString("dd-MMM-yy HH:mm") ?? "")</td>
-                                    <td>@txn.TransactionType</td>
+                                    <td>
+                                        @if (!string.IsNullOrWhiteSpace(txn.TransactionType) && char.ToUpperInvariant(txn.TransactionType.Trim()[0]) == 'D')
+                                        {
+                                            <span class="text-success">Credit</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">Debit</span>
+                                        }
+                                    </td>
                                     <td>Rs @txn.Amount.ToString("N2")</td>
                                     <td>@txn.Remarks</td>
                                 </tr>
@@ -59,13 +107,73 @@
             <div id="noResults" class="alert alert-info mt-3" style="display:none;">
                 No transactions found matching your search.
             </div>
+            
+            <!-- Pagination -->
+            @if (totalPages > 1)
+            {
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                        <span class="text-muted">Showing @((currentPage - 1) * pageSize + 1) to @Math.Min(currentPage * pageSize, totalCount) of @totalCount entries</span>
+                    </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                <a class="page-link" href="@pageLink(1)" aria-label="First">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                <a class="page-link" href="@pageLink(currentPage - 1)" aria-label="Previous">
+                                    <span aria-hidden="true">&lsaquo;</span>
+                                </a>
+                            </li>
+                            
+                            @{
+                                // Display a range of page numbers around the current page
+                                int range = 2; // Show 2 pages before and after current page
+                                int start = Math.Max(1, currentPage - range);
+                                int end = Math.Min(totalPages, currentPage + range);
+                                
+                                // Always show first page
+                                if (start > 1)
+                                {
+                                    <li class="page-item"><a class="page-link" href="@pageLink(1)">1</a></li>
+                                    if (start > 2) { <li class="page-item disabled"><span class="page-link">...</span></li> }
+                                }
+                                
+                                // Show the range of pages
+                                for (int i = start; i <= end; i++)
+                                {
+                                    <li class="page-item @(i == currentPage ? "active" : "")">
+                                        <a class="page-link" href="@pageLink(i)">@i</a>
+                                    </li>
+                                }
+                                
+                                // Always show last page
+                                if (end < totalPages)
+                                {
+                                    if (end < totalPages - 1) { <li class="page-item disabled"><span class="page-link">...</span></li> }
+                                    <li class="page-item"><a class="page-link" href="@pageLink(totalPages)">@totalPages</a></li>
+                                }
+                            }
+                            
+                            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                                <a class="page-link" href="@pageLink(currentPage + 1)" aria-label="Next">
+                                    <span aria-hidden="true">&rsaquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                                <a class="page-link" href="@pageLink(totalPages)" aria-label="Last">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            }
         </div>
     </div>
 </div>
-
-<style>
-    .card .table-responsive { max-height: 400px; }
-</style>
 
 <script>
 (function() {
@@ -75,6 +183,7 @@
     var rows = tbody.getElementsByTagName('tr');
     var totalCount = document.getElementById('totalCount');
     var noResults = document.getElementById('noResults');
+    var pageSizeSelect = document.getElementById('pageSizeSelect');
 
     searchBox.addEventListener('keyup', function() {
         var searchTerm = this.value.toLowerCase().trim();
@@ -118,5 +227,14 @@
             noResults.style.display = 'none';
         }
     });
+    
+    // Handle page size changes
+    if (pageSizeSelect) {
+        pageSizeSelect.addEventListener('change', function() {
+            var pageSize = this.value;
+            var url = '@Url.Action("ViewSavingsTransactions", new { page = 1, sort = currentSort, dir = currentDir })' + '&pageSize=' + pageSize;
+            window.location.href = url;
+        });
+    }
 })();
 </script>

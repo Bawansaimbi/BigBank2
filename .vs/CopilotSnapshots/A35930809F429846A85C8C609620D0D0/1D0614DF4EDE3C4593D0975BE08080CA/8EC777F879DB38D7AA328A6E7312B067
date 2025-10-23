@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Deposit / Withdraw";
+}
+
+<div class="container py-4">
+    <h2>Deposit / Withdraw</h2>
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+
+    @using (Html.BeginForm("DepositWithdraw","Home",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row g-2 align-items-end">
+            <div class="col-12 col-md-4">
+                <label class="form-label small">Account ID</label>
+                <input name="AccountID" id="accountIdInput" class="form-control" placeholder="SB..." />
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="form-label small">Amount</label>
+                <div class="input-group">
+                    <span class="input-group-text">Rs</span>
+                    <input name="Amount" type="number" min="1" step="0.01" class="form-control" placeholder="Amount" />
+                </div>
+            </div>
+            <div class="col-12 col-md-3">
+                <label class="form-label small">Mode</label>
+                <select name="Mode" class="form-select">
+                    <option value="Deposit">Deposit</option>
+                    <option value="Withdraw">Withdraw</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-1 d-grid">
+                <button class="btn btn-primary" type="submit">Go</button>
+            </div>
+        </div>
+    }
+
+    <div class="row g-2 mt-2">
+        <div class="col-12 col-md-6">
+            <input id="accountName" class="form-control" readonly placeholder="Customer name" />
+        </div>
+        <div class="col-12 col-md-6">
+            <input id="accountBalance" class="form-control" readonly placeholder="Current balance" />
+        </div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        var input = document.getElementById('accountIdInput');
+        var nameBox = document.getElementById('accountName');
+        var balBox = document.getElementById('accountBalance');
+        if (!input) return;
+        function lookup(){
+            var acc = input.value.trim();
+            if (!acc) { if (nameBox) nameBox.value = ''; if (balBox) balBox.value=''; return; }
+            fetch('/Home/LookupAccountName?id=' + encodeURIComponent(acc))
+                .then(function(res){ return res.json(); })
+                .then(function(data){ 
+                    if (data) {
+                        if (nameBox) nameBox.value = data.name || 'Not found'; 
+                        if (balBox) balBox.value = (data.balance != null) ? ('Rs ' + parseFloat(data.balance).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})) : '';
+                    }
+                })
+                .catch(function(){ if (nameBox) nameBox.value = 'Error'; if (balBox) balBox.value=''; });
+        }
+        input.addEventListener('blur', lookup);
+        input.addEventListener('change', lookup);
+    })();
+</script>

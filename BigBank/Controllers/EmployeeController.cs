@@ -133,12 +133,55 @@ namespace BigBank.Controllers
         }
 
         // Employee Views for Accounts
-        public ActionResult ViewSavingsAccounts()
+        public ActionResult ViewSavingsAccounts(int page = 1, int pageSize = 20, string sort = "SBAccountID", string dir = "asc")
         {
             using (var db = new BigBankEntities())
             {
-                var list = db.SavingsAccounts.OrderBy(s => s.SBAccountID).ToList();
-                return View(list);
+                var query = db.SavingsAccounts.AsQueryable();
+                
+                // Apply sorting
+                bool ascending = string.Equals(dir, "asc", StringComparison.OrdinalIgnoreCase);
+                switch (sort)
+                {
+                    case "SBAccountID":
+                        query = ascending ? query.OrderBy(a => a.SBAccountID) : query.OrderByDescending(a => a.SBAccountID);
+                        break;
+                    case "CustID":
+                        query = ascending ? query.OrderBy(a => a.CustID) : query.OrderByDescending(a => a.CustID);
+                        break;
+                    case "Balance":
+                        query = ascending ? query.OrderBy(a => a.Balance) : query.OrderByDescending(a => a.Balance);
+                        break;
+                    case "CreatedOn":
+                        query = ascending ? query.OrderBy(a => a.CreatedOn) : query.OrderByDescending(a => a.CreatedOn);
+                        break;
+                    default:
+                        query = ascending ? query.OrderBy(a => a.SBAccountID) : query.OrderByDescending(a => a.SBAccountID);
+                        break;
+                }
+                
+                // Calculate pagination
+                int totalCount = query.Count();
+                int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+                
+                // Adjust page if out of range
+                if (page < 1) page = 1;
+                if (page > totalPages && totalPages > 0) page = totalPages;
+                
+                var accounts = query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+                
+                // Pass pagination information to the view
+                ViewBag.Page = page;
+                ViewBag.PageSize = pageSize;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.TotalCount = totalCount;
+                ViewBag.SortColumn = sort;
+                ViewBag.SortDir = dir;
+                
+                return View(accounts);
             }
         }
 
@@ -161,14 +204,55 @@ namespace BigBank.Controllers
         }
 
         // Employee Views for Transactions
-        public ActionResult ViewSavingsTransactions()
+        public ActionResult ViewSavingsTransactions(int page = 1, int pageSize = 20, string sort = "TransactionDate", string dir = "desc")
         {
             using (var db = new BigBankEntities())
             {
-                var transactions = db.SavingsTransactions
-                    .OrderByDescending(t => t.TransactionDate)
-                    .Take(100) // Limit for performance
+                var query = db.SavingsTransactions.AsQueryable();
+                
+                // Apply sorting
+                bool ascending = string.Equals(dir, "asc", StringComparison.OrdinalIgnoreCase);
+                switch (sort)
+                {
+                    case "TransactionID":
+                        query = ascending ? query.OrderBy(t => t.TransactionID) : query.OrderByDescending(t => t.TransactionID);
+                        break;
+                    case "SBAccountID":
+                        query = ascending ? query.OrderBy(t => t.SBAccountID) : query.OrderByDescending(t => t.SBAccountID);
+                        break;
+                    case "TransactionType":
+                        query = ascending ? query.OrderBy(t => t.TransactionType) : query.OrderByDescending(t => t.TransactionType);
+                        break;
+                    case "Amount":
+                        query = ascending ? query.OrderBy(t => t.Amount) : query.OrderByDescending(t => t.Amount);
+                        break;
+                    case "TransactionDate":
+                    default:
+                        query = ascending ? query.OrderBy(t => t.TransactionDate) : query.OrderByDescending(t => t.TransactionDate);
+                        break;
+                }
+                
+                // Calculate pagination
+                int totalCount = query.Count();
+                int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+                
+                // Adjust page if out of range
+                if (page < 1) page = 1;
+                if (page > totalPages) page = totalPages;
+                
+                var transactions = query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
                     .ToList();
+                
+                // Pass pagination information to the view
+                ViewBag.Page = page;
+                ViewBag.PageSize = pageSize;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.TotalCount = totalCount;
+                ViewBag.SortColumn = sort;
+                ViewBag.SortDir = dir;
+                
                 return View(transactions);
             }
         }
@@ -431,6 +515,48 @@ namespace BigBank.Controllers
                     isSenior = age >= 60
                 }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteSavingsAccount(string accountId)
+        {
+            if (string.IsNullOrWhiteSpace(accountId))
+            {
+                TempData["Error"] = "Account ID is required.";
+                return RedirectToAction("ViewSavingsAccounts");
+            }
+            
+            using (var db = new BigBankEntities())
+            {
+                var account = db.SavingsAccounts.FirstOrDefault(a => a.SBAccountID == accountId);
+                if (account == null)
+                {
+                    TempData["Error"] = "Account not found.";
+                    return RedirectToAction("ViewSavingsAccounts");
+                }
+                
+                // Check if account has transactions
+                var hasTransactions = db.SavingsTransactions.Any(t => t.SBAccountID == accountId);
+                if (hasTransactions)
+                {
+                    TempData["Error"] = "Cannot delete account with transactions. Please contact the IT department to proceed.";
+                    return RedirectToAction("ViewSavingsAccounts");
+                }
+                
+                try
+                {
+                    db.SavingsAccounts.Remove(account);
+                    db.SaveChanges();
+                    TempData["Success"] = $"Account {accountId} has been deleted successfully.";
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = "Failed to delete account: " + ex.Message;
+                }
+            }
+            
+            return RedirectToAction("ViewSavingsAccounts");
         }
     }
 }
