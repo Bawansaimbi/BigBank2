@@ -1,0 +1,118 @@
+@model List<BigBank.Models.SavingsAccount>
+
+@{
+    ViewBag.Title = "View Savings Accounts";
+}
+
+<div class="container py-4">
+    <h2>Savings Accounts</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">All Savings Accounts</h5>
+            
+            <div class="mb-3">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search by Account ID or Customer ID..." />
+                <small class="text-muted">Total: <span id="totalCount">@(Model?.Count ?? 0)</span> account(s)</small>
+            </div>
+
+            <div class="table-responsive" style="height:400px; overflow:auto;">
+                <table class="table table-sm mb-0" id="accountsTable">
+                    <thead class="thead-light">
+                        <tr>
+                            <th style="width:6%;">Sr. No.</th>
+                            <th style="width:20%;">Account ID</th>
+                            <th style="width:20%;">Customer ID</th>
+                            <th style="width:20%;">Balance</th>
+                            <th style="width:20%;">Created On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Count; i++)
+                            {
+                                var acc = Model[i];
+                                <tr>
+                                    <td>@(i+1)</td>
+                                    <td>@acc.SBAccountID</td>
+                                    <td>@acc.CustID</td>
+                                    <td>Rs @acc.Balance.ToString("N2")</td>
+                                    <td>@(acc.CreatedOn.HasValue ? acc.CreatedOn.Value.ToString("dd-MMM-yyyy") : "")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-muted">No accounts found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noResults" class="alert alert-info mt-3" style="display:none;">
+                No accounts found matching your search.
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card .table-responsive { max-height: 400px; }
+</style>
+
+<script>
+(function() {
+    var searchBox = document.getElementById('searchBox');
+    var table = document.getElementById('accountsTable');
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = tbody.getElementsByTagName('tr');
+    var totalCount = document.getElementById('totalCount');
+    var noResults = document.getElementById('noResults');
+
+    searchBox.addEventListener('keyup', function() {
+        var searchTerm = this.value.toLowerCase().trim();
+        var visibleCount = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cells = row.getElementsByTagName('td');
+            
+            if (cells.length < 5) {
+                continue;
+            }
+
+            var found = false;
+
+            for (var j = 1; j <= 4; j++) {
+                if (cells[j]) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    cellText = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+                    
+                    if (cellText.indexOf(searchTerm) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found || searchTerm === '') {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        totalCount.textContent = visibleCount;
+
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    });
+})();
+</script>

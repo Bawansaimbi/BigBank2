@@ -1,0 +1,206 @@
+@{
+    ViewBag.Title = "Open Loan Account";
+}
+
+<div class="container py-4">
+    <h2>Open New Loan</h2>
+
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="mb-2">Rules</h5>
+            <ul class="mb-0">
+                <li>Minimum loan amount: <strong>Rs 10,000</strong></li>
+                <li>Interest rate slabs:
+                    <ul>
+                        <li><strong>10.0%</strong> for loans up to Rs 5,00,000</li>
+                        <li><strong>9.5%</strong> for loans from Rs 5,00,001 to Rs 10,00,000</li>
+                        <li><strong>9.0%</strong> for loans above Rs 10,00,000</li>
+                    </ul>
+                </li>
+                <li>Senior citizens (60+): max loan <strong>Rs 1,00,000</strong>, interest rate <strong>9.5%</strong></li>
+                <li>Tenure: 1 to 20 years</li>
+            </ul>
+        </div>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@Html.Raw(TempData["Success"])</div>
+    }
+
+    @using (Html.BeginForm("OpenLoanAccountManager", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="custDob" />
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Customer ID</label>
+                <input name="CustID" id="CustID" class="form-control" value="@ViewBag.LastCustID" placeholder="Enter Customer ID" />
+                <div class="form-text"><span id="custName" class="fw-semibold"></span> <span id="seniorBadge" class="badge bg-info text-dark" style="display:none;">Senior</span></div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Loan Amount (Rs)</label>
+                <input name="LoanAmount" id="LoanAmount" type="number" step="0.01" min="10000" class="form-control" placeholder="Min 10,000" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Tenure (Years)</label>
+                <select name="Tenure" id="Tenure" class="form-select">
+                    @for (int i = 1; i <= 20; i++) { <option value="@i">@i</option> }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Start Date</label>
+                <input name="StartDate" id="StartDate" type="date" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Interest Rate (%)</label>
+                <input id="InterestRate" class="form-control" readonly />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Monthly EMI (Rs)</label>
+                <input id="MonthlyEMI" class="form-control" readonly />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Total Payable (Rs)</label>
+                <input id="TotalPayable" class="form-control" readonly />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">End Date</label>
+                <input id="EndDate" class="form-control" readonly />
+            </div>
+            <div class="col-12">
+                <div id="seniorWarning" class="small text-danger" style="display:none;">Senior citizen cap exceeded (max 1,00,000)</div>
+            </div>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Open Loan</button>
+            <a href="@Url.Action("ViewLoanAccounts", "Home")" class="btn btn-secondary ms-2">Back</a>
+        </div>
+    }
+
+    @if (ViewBag.NewLoanId != null)
+    {
+        <hr />
+        <div class="card">
+            <div class="card-body">
+                <h5>Loan Opened</h5>
+                <p><strong>Account No:</strong> @ViewBag.NewLoanId</p>
+                <p><strong>Customer ID:</strong> @ViewBag.CustID</p>
+                <p><strong>Loan Amount:</strong> Rs @ViewBag.LoanAmount</p>
+                <p><strong>Interest Rate:</strong> @ViewBag.InterestRate%</p>
+                <p><strong>Tenure:</strong> @ViewBag.TenureYears years</p>
+                <p><strong>EMI:</strong> Rs @ViewBag.EMI</p>
+                <p><strong>Outstanding (initial):</strong> Rs @ViewBag.TotalPayable</p>
+                <p><strong>End Date:</strong> @ViewBag.EndDate</p>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+(function(){
+    var custBox = document.getElementById('CustID');
+    var nameBox = document.getElementById('custName');
+    var badge = document.getElementById('seniorBadge');
+    var dobHidden = document.getElementById('custDob');
+    var amountBox = document.getElementById('LoanAmount');
+    var tenureSel = document.getElementById('Tenure');
+    var startBox = document.getElementById('StartDate');
+    var rateBox = document.getElementById('InterestRate');
+    var emiBox = document.getElementById('MonthlyEMI');
+    var totalBox = document.getElementById('TotalPayable');
+    var endBox = document.getElementById('EndDate');
+    var seniorWarn = document.getElementById('seniorWarning');
+
+    function parseNum(el){ var v = parseFloat((el && el.value) || ''); return isNaN(v) ? 0 : v; }
+
+    function isSenior(){
+        var dobStr = dobHidden.value;
+        if (!dobStr) return false;
+        var d = new Date(dobStr);
+        if (isNaN(d.getTime())) return false;
+        var today = new Date();
+        var age = today.getFullYear() - d.getFullYear();
+        var m = today.getMonth() - d.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < d.getDate())) { age--; }
+        return age >= 60;
+    }
+
+    function computeRate(){
+        var amt = parseNum(amountBox);
+        if (amt <= 0) return '';
+        if (isSenior()) return 9.5.toFixed(1);
+        if (amt <= 500000) return (10.0).toFixed(1);
+        if (amt <= 1000000) return (9.5).toFixed(1);
+        return (9.0).toFixed(1);
+    }
+
+    function computeAll(){
+        var amt = parseNum(amountBox);
+        var tenureYears = parseInt((tenureSel && tenureSel.value) || '0', 10) || 0;
+        var months = tenureYears * 12;
+        var rateStr = computeRate();
+        rateBox.value = rateStr;
+
+        // end date
+        var s = startBox && startBox.value ? new Date(startBox.value) : new Date();
+        if (!isNaN(s.getTime())){
+            var e = new Date(s.getFullYear() + tenureYears, s.getMonth(), s.getDate());
+            endBox.value = e.toISOString().slice(0,10);
+        } else {
+            endBox.value = '';
+        }
+
+        var monthlyRate = rateStr ? (parseFloat(rateStr) / 100.0) / 12.0 : 0;
+        var emi = 0;
+        if (amt > 0 && months > 0){
+            if (monthlyRate > 0){
+                var factor = Math.pow(1 + monthlyRate, months);
+                emi = amt * monthlyRate * factor / (factor - 1);
+            } else {
+                emi = amt / months;
+            }
+        }
+        var total = emi * months;
+        emiBox.value = emi ? emi.toFixed(2) : '';
+        totalBox.value = total ? total.toFixed(2) : '';
+
+        // senior cap quick hint only
+        if (isSenior() && amt > 100000){
+            seniorWarn.style.display = 'block';
+        } else {
+            seniorWarn.style.display = 'none';
+        }
+    }
+
+    function fetchCustomer(){
+        var id = (custBox.value || '').trim();
+        nameBox.textContent = '';
+        badge.style.display = 'none';
+        dobHidden.value = '';
+        if (!id) { computeAll(); return; }
+        fetch('@Url.Action("LookupCustomerDetails","Home")?id=' + encodeURIComponent(id))
+            .then(function(r){return r.json();})
+            .then(function(d){
+                if (!d) return;
+                if (d.name) nameBox.textContent = d.name;
+                if (d.dob) dobHidden.value = d.dob;
+                if (d.isSenior) badge.style.display = 'inline-block';
+                computeAll();
+            })
+            .catch(function(){ computeAll(); });
+    }
+
+    if (custBox) custBox.addEventListener('blur', fetchCustomer);
+    ['input','change'].forEach(function(ev){ if(amountBox) amountBox.addEventListener(ev, computeAll); });
+    if (tenureSel) tenureSel.addEventListener('change', computeAll);
+    if (startBox) startBox.addEventListener('change', computeAll);
+
+    // init
+    fetchCustomer();
+})();
+</script>

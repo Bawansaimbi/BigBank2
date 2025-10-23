@@ -8,6 +8,7 @@ namespace BigBank.Filters
     public class SessionAuthorizeAttribute : AuthorizeAttribute
     {
         public string RolesCsv { get; set; }
+        private static readonly TimeSpan IdleTimeout = TimeSpan.FromMinutes(20); // session idle timeout safeguard
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
@@ -17,6 +18,37 @@ namespace BigBank.Filters
 
             var userType = session["UserType"] as string;
             if (string.IsNullOrEmpty(userType)) return false;
+
+            // bind session to client and idle timeout to reduce hijacking risk
+            try
+            {
+                var now = DateTime.UtcNow;
+                var last = session["LastActivityUtc"] as DateTime?;
+                if (last.HasValue && now - last.Value > IdleTimeout)
+                {
+                    session.Clear();
+                    return false;
+                }
+
+                var agent = httpContext.Request.UserAgent ?? string.Empty;
+                var ip = httpContext.Request.UserHostAddress ?? string.Empty;
+                var sessAgent = session["UserAgent"] as string ?? string.Empty;
+                var sessIp = session["IP"] as string ?? string.Empty;
+                if (!string.IsNullOrEmpty(sessAgent) && !string.Equals(sessAgent, agent, StringComparison.Ordinal))
+                {
+                    session.Clear();
+                    return false;
+                }
+                if (!string.IsNullOrEmpty(sessIp) && !string.Equals(sessIp, ip, StringComparison.Ordinal))
+                {
+                    session.Clear();
+                    return false;
+                }
+
+                // slide last activity
+                session["LastActivityUtc"] = now;
+            }
+            catch { /* ignore best-effort */ }
 
             if (string.IsNullOrEmpty(RolesCsv)) return true; // any logged in user
 

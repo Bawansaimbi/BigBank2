@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using BigBank.Filters;
 
 namespace BigBank
 {
@@ -8,6 +9,8 @@ namespace BigBank
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            
+            filters.Add(new SessionAuthorizeAttribute());
         }
     }
 }

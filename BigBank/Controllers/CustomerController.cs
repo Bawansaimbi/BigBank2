@@ -15,6 +15,7 @@ namespace BigBank.Controllers
     {
         public ActionResult Index()
         {
+            // ensure the requested resources belong to the logged-in customer only
             string custId = Session["UserID"].ToString();
             var vm = new CustomerDashboardViewModel();
 
@@ -38,13 +39,13 @@ namespace BigBank.Controllers
 
         public ActionResult ViewSavings(string id)
         {
-            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
-                return RedirectToAction("Login", "Home");
+            // anti URL-tampering: only allow accessing accounts that belong to the session customer
+            string custId = Session["UserID"].ToString();
 
             using (var db = new BigBankEntities())
             {
-                var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id);
-                if (sb == null) return HttpNotFound();
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id && s.CustID == custId);
+                if (sb == null) return new HttpUnauthorizedResult();
 
                 var txns = db.SavingsTransactions.Where(t => t.SBAccountID == id).OrderBy(t => t.TransactionDate).ToList();
                 // compute running balances
@@ -77,8 +78,14 @@ namespace BigBank.Controllers
                 var cust = db.Customers.FirstOrDefault(c => c.CustID == sb.CustID);
                 if (cust != null)
                 {
-                    vm.CustomerName = cust.CustName;
-                    vm.CustomerPAN = cust.PAN;
+                    vm.CustomerName = (cust.CustName ?? string.Empty).Trim();
+                    vm.CustomerPAN = (cust.PAN ?? string.Empty).Trim();
+                }
+                else
+                {
+                    // fallback: show CustID if customer record not found
+                    vm.CustomerName = (sb.CustID ?? string.Empty).Trim();
+                    vm.CustomerPAN = string.Empty;
                 }
                 return View(vm);
             }
@@ -88,26 +95,28 @@ namespace BigBank.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Transfer(string id, string receiverAccountId, decimal? amount)
         {
+            // anti URL-tampering: sender account must be owned by session user
+            string custId = Session["UserID"].ToString();
+
             if (string.IsNullOrWhiteSpace(receiverAccountId) || amount == null || amount < 100)
             {
                 TempData["Error"] = "Minimum transfer amount is 100.";
                 return RedirectToAction("ViewSavings", new { id });
             }
 
-            string custId = Session["UserID"].ToString();
             using (var db = new BigBankEntities())
             {
-                        using (var tx = db.Database.BeginTransaction())
+                using (var tx = db.Database.BeginTransaction())
                 {
-                    var sender = db.SavingsAccounts.Single(s => s.SBAccountID == id && s.CustID == custId);
-                    var receiver = db.SavingsAccounts.Single(s => s.SBAccountID == receiverAccountId);
-
-                    // validations
+                    var sender = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id && s.CustID == custId);
                     if (sender == null)
                     {
-                        TempData["Error"] = "Sender account not found.";
-                        return RedirectToAction("ViewSavings", new { id });
+                        return new HttpUnauthorizedResult();
                     }
+
+                    var receiver = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == receiverAccountId);
+
+                    // validations
                     if (receiver == null)
                     {
                         TempData["Error"] = "Receiver account not found.";
@@ -129,7 +138,7 @@ namespace BigBank.Controllers
                     var senderNewBal = sender.Balance - amount.Value;
                     var receiverNewBal = receiver.Balance + amount.Value;
 
-                    // perform direct parameterized SQL updates and inserts to avoid EF validation issues
+                    // perform updates in transaction
                     var now = DateTime.Now;
 
                     // update sender balance
@@ -162,12 +171,12 @@ namespace BigBank.Controllers
 
         public ActionResult DownloadTransactionsCsv(string id)
         {
-            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer") return RedirectToAction("Login", "Home");
-
+            // anti URL-tampering: ensure account belongs to session user
+            string custId = Session["UserID"].ToString();
             using (var db = new BigBankEntities())
             {
-                var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id);
-                if (sb == null) return HttpNotFound();
+                var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id && s.CustID == custId);
+                if (sb == null) return new HttpUnauthorizedResult();
                 var txns = db.SavingsTransactions.Where(t => t.SBAccountID == id).OrderByDescending(t => t.TransactionDate).ToList();
 
                 var csv = new System.Text.StringBuilder();
@@ -218,10 +227,11 @@ namespace BigBank.Controllers
             using (var db = new BigBankEntities())
             {
                 var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id && s.CustID == custId);
-                if (sb == null) return HttpNotFound();
+                if (sb == null) return new HttpUnauthorizedResult();
 
                 sb.Balance += depositAmount.Value;
-                db.SavingsTransactions.Add(new SavingsTransaction { SBAccountID = id, TransactionDate = DateTime.Now, TransactionType = "Deposit", Amount = depositAmount.Value, Remarks = "Deposit" });
+                // Use single-character code 'D' for deposit to match DB column size
+                db.SavingsTransactions.Add(new SavingsTransaction { SBAccountID = id, TransactionDate = DateTime.Now, TransactionType = "D", Amount = depositAmount.Value, Remarks = "Deposit" });
                 db.SaveChanges();
             }
             return RedirectToAction("ViewSavings", new { id });
@@ -240,7 +250,7 @@ namespace BigBank.Controllers
             using (var db = new BigBankEntities())
             {
                 var sb = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == id && s.CustID == custId);
-                if (sb == null) return HttpNotFound();
+                if (sb == null) return new HttpUnauthorizedResult();
 
                 if (sb.Balance < withdrawAmount.Value)
                 {
@@ -255,7 +265,8 @@ namespace BigBank.Controllers
                 }
 
                 sb.Balance -= withdrawAmount.Value;
-                db.SavingsTransactions.Add(new SavingsTransaction { SBAccountID = id, TransactionDate = DateTime.Now, TransactionType = "Withdrawal", Amount = withdrawAmount.Value, Remarks = "Withdrawal" });
+                // Use single-character code 'W' for withdrawal to match DB column size
+                db.SavingsTransactions.Add(new SavingsTransaction { SBAccountID = id, TransactionDate = DateTime.Now, TransactionType = "W", Amount = withdrawAmount.Value, Remarks = "Withdrawal" });
                 db.SaveChanges();
             }
             return RedirectToAction("ViewSavings", new { id });
@@ -263,26 +274,24 @@ namespace BigBank.Controllers
 
         public ActionResult ViewFD(string id)
         {
-            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
-                return RedirectToAction("Login", "Home");
-
+            if (string.IsNullOrWhiteSpace(id)) return HttpNotFound();
+            string custId = Session["UserID"].ToString();
             using (var db = new BigBankEntities())
             {
-                var fd = db.FDAccounts.FirstOrDefault(f => f.FDAccountID == id);
-                if (fd == null) return HttpNotFound();
+                var fd = db.FDAccounts.FirstOrDefault(f => f.FDAccountID == id && f.CustomerID == custId);
+                if (fd == null) return new HttpUnauthorizedResult();
                 return View(fd);
             }
         }
 
         public ActionResult ViewLoan(string id)
         {
-            if (Session["UserType"] == null || Session["UserType"].ToString() != "Customer")
-                return RedirectToAction("Login", "Home");
-
+            if (string.IsNullOrWhiteSpace(id)) return HttpNotFound();
+            string custId = Session["UserID"].ToString();
             using (var db = new BigBankEntities())
             {
-                var ln = db.LoanAccounts.FirstOrDefault(l => l.LoanAccountID == id);
-                if (ln == null) return HttpNotFound();
+                var ln = db.LoanAccounts.FirstOrDefault(l => l.LoanAccountID == id && l.CustomerID == custId);
+                if (ln == null) return new HttpUnauthorizedResult();
                 return View(ln);
             }
         }

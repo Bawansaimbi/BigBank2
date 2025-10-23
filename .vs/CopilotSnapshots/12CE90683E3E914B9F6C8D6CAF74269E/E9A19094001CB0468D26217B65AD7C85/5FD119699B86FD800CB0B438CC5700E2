@@ -1,0 +1,233 @@
+﻿@model List<BigBank.Models.LoanAccount>
+
+@{
+    ViewBag.Title = "Loan Accounts";
+}
+
+<div class="container py-4">
+    <h2>Loan Accounts</h2>
+
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("PayEMI","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>💳 Pay EMI</h5>
+                        <p class="text-muted">Process EMI payment for a loan account</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("OpenLoanAccount","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>➕ Open New Loan</h5>
+                        <p class="text-muted">Create a new loan account for a customer</p>
+                        <div class="mt-2"><span class="small text-muted">Min loan: Rs 10,000</span></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <a href="@Url.Action("ForeCloseLoan","Home")" class="text-decoration-none">
+                <div class="card h-100 text-center p-3">
+                    <div class="card-body">
+                        <h5>🔒 Foreclose Loan</h5>
+                        <p class="text-muted">Close loan with pending balance payment</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            @if (TempData["Error"] != null) { <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div> }
+            @if (TempData["Success"] != null) { <div class="alert alert-success">@Html.Raw(TempData["Success"])</div> }
+
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+                <a href="@Url.Action("DownloadLoanReport","Home")" class="btn btn-success">📊 Download Loan Report (CSV)</a>
+                <div class="flex-grow-1 ms-3">
+                    <input type="text" id="searchBox" class="form-control" placeholder="Search..." />
+                    <small class="text-muted">Total: <span id="totalCount">@Model.Count</span> loan(s)</small>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-sm table-striped" id="loansTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Loan Account ID</th>
+                            <th>Customer</th>
+                            <th>Loan Amount</th>
+                            <th>Rate</th>
+                            <th>Tenure</th>
+                            <th>Total Payable</th>
+                            <th>Monthly EMI</th>
+                            <th>Outstanding</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i=0;i<Model.Count;i++) {
+                            var loan = Model[i];
+                            string custName = "";
+                            decimal outstanding = 0;
+                            decimal emi = 0;
+                            
+                            using (var db = new BigBank.Models.BigBankEntities())
+                            {
+                                var c = db.Customers.FirstOrDefault(x => x.CustID == loan.CustomerID);
+                                if (c != null){ custName = c.CustName;}
+                                
+                                // Get latest transaction to find outstanding
+                                var latestTxn = db.LoanTransactions
+                                    .Where(t => t.LoanAccountID == loan.LoanAccountID)
+                                    .OrderByDescending(t => t.EMIDate)
+                                    .FirstOrDefault();
+                                
+                                outstanding = latestTxn?.Outstanding ?? loan.TotalPayable ?? loan.LoanAmount;
+                                
+                                // Calculate EMI (Tenure is stored as months)
+                                if (loan.Tenure > 0)
+                                {
+                                    decimal monthlyRate = loan.InterestRate / 12m / 100m;
+                                    int tenureMonths = loan.Tenure;
+                                    if (monthlyRate > 0)
+                                    {
+                                        double factor = Math.Pow(1 + (double)monthlyRate, tenureMonths);
+                                        emi = loan.LoanAmount * monthlyRate * (decimal)factor / ((decimal)factor - 1);
+                                    }
+                                    else
+                                    {
+                                        emi = tenureMonths > 0 ? loan.LoanAmount / tenureMonths : 0;
+                                    }
+                                    emi = Math.Round(emi, 2);
+                                }
+                            }
+                            
+                            <tr class="@(loan.Status == "Closed" ? "table-secondary" : "")">
+                                <td>@(i+1)</td>
+                                <td><strong>@loan.LoanAccountID</strong></td>
+                                <td>
+                                    @loan.CustomerID<br/>
+                                    <small class="text-muted">@custName</small>
+                                </td>
+                                <td>Rs @loan.LoanAmount.ToString("N2")</td>
+                                <td>@loan.InterestRate.ToString("N2")%</td>
+                                <td>@loan.Tenure months</td>
+                                <td>Rs @((loan.TotalPayable ?? 0).ToString("N2"))</td>
+                                <td><strong>Rs @emi.ToString("N2")</strong></td>
+                                <td>
+                                    @if (outstanding > 0)
+                                    {
+                                        <span class="badge bg-warning text-dark">Rs @outstanding.ToString("N2")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Rs 0.00</span>
+                                    }
+                                </td>
+                                <td>@loan.StartDate.ToString("dd-MMM-yyyy")</td>
+                                <td>@loan.EndDate.ToString("dd-MMM-yyyy")</td>
+                                <td>
+                                    @if (loan.Status == "Active")
+                                    {
+                                        <span class="badge bg-success">@loan.Status</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@loan.Status</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (loan.Status == "Active")
+                                    {
+                                        <div class="btn-group-vertical btn-group-sm">
+                                            <a href="@Url.Action("PayEMI","Home", new { loanId = loan.LoanAccountID })" class="btn btn-sm btn-primary">Pay EMI</a>
+                                            <a href="@Url.Action("ForeCloseLoan","Home", new { id = loan.LoanAccountID })" class="btn btn-sm btn-warning">Foreclose</a>
+                                            @using (Html.BeginForm("CloseLoanAccount","Home",FormMethod.Post, new { @onsubmit = "return confirm('Close loan account? Outstanding amount must be zero.');" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("id", loan.LoanAccountID)
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" @(outstanding > 0 ? "disabled" : "")>Close</button>
+                                            }
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noResults" class="alert alert-info mt-3" style="display:none;">
+                No loan accounts found matching your search.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var searchBox = document.getElementById('searchBox');
+    var table = document.getElementById('loansTable');
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = tbody.getElementsByTagName('tr');
+    var totalCount = document.getElementById('totalCount');
+    var noResults = document.getElementById('noResults');
+
+    searchBox.addEventListener('keyup', function() {
+        var searchTerm = this.value.toLowerCase().trim();
+        var visibleCount = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cells = row.getElementsByTagName('td');
+            var found = false;
+
+            // Search in Loan Account ID (1), Customer ID/Name (2), Loan Amount (3), 
+            // Rate (4), Tenure (5), Total Payable (6), EMI (7), Outstanding (8), 
+            // Start Date (9), End Date (10), Status (11)
+            for (var j = 1; j <= 11; j++) {
+                if (cells[j]) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    // Remove extra whitespace and convert to lowercase
+                    cellText = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+                    
+                    if (cellText.indexOf(searchTerm) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found || searchTerm === '') {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        // Update count
+        totalCount.textContent = visibleCount;
+
+        // Show/hide no results message
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResults.style.display = 'block';
+            table.style.display = 'none';
+        } else {
+            noResults.style.display = 'none';
+            table.style.display = 'table';
+        }
+    });
+})();
+</script>

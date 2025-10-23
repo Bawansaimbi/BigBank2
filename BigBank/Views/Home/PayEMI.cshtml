@@ -11,19 +11,22 @@
     {
         @Html.AntiForgeryToken()
         <div class="row g-2 align-items-end">
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-md-4">
                 <label class="form-label small">Loan Account ID</label>
                 <input name="LoanAccountID" id="loanAccountInput" class="form-control" placeholder="LN..." />
             </div>
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-md-4">
                 <label class="form-label small">EMI Amount</label>
                 <div class="input-group">
                     <span class="input-group-text">Rs</span>
-                    <input name="Amount" type="number" min="1" step="0.01" class="form-control" placeholder="Amount" />
+                    <input name="Amount" id="emiAmountInput" type="number" min="1" step="0.01" class="form-control" placeholder="Amount" />
+                </div>
+                <div class="small text-muted mt-1">
+                    <button type="button" id="useMonthlyEMI" class="btn btn-sm btn-outline-secondary" style="display:none;">Use Monthly EMI</button>
                 </div>
             </div>
-            <div class="col-12 col-md-2 d-grid">
-                <button class="btn btn-primary" type="submit">Pay</button>
+            <div class="col-12 col-md-4 d-grid">
+                <button class="btn btn-primary" type="submit">Pay EMI</button>
             </div>
         </div>
     }
@@ -77,6 +80,10 @@
         var emiBox = document.getElementById('monthlyEMI');
         var todayBox = document.getElementById('todaysDate');
         var dueDateBox = document.getElementById('nextDueDate');
+        var emiAmountInput = document.getElementById('emiAmountInput');
+        var useMonthlyEMIBtn = document.getElementById('useMonthlyEMI');
+        
+        var currentMonthlyEMI = 0;
         
         if (!input) return;
         
@@ -97,6 +104,31 @@
                         if (emiBox) emiBox.value = (data.monthlyEMI != null) ? ('Rs ' + parseFloat(data.monthlyEMI).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})) : '';
                         if (todayBox) todayBox.value = data.todaysDate || '';
                         if (dueDateBox) dueDateBox.value = data.nextDueDate || '';
+                        
+                        // Store monthly EMI and show/hide button
+                        currentMonthlyEMI = data.monthlyEMI || 0;
+                        if (currentMonthlyEMI > 0) {
+                            useMonthlyEMIBtn.style.display = 'inline-block';
+                            // Auto-fill with monthly EMI amount
+                            emiAmountInput.value = currentMonthlyEMI.toFixed(2);
+                        } else {
+                            useMonthlyEMIBtn.style.display = 'none';
+                        }
+                        
+                        // Check if payment is overdue
+                        if (data.nextDueDate) {
+                            var nextDue = new Date(data.nextDueDate);
+                            var today = new Date();
+                            if (nextDue < today) {
+                                dueDateBox.style.color = '#dc3545';
+                                dueDateBox.style.fontWeight = 'bold';
+                                dueDateBox.title = 'Payment is overdue';
+                            } else {
+                                dueDateBox.style.color = '';
+                                dueDateBox.style.fontWeight = '';
+                                dueDateBox.title = '';
+                            }
+                        }
                     }
                 })
                 .catch(function(){ 
@@ -112,7 +144,18 @@
             if (emiBox) emiBox.value='';
             if (todayBox) todayBox.value='';
             if (dueDateBox) dueDateBox.value='';
+            if (emiAmountInput) emiAmountInput.value='';
+            currentMonthlyEMI = 0;
+            useMonthlyEMIBtn.style.display = 'none';
         }
+        
+        // Use Monthly EMI button click handler
+        useMonthlyEMIBtn.addEventListener('click', function() {
+            if (currentMonthlyEMI > 0) {
+                emiAmountInput.value = currentMonthlyEMI.toFixed(2);
+                emiAmountInput.focus();
+            }
+        });
         
         input.addEventListener('blur', lookup);
         input.addEventListener('change', lookup);

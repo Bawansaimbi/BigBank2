@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = "Open FD Account";
+}
+
+<div class="container py-4">
+    <h2>Open Fixed Deposit Account</h2>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@Html.Raw(TempData["Success"])</div>
+    }
+
+    @if (ViewBag.NewFDId != null)
+    {
+        <div class="alert alert-success">
+            <h5>FD Account Created Successfully!</h5>
+            <p><strong>FD Account ID:</strong> @ViewBag.NewFDId</p>
+            <p><strong>Customer ID:</strong> @ViewBag.CustomerName</p>
+            <p><strong>Amount:</strong> Rs @ViewBag.Amount</p>
+            <p><strong>Tenure:</strong> @ViewBag.Tenure year(s)</p>
+            <p><strong>Interest Rate:</strong> @ViewBag.Rate%</p>
+            <p><strong>Maturity Amount:</strong> Rs @ViewBag.MaturityAmount</p>
+            <p><strong>End Date:</strong> @ViewBag.EndDate</p>
+        </div>
+    }
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Create New FD Account</h5>
+            
+            @using (Html.BeginForm("EmployeeOpenFDAccount", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                
+                <div class="mb-3">
+                    <label for="CustID" class="form-label">Customer ID <span class="text-danger">*</span></label>
+                    <input type="text" name="CustID" id="CustID" class="form-control" placeholder="Enter Customer ID" value="@ViewBag.LastCustID" required onblur="lookupCustomer()" />
+                    <small class="text-muted">Enter the customer ID</small>
+                    <div id="customerInfo" class="mt-2"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Amount" class="form-label">FD Amount <span class="text-danger">*</span></label>
+                    <input type="number" step="0.01" name="Amount" id="Amount" class="form-control" placeholder="Enter FD amount" required onchange="calculateMaturity()" />
+                    <small class="text-muted">Minimum FD amount: Rs 10,000</small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Tenure" class="form-label">Tenure (Years) <span class="text-danger">*</span></label>
+                    <select name="Tenure" id="Tenure" class="form-control" required onchange="calculateMaturity()">
+                        <option value="">Select Tenure</option>
+                        <option value="1">1 Year (6.0% interest)</option>
+                        <option value="2">2 Years (7.0% interest)</option>
+                        <option value="3">3 Years (8.0% interest)</option>
+                    </select>
+                    <small class="text-muted">Senior citizens (60+) get additional 0.5% interest</small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="StartDate" class="form-label">Start Date <span class="text-danger">*</span></label>
+                    <input type="date" name="StartDate" id="StartDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" required onchange="calculateMaturity()" />
+                </div>
+
+                <div id="calculationResult" class="alert alert-info" style="display:none;">
+                    <h6>FD Calculation Preview:</h6>
+                    <p><strong>Interest Rate:</strong> <span id="calcRate"></span>%</p>
+                    <p><strong>End Date:</strong> <span id="calcEndDate"></span></p>
+                    <p><strong>Maturity Amount:</strong> Rs <span id="calcMaturity"></span></p>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create FD Account</button>
+                <a href="@Url.Action("FDEmployeeHome")" class="btn btn-secondary">Cancel</a>
+            }
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h6 class="card-title">Instructions</h6>
+            <ul>
+                <li>Customer must have a savings account with sufficient balance</li>
+                <li>Minimum FD amount is Rs 10,000</li>
+                <li>Amount will be deducted from customer's savings account</li>
+                <li>Savings account must maintain minimum Rs 1,000 balance after deduction</li>
+                <li>Interest rates: 1yr=6%, 2yr=7%, 3yr=8% (+ 0.5% for senior citizens)</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+var customerData = null;
+
+function lookupCustomer() {
+    var custId = document.getElementById('CustID').value.trim();
+    if (!custId) {
+        document.getElementById('customerInfo').innerHTML = '';
+        return;
+    }
+
+    fetch('@Url.Action("EmployeeLookupCustomerForFD", "Home")?id=' + encodeURIComponent(custId))
+        .then(response => response.json())
+        .then(data => {
+            customerData = data;
+            var info = document.getElementById('customerInfo');
+            if (data.name) {
+                var html = '<div class="alert alert-info">';
+                html += '<strong>Customer Name:</strong> ' + data.name + '<br/>';
+                if (data.hasSavings) {
+                    html += '<strong>Savings Account:</strong> ' + data.savingsAccountId + '<br/>';
+                    html += '<strong>Available Balance:</strong> Rs ' + data.savingsBalance.toFixed(2) + '<br/>';
+                    if (data.isSenior) {
+                        html += '<span class="badge bg-warning">Senior Citizen - Extra 0.5% interest</span>';
+                    }
+                } else {
+                    html += '<span class="text-danger">No savings account found. Customer must have savings account to open FD.</span>';
+                }
+                html += '</div>';
+                info.innerHTML = html;
+            } else {
+                info.innerHTML = '<div class="alert alert-warning">Customer not found</div>';
+            }
+            calculateMaturity();
+        })
+        .catch(err => {
+            console.error(err);
+            document.getElementById('customerInfo').innerHTML = '<div class="alert alert-danger">Error looking up customer</div>';
+        });
+}
+
+function calculateMaturity() {
+    var amount = parseFloat(document.getElementById('Amount').value);
+    var tenure = parseInt(document.getElementById('Tenure').value);
+    var startDate = document.getElementById('StartDate').value;
+
+    if (!amount || !tenure || !startDate || amount < 10000) {
+        document.getElementById('calculationResult').style.display = 'none';
+        return;
+    }
+
+    // Base rate
+    var rate = tenure <= 1 ? 6.0 : (tenure == 2 ? 7.0 : 8.0);
+    
+    // Add senior citizen bonus
+    if (customerData && customerData.isSenior) {
+        rate += 0.5;
+    }
+
+    // Calculate end date
+    var start = new Date(startDate);
+    var end = new Date(start);
+    end.setFullYear(end.getFullYear() + tenure);
+
+    // Compound interest
+    var maturity = amount * Math.pow(1 + rate / 100, tenure);
+
+    // Display
+    document.getElementById('calcRate').textContent = rate.toFixed(1);
+    document.getElementById('calcEndDate').textContent = end.toLocaleDateString('en-GB');
+    document.getElementById('calcMaturity').textContent = maturity.toFixed(2);
+    document.getElementById('calculationResult').style.display = 'block';
+}
+</script>

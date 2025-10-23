@@ -1,0 +1,155 @@
+﻿@model List<BigBank.Models.TransactionItem>
+
+@{
+    ViewBag.Title = "View Savings Transactions";
+    string currentSort = ViewBag.SortColumn as string ?? "Date";
+    string currentDir = ViewBag.SortDir as string ?? "desc";
+    var hours = ViewBag.Hours as int?;
+    
+    Func<string,string> sortLink = col => {
+        var dir = (currentSort == col && currentDir == "asc") ? "desc" : "asc";
+        return Url.Action("EmployeeViewSavingsTransactions", "Home", new { sort = col, dir = dir, hours = hours });
+    };
+    Func<string,string> sortIndicator = col => {
+        if (string.Equals(currentSort, col, StringComparison.OrdinalIgnoreCase))
+        {
+            return currentDir == "asc" ? " &uarr;" : " &darr;";
+        }
+        return string.Empty;
+    };
+}
+
+<div class="container py-4">
+    <h2>Savings Transactions</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Transaction History</h5>
+            
+            <div class="mb-3">
+                <label for="filterHours">Filter by Time Period:</label>
+                <select id="filterHours" class="form-control" style="width:auto;display:inline-block;" onchange="window.location.href='@Url.Action("EmployeeViewSavingsTransactions", "Home")?hours=' + this.value">
+                    <option value="">All Transactions</option>
+                    <option value="1" @(hours == 1 ? "selected" : "")>Last 1 Hour</option>
+                    <option value="6" @(hours == 6 ? "selected" : "")>Last 6 Hours</option>
+                    <option value="24" @(hours == 24 ? "selected" : "")>Last 24 Hours</option>
+                    <option value="168" @(hours == 168 ? "selected" : "")>Last 7 Days</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search..." />
+                <small class="text-muted">Total: <span id="totalCount">@(Model?.Count ?? 0)</span> transaction(s)</small>
+            </div>
+
+            <div class="table-responsive" style="height:400px; overflow:auto;">
+                <table class="table table-sm mb-0" id="transactionsTable">
+                    <thead class="thead-light">
+                        <tr>
+                            <th style="width:5%;">Sr.</th>
+                            <th style="width:12%;"><a href="@sortLink("TransID")">Trans ID</a>@Html.Raw(sortIndicator("TransID"))</th>
+                            <th style="width:15%;">Account ID</th>
+                            <th style="width:12%;"><a href="@sortLink("CustomerID")">Customer ID</a>@Html.Raw(sortIndicator("CustomerID"))</th>
+                            <th style="width:15%;">Customer Name</th>
+                            <th style="width:10%;">Type</th>
+                            <th style="width:12%;"><a href="@sortLink("Amount")">Amount</a>@Html.Raw(sortIndicator("Amount"))</th>
+                            <th style="width:15%;"><a href="@sortLink("Date")">Date</a>@Html.Raw(sortIndicator("Date"))</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Count; i++)
+                            {
+                                var t = Model[i];
+                                var isDeposit = !string.IsNullOrEmpty(t.Type) && t.Type.Trim().ToUpper().StartsWith("D");
+                                <tr>
+                                    <td>@(i+1)</td>
+                                    <td>@t.Id</td>
+                                    <td>@t.AccountId</td>
+                                    <td>@t.CustomerId</td>
+                                    <td>@t.CustomerName</td>
+                                    <td>
+                                        <span class="badge @(isDeposit ? "bg-success" : "bg-danger")">
+                                            @(isDeposit ? "Credit" : "Debit")
+                                        </span>
+                                    </td>
+                                    <td>Rs @t.Amount.ToString("N2")</td>
+                                    <td>@(t.Date.HasValue ? t.Date.Value.ToString("dd-MMM-yyyy HH:mm") : "")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-muted">No transactions found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="noResults" class="alert alert-info mt-3" style="display:none;">
+                No transactions found matching your search.
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card .table-responsive { max-height: 400px; }
+</style>
+
+<script>
+(function() {
+    var searchBox = document.getElementById('searchBox');
+    var table = document.getElementById('transactionsTable');
+    var tbody = table.getElementsByTagName('tbody')[0];
+    var rows = tbody.getElementsByTagName('tr');
+    var totalCount = document.getElementById('totalCount');
+    var noResults = document.getElementById('noResults');
+
+    searchBox.addEventListener('keyup', function() {
+        var searchTerm = this.value.toLowerCase().trim();
+        var visibleCount = 0;
+
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var cells = row.getElementsByTagName('td');
+            
+            if (cells.length < 8) {
+                continue;
+            }
+
+            var found = false;
+
+            for (var j = 1; j <= 7; j++) {
+                if (cells[j]) {
+                    var cellText = cells[j].textContent || cells[j].innerText;
+                    cellText = cellText.replace(/\s+/g, ' ').trim().toLowerCase();
+                    
+                    if (cellText.indexOf(searchTerm) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found || searchTerm === '') {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        }
+
+        totalCount.textContent = visibleCount;
+
+        if (visibleCount === 0 && searchTerm !== '') {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    });
+})();
+</script>

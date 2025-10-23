@@ -3,8 +3,10 @@
     "",
     "\\BigBank",
     "\\BigBank\\Controllers",
-    "\\BigBank\\Models"
+    "\\BigBank\\Models",
+    "\\BigBank\\Views",
+    "\\BigBank\\Views\\Home"
   ],
-  "SelectedNode": "\\BigBank\\Controllers\\HomeController.cs",
+  "SelectedNode": "\\BigBank.sln",
   "PreviewInSolutionExplorer": false
 }

@@ -1,0 +1,277 @@
+﻿@model BigBank.Models.OpenLoanViewModel
+@{
+    ViewBag.Title = "Open Loan Account";
+    bool isCustomer = Session["UserType"] != null && Session["UserType"].ToString() == "Customer";
+}
+
+<div class="container py-4">
+    <h2>Open Loan Account</h2>
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@Html.Raw(TempData["Error"])</div> }
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@Html.Raw(TempData["Success"])</div> }
+    @if (TempData["LoanSuccess"] != null) { <div class="alert alert-success">@Html.Raw(TempData["LoanSuccess"])</div> }
+
+    @using (Html.BeginForm("OpenLoanAccount", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        
+        @if (!isCustomer)
+        {
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label class="form-label">Customer ID <span class="text-danger">*</span></label>
+                    <input name="CustID" id="custIdInput" class="form-control" placeholder="Cust..." value="@ViewBag.LastCustID" required />
+                </div>
+                <div class="col-12 col-md-6">
+                    <input id="custName" class="form-control" readonly placeholder="Customer name will appear here" />
+                </div>
+            </div>
+        }
+
+        <div class="row g-3 @(isCustomer ? "" : "mt-2")">
+            <div class="col-12 col-md-6">
+                <label class="form-label">Monthly Take Home (Rs) <span class="text-danger">*</span></label>
+                @Html.TextBoxFor(m => m.MonthlyIncome, new { @class = "form-control", @type = "number", @min = "1", @step = "0.01", @placeholder = "Monthly salary/income", @required = "required", @id = "monthlyIncomeInput" })
+                @Html.ValidationMessageFor(m => m.MonthlyIncome, "", new { @class = "text-danger" })
+                <small class="text-muted">EMI cannot exceed 60% of monthly income</small>
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label">Loan Amount (Rs) <span class="text-danger">*</span></label>
+                @Html.TextBoxFor(m => m.LoanAmount, new { @class = "form-control", @type = "number", @min = "10000", @step = "1000", @placeholder = "Min 10,000", @required = "required", @id = "loanAmountInput" })
+                @Html.ValidationMessageFor(m => m.LoanAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="row g-3 mt-2">
+            <div class="col-12 col-md-6">
+                <label class="form-label">Tenure (Years) <span class="text-danger">*</span></label>
+                @Html.DropDownListFor(m => m.Tenure, new SelectList(new[] {
+                    new { Value = 1, Text = "1 year" },
+                    new { Value = 2, Text = "2 years" },
+                    new { Value = 3, Text = "3 years" },
+                    new { Value = 4, Text = "4 years" },
+                    new { Value = 5, Text = "5 years" },
+                    new { Value = 7, Text = "7 years" },
+                    new { Value = 10, Text = "10 years" },
+                    new { Value = 15, Text = "15 years" },
+                    new { Value = 20, Text = "20 years" }
+                }, "Value", "Text"), "Select tenure", new { @class = "form-control", @required = "required", @id = "tenureInput" })
+                @Html.ValidationMessageFor(m => m.Tenure, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label">Start Date <span class="text-danger">*</span></label>
+                @Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", @type = "date", @required = "required", @value = DateTime.Today.ToString("yyyy-MM-dd") })
+                @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-12 col-md-6">
+                <label class="form-label">Interest Rate (%)</label>
+                <input id="interestRateDisplay" type="text" class="form-control" readonly placeholder="Auto-calculated" />
+                @Html.HiddenFor(m => m.InterestRate, new { @id = "interestRateInput" })
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label">Monthly EMI (Rs)</label>
+                <input id="emiDisplay" type="text" class="form-control" readonly placeholder="Auto-calculated" />
+            </div>
+        </div>
+
+        @Html.HiddenFor(m => m.CustomerDOB, new { @id = "custDOB" })
+        <input id="isSeniorCitizen" type="hidden" value="false" />
+
+        <div id="calculationSummary" class="alert alert-info mt-3" style="display:none;">
+            <h6>Loan Summary:</h6>
+            <p class="mb-1"><strong>Loan Amount:</strong> Rs <span id="sumLoanAmt">0</span></p>
+            <p class="mb-1"><strong>Interest Rate:</strong> <span id="sumRate">0</span>%</p>
+            <p class="mb-1"><strong>Tenure:</strong> <span id="sumTenure">0</span> years</p>
+            <p class="mb-1"><strong>Monthly EMI:</strong> Rs <span id="sumEMI">0</span></p>
+            <p class="mb-1"><strong>Total Payable:</strong> Rs <span id="sumTotal">0</span></p>
+            <p class="mb-1"><strong>Total Interest:</strong> Rs <span id="sumInterest">0</span></p>
+            <p class="mb-0"><strong>EMI vs Income:</strong> <span id="sumEmiPercent">0</span>% of monthly income</p>
+        </div>
+
+        <div id="businessRules" class="alert alert-warning mt-3">
+            <h6>Loan Business Rules:</h6>
+            <ul class="mb-0">
+                <li>Minimum loan amount: Rs. 10,000</li>
+                <li>Interest rates: 10% (up to 5 lakhs), 9.5% (5-10 lakhs), 9% (above 10 lakhs)</li>
+                <li>Senior citizens get 9.5% interest rate</li>
+                <li>Senior citizens cannot get loans above Rs. 1 lakh</li>
+                <li>EMI cannot exceed 60% of monthly income</li>
+                <li>Account number is auto-generated upon approval</li>
+            </ul>
+        </div>
+
+        <div class="mt-3">
+            <button class="btn btn-primary" type="submit" id="submitBtn">Open Loan Account</button>
+            @if (isCustomer)
+            {
+                <a href="@Url.Action("CustomerHome")" class="btn btn-secondary">Cancel</a>
+            }
+            else
+            {
+                <a href="@Url.Action("ViewLoanAccounts")" class="btn btn-secondary">Cancel</a>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    (function(){
+        var isCustomer = @(isCustomer.ToString().ToLower());
+        var custIdInput = @(isCustomer ? "null" : "document.getElementById('custIdInput')");
+        var nameBox = @(isCustomer ? "null" : "document.getElementById('custName')");
+        var dobField = document.getElementById('custDOB');
+        var isSeniorField = document.getElementById('isSeniorCitizen');
+        
+        var loanAmtInput = document.getElementById('loanAmountInput');
+        var tenureInput = document.getElementById('tenureInput');
+        var monthlyIncomeInput = document.getElementById('monthlyIncomeInput');
+        var rateDisplay = document.getElementById('interestRateDisplay');
+        var rateInput = document.getElementById('interestRateInput');
+        var emiDisplay = document.getElementById('emiDisplay');
+        var summaryDiv = document.getElementById('calculationSummary');
+        var submitBtn = document.getElementById('submitBtn');
+
+        // Initialize customer data for customer users
+        if (isCustomer) {
+            @if (Model != null && Model.CustomerDOB.HasValue)
+            {
+                @:dobField.value = '@Model.CustomerDOB.Value.ToString("yyyy-MM-dd")';
+                @:var age = Math.floor((new Date() - new Date('@Model.CustomerDOB.Value.ToString("yyyy-MM-dd")')) / (365.25*24*60*60*1000));
+                @:isSeniorField.value = age >= 60 ? 'true' : 'false';
+            }
+            calculateLoan();
+        }
+
+        function lookupCustomer(){
+            if (isCustomer || !custIdInput) return;
+            
+            var id = custIdInput.value.trim();
+            if (!id) { 
+                if (nameBox) nameBox.value = ''; 
+                dobField.value = '';
+                isSeniorField.value = 'false';
+                return; 
+            }
+            
+            fetch('/Home/LookupCustomerDetails?id=' + encodeURIComponent(id))
+                .then(function(res){ return res.json(); })
+                .then(function(data){ 
+                    if (data && data.name) {
+                        nameBox.value = data.name + (data.isSenior ? ' (Senior Citizen)' : '');
+                        dobField.value = data.dob || '';
+                        isSeniorField.value = data.isSenior ? 'true' : 'false';
+                        calculateLoan();
+                    } else {
+                        nameBox.value = 'Not found';
+                        dobField.value = '';
+                        isSeniorField.value = 'false';
+                    }
+                })
+                .catch(function(){ 
+                    nameBox.value = 'Error'; 
+                    dobField.value = '';
+                    isSeniorField.value = 'false';
+                });
+        }
+
+        function calculateLoan() {
+            var loanAmt = parseFloat(loanAmtInput.value) || 0;
+            var tenure = parseInt(tenureInput.value) || 0;
+            var monthlyIncome = parseFloat(monthlyIncomeInput.value) || 0;
+            var isSenior = isSeniorField.value === 'true';
+
+            if (loanAmt < 10000) {
+                summaryDiv.style.display = 'none';
+                rateDisplay.value = '';
+                emiDisplay.value = '';
+                rateInput.value = '';
+                return;
+            }
+
+            // Senior citizen validation
+            if (isSenior && loanAmt > 100000) {
+                summaryDiv.style.display = 'none';
+                rateDisplay.value = '';
+                emiDisplay.value = '';
+                rateInput.value = '';
+                alert('Senior citizens cannot be sanctioned a loan greater than Rs 1 lakh.');
+                submitBtn.disabled = true;
+                return;
+            }
+
+            // Calculate interest rate
+            var rate = 0;
+            if (isSenior) {
+                rate = 9.5;
+            } else {
+                if (loanAmt <= 500000) {
+                    rate = 10;
+                } else if (loanAmt <= 1000000) {
+                    rate = 9.5;
+                } else {
+                    rate = 9;
+                }
+            }
+
+            rateDisplay.value = rate + '%';
+            rateInput.value = rate;
+
+            if (tenure > 0) {
+                // Calculate EMI using reducing balance method
+                var months = tenure * 12;
+                var monthlyRate = rate / 12 / 100;
+                var emi = loanAmt * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+                emi = Math.round(emi * 100) / 100;
+
+                emiDisplay.value = 'Rs ' + emi.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+
+                // Validate EMI vs income
+                var maxEmi = monthlyIncome * 0.6;
+                var emiPercent = monthlyIncome > 0 ? (emi / monthlyIncome * 100).toFixed(2) : 0;
+
+                if (emi > maxEmi && monthlyIncome > 0) {
+                    summaryDiv.style.display = 'none';
+                    alert('EMI (Rs ' + emi.toFixed(2) + ') exceeds 60% of monthly income (Max: Rs ' + maxEmi.toFixed(2) + ')');
+                    submitBtn.disabled = true;
+                    return;
+                } else {
+                    submitBtn.disabled = false;
+                }
+
+                // Show summary
+                var totalPayable = emi * months;
+                var totalInterest = totalPayable - loanAmt;
+
+                document.getElementById('sumLoanAmt').textContent = loanAmt.toLocaleString(undefined, {minimumFractionDigits:2});
+                document.getElementById('sumRate').textContent = rate;
+                document.getElementById('sumTenure').textContent = tenure;
+                document.getElementById('sumEMI').textContent = emi.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+                document.getElementById('sumTotal').textContent = totalPayable.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+                document.getElementById('sumInterest').textContent = totalInterest.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+                document.getElementById('sumEmiPercent').textContent = emiPercent;
+
+                summaryDiv.style.display = 'block';
+            } else {
+                summaryDiv.style.display = 'none';
+            }
+        }
+
+        if (!isCustomer && custIdInput) {
+            custIdInput.addEventListener('blur', lookupCustomer);
+            custIdInput.addEventListener('change', lookupCustomer);
+            
+            // Trigger lookup on page load if CustID is prefilled
+            var last = '@(ViewBag.LastCustID ?? "")';
+            if (last && custIdInput) {
+                custIdInput.value = last;
+                lookupCustomer();
+            }
+        }
+
+        loanAmtInput.addEventListener('input', calculateLoan);
+        tenureInput.addEventListener('change', calculateLoan);
+        monthlyIncomeInput.addEventListener('input', calculateLoan);
+    })();
+</script>
