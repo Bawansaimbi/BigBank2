@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "Pay EMI";
+}
+
+<style>
+    /* Hide number input spinners for EMI amount */
+    #emiAmountInput::-webkit-outer-spin-button,
+    #emiAmountInput::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    #emiAmountInput[type=number] {
+        -moz-appearance: textfield; /* Firefox */
+    }
+</style>
+
+<div class="container py-4">
+    <h2>Pay EMI</h2>
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+
+    @using (Html.BeginForm("PayEMI","Home",FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row g-2 align-items-end">
+            <div class="col-12 col-md-4">
+                <label class="form-label small">Loan Account ID</label>
+                <input name="LoanAccountID" id="loanAccountInput" class="form-control" placeholder="LN..." />
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="form-label small">EMI Amount</label>
+                <div class="input-group">
+                    <span class="input-group-text">Rs</span>
+                    <input name="Amount" id="emiAmountInput" type="number" min="1" step="0.01" class="form-control" placeholder="Amount" />
+                </div>
+                <div class="small text-muted mt-1">
+                    <button type="button" id="useMonthlyEMI" class="btn btn-sm btn-outline-secondary" style="display:none;">Use Monthly EMI</button>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 d-grid">
+                <button class="btn btn-primary" type="submit">Pay EMI</button>
+            </div>
+        </div>
+    }
+
+    <!-- Loan Information Display -->
+    <div class="row g-2 mt-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Loan Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <label class="form-label small text-muted">Customer Name</label>
+                            <input id="custName" class="form-control" readonly placeholder="Customer name" />
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <label class="form-label small text-muted">Loan Amount</label>
+                            <input id="loanAmount" class="form-control" readonly placeholder="Loan amount" />
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <label class="form-label small text-muted">Outstanding Balance</label>
+                            <input id="outstanding" class="form-control" readonly placeholder="Outstanding balance" />
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <label class="form-label small text-muted">Monthly EMI</label>
+                            <input id="monthlyEMI" class="form-control" readonly placeholder="Monthly EMI" />
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <label class="form-label small text-muted">Today's Date</label>
+                            <input id="todaysDate" class="form-control" readonly placeholder="Today's date" />
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <label class="form-label small text-muted">Next Due Date</label>
+                            <input id="nextDueDate" class="form-control" readonly placeholder="Next due date" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        var input = document.getElementById('loanAccountInput');
+        var nameBox = document.getElementById('custName');
+        var loanBox = document.getElementById('loanAmount');
+        var outBox = document.getElementById('outstanding');
+        var emiBox = document.getElementById('monthlyEMI');
+        var todayBox = document.getElementById('todaysDate');
+        var dueDateBox = document.getElementById('nextDueDate');
+        var emiAmountInput = document.getElementById('emiAmountInput');
+        var useMonthlyEMIBtn = document.getElementById('useMonthlyEMI');
+        
+        var currentMonthlyEMI = 0;
+        
+        if (!input) return;
+        
+        function lookup(){
+            var id = input.value.trim();
+            if (!id) { 
+                clearFields();
+                return; 
+            }
+            
+            fetch('/Home/LookupLoanAccount?id=' + encodeURIComponent(id))
+                .then(function(res){ return res.json(); })
+                .then(function(data){ 
+                    if (data) {
+                        if (nameBox) nameBox.value = data.customerName || 'Not found'; 
+                        if (loanBox) loanBox.value = (data.loanAmount != null) ? ('Rs ' + parseFloat(data.loanAmount).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})) : '';
+                        if (outBox) outBox.value = (data.outstanding != null) ? ('Rs ' + parseFloat(data.outstanding).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})) : '';
+                        if (emiBox) emiBox.value = (data.monthlyEMI != null) ? ('Rs ' + parseFloat(data.monthlyEMI).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})) : '';
+                        if (todayBox) todayBox.value = data.todaysDate || '';
+                        if (dueDateBox) dueDateBox.value = data.nextDueDate || '';
+                        
+                        // Store monthly EMI and show/hide button
+                        currentMonthlyEMI = data.monthlyEMI || 0;
+                        if (currentMonthlyEMI > 0) {
+                            useMonthlyEMIBtn.style.display = 'inline-block';
+                            // Auto-fill with monthly EMI amount
+                            emiAmountInput.value = Number(currentMonthlyEMI).toFixed(2);
+                        } else {
+                            useMonthlyEMIBtn.style.display = 'none';
+                        }
+                        
+                        // Check if payment is overdue
+                        if (data.nextDueDate) {
+                            var nextDue = new Date(data.nextDueDate);
+                            var today = new Date();
+                            if (nextDue < today) {
+                                dueDateBox.style.color = '#dc3545';
+                                dueDateBox.style.fontWeight = 'bold';
+                                dueDateBox.title = 'Payment is overdue';
+                            } else {
+                                dueDateBox.style.color = '';
+                                dueDateBox.style.fontWeight = '';
+                                dueDateBox.title = '';
+                            }
+                        }
+                    }
+                })
+                .catch(function(){ 
+                    clearFields();
+                    if (nameBox) nameBox.value = 'Error'; 
+                });
+        }
+        
+        function clearFields() {
+            if (nameBox) nameBox.value = ''; 
+            if (loanBox) loanBox.value=''; 
+            if (outBox) outBox.value='';
+            if (emiBox) emiBox.value='';
+            if (todayBox) todayBox.value='';
+            if (dueDateBox) dueDateBox.value='';
+            if (emiAmountInput) emiAmountInput.value='';
+            currentMonthlyEMI = 0;
+            useMonthlyEMIBtn.style.display = 'none';
+        }
+        
+        // Use Monthly EMI button click handler
+        useMonthlyEMIBtn.addEventListener('click', function() {
+            if (currentMonthlyEMI > 0) {
+                emiAmountInput.value = Number(currentMonthlyEMI).toFixed(2);
+                emiAmountInput.focus();
+            }
+        });
+        
+        input.addEventListener('blur', lookup);
+        input.addEventListener('change', lookup);
+    })();
+</script>

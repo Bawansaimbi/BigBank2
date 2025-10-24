@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Deposit / Withdraw";
+}
+
+<div class="container py-4">
+    <h2>Deposit / Withdraw</h2>
+    @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
+    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Process Cash Transaction</h5>
+            <p class="text-muted">Use this form to deposit or withdraw cash from a customer's savings account.</p>
+            
+            @using (Html.BeginForm("DepositWithdraw","Transactions",FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Account ID <span class="text-danger">*</span></label>
+                        <input name="AccountID" id="accountIdInput" class="form-control" placeholder="SB..." value="@ViewBag.AccountID" required />
+                        <small class="text-muted">Enter the Savings Account ID (e.g., SB10001)</small>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Customer Name</label>
+                        <input id="accountName" class="form-control" readonly placeholder="Customer name" value="@ViewBag.AccountName" />
+                    </div>
+                </div>
+                
+                <div class="row g-3 mb-3">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Current Balance</label>
+                        <div class="input-group">
+                            <span class="input-group-text">Rs</span>
+                            <input id="accountBalance" class="form-control" readonly placeholder="Current balance" value="@(ViewBag.AccountBalance != null ? ViewBag.AccountBalance.ToString("N2") : "")" />
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Transaction Type <span class="text-danger">*</span></label>
+                        <select name="Mode" class="form-select" required>
+                            <option value="">Select Transaction Type</option>
+                            <option value="Deposit">Deposit</option>
+                            <option value="Withdraw">Withdraw</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <label class="form-label">Amount <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text">Rs</span>
+                            <input name="Amount" type="number" min="100" step="0.01" class="form-control" placeholder="Amount" required />
+                        </div>
+                        <small class="text-muted">Minimum transaction amount: Rs 100</small>
+                    </div>
+                </div>
+                
+                <div class="d-flex">
+                    <button class="btn btn-primary me-2" type="submit">Process Transaction</button>
+                    <a href="@Url.Action("SavingsEmployeeHome", "Employee")" class="btn btn-secondary">Cancel</a>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <div class="card mt-3">
+        <div class="card-body">
+            <h6 class="card-title">Transaction Rules</h6>
+            <ul>
+                <li>Minimum transaction amount is Rs 100</li>
+                <li>For withdrawals, the account must maintain a minimum balance of Rs 1,000</li>
+                <li>Transactions are processed immediately</li>
+                <li>Customer identification must be verified before processing transactions</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function(){
+        var input = document.getElementById('accountIdInput');
+        var nameBox = document.getElementById('accountName');
+        var balBox = document.getElementById('accountBalance');
+        if (!input) return;
+        
+        function lookup(){
+            var acc = input.value.trim();
+            if (!acc) { if (nameBox) nameBox.value = ''; if (balBox) balBox.value=''; return; }
+            fetch('/Transactions/LookupAccountName?id=' + encodeURIComponent(acc))
+                .then(function(res){ return res.json(); })
+                .then(function(data){ 
+                    if (data) {
+                        if (nameBox) nameBox.value = data.name || 'Not found'; 
+                        if (balBox) balBox.value = (data.balance != null) ? 
+                            parseFloat(data.balance).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '';
+                    }
+                })
+                .catch(function(){ if (nameBox) nameBox.value = 'Error'; if (balBox) balBox.value=''; });
+        }
+        
+        if (!input.value) {
+            input.addEventListener('blur', lookup);
+            input.addEventListener('change', lookup);
+        }
+    })();
+</script></script>

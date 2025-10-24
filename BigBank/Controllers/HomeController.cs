@@ -17,7 +17,7 @@ namespace BigBank.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Account");
         }
 
         [AllowAnonymous]
@@ -292,7 +292,7 @@ namespace BigBank.Controllers
                     // Get the latest transaction for this loan
                     var latestTxn = db.LoanTransactions
                         .Where(t => t.LoanAccountID == loan.LoanAccountID)
-                        .OrderByDescending(t => t.EMIDate)
+                        .OrderByDescending(t => t.TransactionID)
                         .FirstOrDefault();
                     
                     // Calculate outstanding amount
@@ -640,6 +640,7 @@ namespace BigBank.Controllers
                             new SqlParameter("@status", "Active")
                         ).FirstOrDefault();
 
+                        // Initial loan transaction with Outstanding
                         var processedBy = Session["UserID"] != null ? Session["UserID"].ToString() : null;
                         db.Database.ExecuteSqlCommand(
                             "INSERT INTO LoanTransaction (LoanAccountID, EMIDate, Amount, Outstanding, ProcessedBy, Remarks) VALUES (@p0, @p1, @p2, @p3, @p4, @p5)",
@@ -759,6 +760,11 @@ namespace BigBank.Controllers
                             OUTPUT INSERTED.CustID
                             VALUES (@name, @gender, @dob, @pan, @phone, @addr, @username, @pwd, @created)";
 
+                // SQL Server 2016+ supports IIF for simple IF expressions
+                var insertSql = @"INSERT INTO Customer (CustName, Gender, DOB, PAN, PhoneNum, Address, Username, Password, CreatedOn)
+                                  VALUES (@name, @gender, @dob, @pan, @phone, @addr, @username, @pwd, @created);
+                                  SELECT CAST(scope_identity() AS int)";
+
                 var parameters = new[] {
                     new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50) { Value = (object)CustName ?? DBNull.Value },
                     new SqlParameter("@gender", System.Data.SqlDbType.Char, 1) { Value = (object)Gender ?? DBNull.Value },
@@ -773,7 +779,8 @@ namespace BigBank.Controllers
 
                 try
                 {
-                    newCustId = db.Database.SqlQuery<string>(sql, parameters).FirstOrDefault();
+                    // newCustId = db.Database.SqlQuery<string>(sql, parameters).FirstOrDefault();
+                    newCustId = db.Database.SqlQuery<int>(insertSql, parameters).Select(id => id.ToString()).FirstOrDefault();
                 }
                 catch (Exception ex)
                 {
@@ -925,6 +932,11 @@ namespace BigBank.Controllers
                             OUTPUT INSERTED.EmpID
                             VALUES (@name, @gender, @username, @pwd, @pan, @phone, @addr, @dept, @emptype, @managerid)";
 
+                // SQL Server 2016+ supports IIF for simple IF expressions
+                var insertSql = @"INSERT INTO Employee (EmpName, Gender, Username, Password, PAN, PhoneNum, Address, DeptID, EmpType, ManagerID)
+                                  VALUES (@name, @gender, @username, @pwd, @pan, @phone, @addr, @dept, @emptype, @managerid);
+                                  SELECT CAST(scope_identity() AS int)";
+
                 var parameters = new[] {
                     new SqlParameter("@name", System.Data.SqlDbType.NVarChar, 50) { Value = (object)EmpName ?? DBNull.Value },
                     new SqlParameter("@gender", System.Data.SqlDbType.Char, 1) { Value = (object)Gender ?? DBNull.Value },
@@ -941,7 +953,8 @@ namespace BigBank.Controllers
                 string newEmpId = null;
                 try
                 {
-                    newEmpId = db.Database.SqlQuery<string>(sql, parameters).FirstOrDefault();
+                    // newEmpId = db.Database.SqlQuery<string>(sql, parameters).FirstOrDefault();
+                    newEmpId = db.Database.SqlQuery<int>(insertSql, parameters).Select(id => id.ToString()).FirstOrDefault();
                 }
                 catch (Exception ex)
                 {
@@ -1309,76 +1322,32 @@ namespace BigBank.Controllers
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        // Lookup customer details and savings eligibility for FD (Manager UI)
         [SessionAuthorize(RolesCsv = "Manager")]
         [NoCache]
-        public ActionResult OpenSavingsAccount(string CustID, decimal? InitialDeposit)
+        public ActionResult LookupCustomerForFD(string id)
         {
-            if (string.IsNullOrWhiteSpace(CustID) || !InitialDeposit.HasValue)
-            {
-                TempData["Error"] = "Customer ID and initial deposit are required.";
-                return View();
-            }
+            if (string.IsNullOrWhiteSpace(id))
+                return Json(new { name = "" }, JsonRequestBehavior.AllowGet);
 
-            if (InitialDeposit.Value < 1000m)
-            {
-                TempData["Error"] = "Minimum opening balance is 1000.";
-                ViewBag.LastCustID = CustID;
-                ViewBag.LastDeposit = InitialDeposit;
-                return View();
-            }
-
-            string newId = null;
             using (var db = new BigBankEntities())
             {
-                var cust = db.Customers.FirstOrDefault(c => c.CustID == CustID);
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == id);
                 if (cust == null)
+                    return Json(new { name = "" }, JsonRequestBehavior.AllowGet);
+
+                var savings = db.SavingsAccounts.FirstOrDefault(s => s.CustID == id);
+                var age = (int)((DateTime.Today - cust.DOB).TotalDays / 365.25);
+
+                return Json(new
                 {
-                    TempData["Error"] = "Customer not found.";
-                    ViewBag.LastCustID = CustID;
-                    ViewBag.LastDeposit = InitialDeposit;
-                    return View();
-                }
-
-                // ensure customer doesn't already have a savings account (optional)
-                if (db.SavingsAccounts.Any(s => s.CustID == CustID))
-                {
-                    TempData["Error"] = "Customer already has a savings account.";
-                    ViewBag.LastCustID = CustID;
-                    ViewBag.LastDeposit = InitialDeposit;
-                    return View();
-                }
-
-                // create account and transaction in transaction
-                using (var tx = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        var sql = "INSERT INTO SavingsAccount (CustID, Balance, CreatedOn) OUTPUT INSERTED.SBAccountID VALUES (@cust, @bal, @created)";
-                        newId = db.Database.SqlQuery<string>(sql, new SqlParameter("@cust", SqlDbType.VarChar) { Value = CustID }, new SqlParameter("@bal", SqlDbType.Decimal) { Value = InitialDeposit.Value }, new SqlParameter("@created", SqlDbType.DateTime) { Value = DateTime.Now }).FirstOrDefault();
-
-                        db.Database.ExecuteSqlCommand("INSERT INTO SavingsTransaction (SBAccountID, TransactionDate, TransactionType, Amount, Remarks) VALUES (@p0,@p1,@p2,@p3,@p4)", newId, DateTime.Now, "D", InitialDeposit.Value, "Opening deposit by manager");
-
-                        tx.Commit();
-                        TempData["Success"] = "Savings account opened: " + newId;
-                    }
-                    catch (Exception ex)
-                    {
-                        tx.Rollback();
-                        TempData["Error"] = "Failed to open account: " + ex.Message;
-                        ViewBag.LastCustID = CustID;
-                        ViewBag.LastDeposit = InitialDeposit;
-                        return View();
-                    }
-                }
+                    name = cust.CustName,
+                    hasSavings = savings != null,
+                    savingsAccountId = savings?.SBAccountID ?? "",
+                    savingsBalance = savings?.Balance ?? 0,
+                    isSenior = age >= 60
+                }, JsonRequestBehavior.AllowGet);
             }
-
-            // return the same view and display the generated account id
-            ViewBag.NewAccountId = newId;
-            ViewBag.LastCustID = CustID;
-            ViewBag.LastDeposit = InitialDeposit;
-            return View();
         }
 
         // Open FD Account (Manager)
@@ -1427,7 +1396,6 @@ namespace BigBank.Controllers
                 if (cust == null)
                 {
                     TempData["Error"] = "Customer not found.";
-                    ViewBag.LastCustID = CustID;
                     return View();
                 }
 
@@ -1563,10 +1531,8 @@ namespace BigBank.Controllers
             using (var db = new BigBankEntities())
             {
                 var cust = db.Customers.FirstOrDefault(c => c.CustID == custId);
-                if (cust == null)
+                if (cust != null)
                 {
-                    ModelState.AddModelError("", "Customer not found.");
-                    return View(model);
                 }
 
                 // senior citizen check via DOB
@@ -1649,26 +1615,22 @@ namespace BigBank.Controllers
         [ValidateAntiForgeryToken]
         [SessionAuthorize(RolesCsv = "Manager")]
         [NoCache]
-        public ActionResult OpenLoanAccountManager(string CustID, decimal? LoanAmount, int? Tenure, DateTime? StartDate, decimal? MonthlyIncome)
+        public ActionResult OpenLoanAccountManager(string CustID, decimal? LoanAmount, int? Tenure, DateTime? StartDate)
         {
+            ViewBag.LastCustID = CustID;
+
             var errors = new List<string>();
             if (string.IsNullOrWhiteSpace(CustID)) errors.Add("Customer ID is required.");
             if (!LoanAmount.HasValue) errors.Add("Loan amount is required.");
-            if (!Tenure.HasValue) errors.Add("Tenure (years) is required.");
+            if (!Tenure.HasValue) errors.Add("Tenure is required.");
             if (!StartDate.HasValue) errors.Add("Start date is required.");
-            // Removed MonthlyIncome requirement per latest UI change
+
+            if (LoanAmount.HasValue && LoanAmount.Value < 10000m)
+                errors.Add("Minimum Loan amount is 10,000.");
 
             if (errors.Any())
             {
                 TempData["Error"] = string.Join("<br/>", errors);
-                ViewBag.LastCustID = CustID;
-                return View();
-            }
-
-            if (LoanAmount.Value < 10000m)
-            {
-                TempData["Error"] = "Minimum Loan amount is Rs 10,000.";
-                ViewBag.LastCustID = CustID;
                 return View();
             }
 
@@ -1678,36 +1640,25 @@ namespace BigBank.Controllers
                 if (cust == null)
                 {
                     TempData["Error"] = "Customer not found.";
-                    ViewBag.LastCustID = CustID;
                     return View();
                 }
 
-                // Determine senior citizen
+                // Senior check
                 var age = (int)((DateTime.Today - cust.DOB).TotalDays / 365.25);
                 bool isSenior = age >= 60;
-
-                // Senior rule: cap amount and rate = 9.5%
                 if (isSenior && LoanAmount.Value > 100000m)
                 {
                     TempData["Error"] = "Senior Citizens cannot be sanctioned a loan greater than Rs. 1,00,000.";
-                    ViewBag.LastCustID = CustID;
                     return View();
                 }
 
-                decimal interestRate;
-                if (isSenior)
-                {
-                    interestRate = 9.5m; // fixed for seniors
-                }
-                else
-                {
-                    if (LoanAmount.Value <= 500000m) interestRate = 10.0m;
-                    else if (LoanAmount.Value <= 1000000m) interestRate = 9.5m;
-                    else interestRate = 9.0m;
-                }
+                // Interest rate slab
+                decimal interestRate = isSenior ? 9.5m : (LoanAmount.Value <= 500000m ? 10.0m : (LoanAmount.Value <= 1000000m ? 9.5m : 9.0m));
 
-                // EMI calculation over months
+                // EMI calculations
                 int months = Tenure.Value * 12;
+                var startDate = StartDate.Value;
+                var endDate = startDate.AddYears(Tenure.Value);
                 decimal monthlyRate = (interestRate / 100m) / 12m;
                 decimal emi;
                 if (monthlyRate > 0)
@@ -1720,9 +1671,9 @@ namespace BigBank.Controllers
                     emi = months > 0 ? LoanAmount.Value / months : 0m;
                 }
                 emi = Math.Round(emi, 2);
-                var totalPayable = emi * months; // initial outstanding to store
-                var endDate = StartDate.Value.AddYears(Tenure.Value);
+                var totalPayable = emi * months;
 
+                string newLoanId = null;
                 try
                 {
                     using (var tx = db.Database.BeginTransaction())
@@ -1731,9 +1682,9 @@ namespace BigBank.Controllers
                                            OUTPUT INSERTED.LoanAccountID
                                            VALUES (@custId, @startDate, @endDate, @loanAmount, @interestRate, @tenure, @totalPayable, @status)";
 
-                        var newLoanId = db.Database.SqlQuery<string>(insertSql,
+                        newLoanId = db.Database.SqlQuery<string>(insertSql,
                             new SqlParameter("@custId", CustID),
-                            new SqlParameter("@startDate", StartDate.Value),
+                            new SqlParameter("@startDate", startDate),
                             new SqlParameter("@endDate", endDate),
                             new SqlParameter("@loanAmount", LoanAmount.Value),
                             new SqlParameter("@interestRate", interestRate),
@@ -1742,141 +1693,57 @@ namespace BigBank.Controllers
                             new SqlParameter("@status", "Active")
                         ).FirstOrDefault();
 
-                        // Initial loan transaction with Outstanding
                         var processedBy = Session["UserID"] != null ? Session["UserID"].ToString() : null;
                         db.Database.ExecuteSqlCommand(
                             "INSERT INTO LoanTransaction (LoanAccountID, EMIDate, Amount, Outstanding, ProcessedBy, Remarks) VALUES (@p0, @p1, @p2, @p3, @p4, @p5)",
                             newLoanId, DateTime.Now, 0, totalPayable, (object)processedBy ?? DBNull.Value, "Loan account opened by manager");
 
                         tx.Commit();
-
-                        TempData["Success"] = $"Loan account {newLoanId} opened successfully!<br/>EMI: Rs {emi:N2}<br/>Interest Rate: {interestRate}%<br/>Outstanding: Rs {totalPayable:N2}";
-
-                        // Pass details to view
-                        ViewBag.NewLoanId = newLoanId;
-                        ViewBag.CustID = CustID;
-                        ViewBag.LoanAmount = LoanAmount.Value.ToString("N2");
-                        ViewBag.TenureYears = Tenure.Value;
-                        ViewBag.InterestRate = interestRate.ToString("N1");
-                        ViewBag.EMI = emi.ToString("N2");
-                        ViewBag.TotalPayable = totalPayable.ToString("N2");
-                        ViewBag.EndDate = endDate.ToString("dd-MMM-yyyy");
                     }
                 }
                 catch (Exception ex)
                 {
                     TempData["Error"] = "Failed to create loan account: " + ex.Message;
-                    ViewBag.LastCustID = CustID;
                     return View();
                 }
 
+                TempData["Success"] = $"Loan account {newLoanId} created successfully!";
+                ViewBag.NewLoanId = newLoanId;
+                ViewBag.CustID = CustID;
+                ViewBag.LoanAmount = LoanAmount.Value.ToString("N2");
+                ViewBag.InterestRate = interestRate.ToString("N1");
+                ViewBag.TenureYears = Tenure.Value;
+                ViewBag.EMI = emi.ToString("N2");
+                ViewBag.TotalPayable = totalPayable.ToString("N2");
+                ViewBag.EndDate = endDate.ToString("dd-MMM-yyyy");
+
                 return View();
             }
         }
 
-        [SessionAuthorize(RolesCsv = "Manager,Employee")]
-        public ActionResult DepositWithdraw(string AccountID = null)
-        {
-            if (!string.IsNullOrEmpty(AccountID))
-            {
-                ViewBag.AccountID = AccountID;
-                
-                // Lookup account name and balance
-                using (var db = new BigBankEntities())
-                {
-                    var acc = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == AccountID);
-                    if (acc != null)
-                    {
-                        var cust = db.Customers.FirstOrDefault(c => c.CustID == acc.CustID);
-                        ViewBag.AccountName = cust != null ? cust.CustName : "";
-                        ViewBag.AccountBalance = acc.Balance;
-                    }
-                }
-            }
-            
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [SessionAuthorize(RolesCsv = "Manager,Employee")]
+        [SessionAuthorize(RolesCsv = "Manager")]
         [NoCache]
-        public ActionResult DepositWithdraw(string AccountID, decimal? Amount, string Mode)
+        public ActionResult LookupCustomerDetails(string id)
         {
-            if (string.IsNullOrWhiteSpace(AccountID) || !Amount.HasValue || string.IsNullOrWhiteSpace(Mode))
-            {
-                TempData["Error"] = "Account, amount and mode are required.";
-                return View();
-            }
-
-            if (Amount.Value < 100)
-            {
-                TempData["Error"] = "Minimum amount is Rs 100.";
-                return View();
-            }
-
-            if (Amount.Value <= 0)
-            {
-                TempData["Error"] = "Amount must be greater than zero.";
-                return View();
-            }
+            if (string.IsNullOrWhiteSpace(id))
+                return Json(new { }, JsonRequestBehavior.AllowGet);
 
             using (var db = new BigBankEntities())
             {
-                var acc = db.SavingsAccounts.FirstOrDefault(s => s.SBAccountID == AccountID);
-                if (acc == null)
+                var cust = db.Customers.FirstOrDefault(c => c.CustID == id);
+                if (cust == null)
+                    return Json(new { }, JsonRequestBehavior.AllowGet);
+
+                var age = (int)((DateTime.Today - cust.DOB).TotalDays / 365.25);
+                bool isSenior = age >= 60;
+
+                return Json(new
                 {
-                    TempData["Error"] = "Account not found.";
-                    return View();
-                }
-
-                var now = DateTime.Now;
-                var processedBy = Session["UserID"] != null ? Session["UserID"].ToString() : (Session["Username"] != null ? Session["Username"].ToString() : null);
-
-                try
-                {
-                    if (string.Equals(Mode, "Deposit", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var newBal = acc.Balance + Amount.Value;
-                        db.Database.ExecuteSqlCommand("UPDATE SavingsAccount SET Balance = @p0 WHERE SBAccountID = @p1", newBal, AccountID);
-                        // Use 'D' for deposit to match DB column size
-                        db.Database.ExecuteSqlCommand("INSERT INTO SavingsTransaction (SBAccountID, TransactionDate, TransactionType, Amount, Remarks) VALUES (@p0,@p1,@p2,@p3,@p4)", AccountID, now, "D", Amount.Value, "Deposit by staff");
-                        TempData["Success"] = $"Deposit successful. New balance: Rs {newBal:N2}";
-                    }
-                    else if (string.Equals(Mode, "Withdraw", StringComparison.OrdinalIgnoreCase) || string.Equals(Mode, "Withdrawal", StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (acc.Balance < Amount.Value)
-                        {
-                            TempData["Error"] = "Insufficient balance.";
-                            return View();
-                        }
-
-                        if (acc.Balance - Amount.Value < 1000m)
-                        {
-                            TempData["Error"] = "Cannot withdraw: account must maintain minimum balance of 1000.";
-                            return View();
-                        }
-
-                        var newBal = acc.Balance - Amount.Value;
-                        db.Database.ExecuteSqlCommand("UPDATE SavingsAccount SET Balance = @p0 WHERE SBAccountID = @p1", newBal, AccountID);
-                        // Use 'W' for withdrawal to match DB column size
-                        db.Database.ExecuteSqlCommand("INSERT INTO SavingsTransaction (SBAccountID, TransactionDate, TransactionType, Amount, Remarks) VALUES (@p0,@p1,@p2,@p3,@p4)", AccountID, now, "W", Amount.Value, "Withdrawal by staff");
-                        TempData["Success"] = $"Withdrawal successful. New balance: Rs {newBal:N2}";
-                    }
-                    else
-                    {
-                        TempData["Error"] = "Unknown mode selected.";
-                        return View();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    TempData["Error"] = "Operation failed: " + ex.Message;
-                    return View();
-                }
+                    name = cust.CustName,
+                    dob = cust.DOB.ToString("yyyy-MM-dd"),
+                    isSenior = isSenior
+                }, JsonRequestBehavior.AllowGet);
             }
-
-            return View();
         }
     }
 }

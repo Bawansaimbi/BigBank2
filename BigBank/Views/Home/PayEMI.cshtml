@@ -2,6 +2,18 @@
     ViewBag.Title = "Pay EMI";
 }
 
+<style>
+    /* Hide number input spinners for EMI amount */
+    #emiAmountInput::-webkit-outer-spin-button,
+    #emiAmountInput::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    #emiAmountInput[type=number] {
+        -moz-appearance: textfield; /* Firefox */
+    }
+</style>
+
 <div class="container py-4">
     <h2>Pay EMI</h2>
     @if (TempData["Error"] != null) { <div class="alert alert-danger">@TempData["Error"]</div> }
@@ -13,7 +25,7 @@
         <div class="row g-2 align-items-end">
             <div class="col-12 col-md-4">
                 <label class="form-label small">Loan Account ID</label>
-                <input name="LoanAccountID" id="loanAccountInput" class="form-control" placeholder="LN..." />
+                <input name="LoanAccountID" id="loanAccountInput" class="form-control" placeholder="LN..." value="@ViewBag.LastLoanID" />
             </div>
             <div class="col-12 col-md-4">
                 <label class="form-label small">EMI Amount</label>
@@ -85,8 +97,6 @@
         
         var currentMonthlyEMI = 0;
         
-        if (!input) return;
-        
         function lookup(){
             var id = input.value.trim();
             if (!id) { 
@@ -110,7 +120,7 @@
                         if (currentMonthlyEMI > 0) {
                             useMonthlyEMIBtn.style.display = 'inline-block';
                             // Auto-fill with monthly EMI amount
-                            emiAmountInput.value = currentMonthlyEMI.toFixed(2);
+                            emiAmountInput.value = Number(currentMonthlyEMI).toFixed(2);
                         } else {
                             useMonthlyEMIBtn.style.display = 'none';
                         }
@@ -152,12 +162,16 @@
         // Use Monthly EMI button click handler
         useMonthlyEMIBtn.addEventListener('click', function() {
             if (currentMonthlyEMI > 0) {
-                emiAmountInput.value = currentMonthlyEMI.toFixed(2);
+                emiAmountInput.value = Number(currentMonthlyEMI).toFixed(2);
                 emiAmountInput.focus();
             }
         });
         
-        input.addEventListener('blur', lookup);
-        input.addEventListener('change', lookup);
+        if (input) {
+            input.addEventListener('blur', lookup);
+            input.addEventListener('change', lookup);
+            // auto-lookup when pre-filled from ViewBag
+            if (input.value) lookup();
+        }
     })();
 </script>

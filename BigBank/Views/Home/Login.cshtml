@@ -12,7 +12,7 @@
             <p class="small text-muted">Where trust grows with every transaction</p>
         </div>
 
-        @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
         {
             @Html.AntiForgeryToken()
 
@@ -55,7 +55,7 @@
             </div>
 
             <div class="text-center small">
-                <a href="@Url.Action("Register", "Home")">Register as a customer</a>
+                <a href="@Url.Action("Register", "Account")">Register as a customer</a>
             </div>
         }
     </div>

@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <input id="savingsInfo" class="form-control" readonly placeholder="Savings account info" style="background-color: #f8f9fa;" />
+                            <textarea id="savingsInfo" class="form-control" readonly rows="2" placeholder="Savings account info" style="background-color: #f8f9fa; resize: none;"></textarea>
                         </div>
 
                         <div id="seniorInfo" class="alert alert-success" style="display:none;">
@@ -180,7 +180,7 @@
                     
                     if (data.hasSavings) {
                         var balance = data.savingsBalance || 0;
-                        savingsInfoBox.value = 'Savings A/C: ' + data.savingsAccountId + ' | Balance: Rs ' + balance.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+                        savingsInfoBox.value = 'Savings A/C: ' + data.savingsAccountId + '\r\n' + 'Balance: Rs ' + balance.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
                         savingsInfoBox.classList.remove('text-danger');
                         savingsInfoBox.classList.add('text-success');
                     } else {
